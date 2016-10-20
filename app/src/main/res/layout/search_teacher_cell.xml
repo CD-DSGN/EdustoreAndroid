@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_weight="1">
+
+
+        <TextView
+            android:id="@+id/tv_search_teacher_course_name"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="4dp"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:textSize="14dp"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical|left"
+            android:orientation="vertical"
+            >
+
+
+            <TextView
+                android:id="@+id/tv_search_teacher_teacher_name"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="#000000"
+                android:textSize="12dp"
+                />
+
+            <!--android:focusable="true"-->
+            <!--android:focusableInTouchMode="true"-->
+
+
+            <com.grandmagic.edustore.component.TextViewWithFocus
+                android:id="@+id/tv_search_teacher_school"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textColor="#e0c0c0"
+                android:textIsSelectable="true"
+                android:textSize="12dp"
+                />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_subscription"
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/filter_blue_btn"
+        android:text="@string/add_subscription"
+        android:textColor="#ffffff"
+        android:textSize="10dp"
+        />
+</LinearLayout>

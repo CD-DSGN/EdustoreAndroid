@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+    >
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="46dp">
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:background="#000000"/>
+
+        <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/nav_bg"
+        />
+        <!--<View-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="48dp"-->
+            <!--android:background="#ff6825"-->
+            <!--/>-->
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/subscription"
+            android:textColor="#ffffff"
+            android:textSize="24dp"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.external.maxwin.view.XListView
+            android:id="@+id/xlistview_subscription"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:footerDividersEnabled="false"/>
+    </FrameLayout>
+</LinearLayout>
