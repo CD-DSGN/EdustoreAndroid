@@ -38,8 +38,6 @@ import com.grandmagic.BeeFramework.model.BusinessResponse;
 import com.grandmagic.BeeFramework.view.MyListView;
 import com.grandmagic.edustore.ECMobileAppConst;
 import com.grandmagic.edustore.EcmobileApp;
-import com.insthub.ecmobile.EcmobileManager;
-import com.insthub.ecmobile.EcmobileManager.RegisterApp;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.activity.B1_ProductListActivity;
 import com.grandmagic.edustore.activity.B2_ProductDetailActivity;
@@ -57,6 +55,8 @@ import com.grandmagic.edustore.model.ShoppingCartModel;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.FILTER;
 import com.grandmagic.edustore.protocol.PLAYER;
+import com.insthub.ecmobile.EcmobileManager;
+import com.insthub.ecmobile.EcmobileManager.RegisterApp;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.umeng.analytics.MobclickAgent;
@@ -109,7 +109,7 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
         back.setVisibility(View.GONE);
         title = (TextView) mainView.findViewById(R.id.top_view_text);
         Resources resource = this.getResources();
-        String ecmobileStr=resource.getString(R.string.ecmobile);
+        String ecmobileStr=resource.getString(R.string.huishi);
         title.setText(ecmobileStr);
 
         if (null == MsgModel.getInstance())
@@ -376,7 +376,7 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
 
                 @Override
                 public void onClick(View v) {
-                     
+
                     String playerJSONString = (String) v.getTag();
 
                     try {

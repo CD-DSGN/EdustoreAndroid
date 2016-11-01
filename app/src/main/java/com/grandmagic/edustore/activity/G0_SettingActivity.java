@@ -33,13 +33,13 @@ import com.grandmagic.BeeFramework.activity.WebViewActivity;
 import com.grandmagic.BeeFramework.model.BusinessResponse;
 import com.grandmagic.BeeFramework.view.MyDialog;
 import com.grandmagic.edustore.ECMobileAppConst;
-import com.insthub.ecmobile.EcmobileManager;
-import com.insthub.ecmobile.EcmobilePush;
-import com.insthub.ecmobile.EcmobilePush.PushResponse;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.model.ConfigModel;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.SESSION;
+import com.insthub.ecmobile.EcmobileManager;
+import com.insthub.ecmobile.EcmobilePush;
+import com.insthub.ecmobile.EcmobilePush.PushResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -266,10 +266,16 @@ public class G0_SettingActivity extends BaseActivity implements OnClickListener,
             startActivity(it);
         	break;
         case R.id.setting_support:
-        	Intent intent = new Intent(G0_SettingActivity.this, WebViewActivity.class);
-            intent.putExtra(WebViewActivity.WEBURL, "http://ecmobile.me/copyright.html");
-            intent.putExtra(WebViewActivity.WEBTITLE, "版权声明");
-            startActivity(intent);
+//        	Intent intent = new Intent(G0_SettingActivity.this, WebViewActivity.class);
+//			intent.putExtra(WebViewActivity.WEBURL, "http://ecmobile.me/copyright.html");
+//			intent.putExtra(WebViewActivity.WEBTITLE, "版权声明");
+//            startActivity(intent);
+			//todo zhangmengqi
+
+			Intent intent = new Intent(G0_SettingActivity.this, CopyRightActivity.class);
+			startActivity(intent);
+
+
         	break;
 		case R.id.setting_exitLogin:
 

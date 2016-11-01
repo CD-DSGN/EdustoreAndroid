@@ -417,4 +417,9 @@
     <!--begin by chenggaoyuan-->
     <string name="login_username_teacher">username</string>
     <string name="verification_wrong">verification code is wrong</string>
+    <string name="introduction"></string>
+    <string name="huishi">Huishi Network</string>
+    <string name="about_us">about us</string>
+    <string name="longtu_website">website under control of shengyang longtu company</string>
+    <string name="shengyanglongtu">longtu culture, CO,. LTD </string>
 </resources>

@@ -53,4 +53,5 @@ public class ApiInterface
      public static final String ADD_TEACHER  ="/user/add_teacher";
      public static final String DELETE_TEACHER  ="/user/delete_teacher";
      public static final String TEACHER_INFO  ="/user/teacher_info";
+     public static final String ALIXPAY_SIGN ="/get_sign";
 }

@@ -327,6 +327,8 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".activity.UserIntegralActivity"/>
+        <activity android:name=".activity.CopyRightActivity">
+        </activity>
 
         <!-- push service client -->
         <receiver android:name="com.grandmagic.BeeFramework.service.PushMessageReceiver">

@@ -38,7 +38,7 @@ public class CircleViewPager extends ViewPager {
                         // 开始图片滚动
                         startImageCycle();
                         break;
-                    default:
+                    case MotionEvent.ACTION_DOWN:
                         // 停止图片滚动
                         stopImageTimerTask();
                         break;

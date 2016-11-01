@@ -13,34 +13,11 @@ package com.grandmagic.edustore.activity;
 //  Powered by BeeFramework
 //
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.os.Message;
-import android.util.Log;
-import com.external.eventbus.EventBus;
-import com.grandmagic.BeeFramework.activity.BaseActivity;
-import com.grandmagic.BeeFramework.view.MyDialog;
-import com.grandmagic.edustore.ECMobileAppConst;
-import com.insthub.ecmobile.EcmobileManager;
-import com.grandmagic.edustore.ShareConst;
-import com.grandmagic.edustore.model.OrderModel;
-import com.grandmagic.edustore.protocol.*;
-import com.tencent.mm.sdk.modelpay.PayReq;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
-import com.umeng.analytics.MobclickAgent;
-
-import com.unionpay.UPPayAssistEx;
-import com.unionpay.uppay.PayActivity;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,13 +28,34 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.external.androidquery.callback.AjaxStatus;
-import com.grandmagic.edustore.R;
+import com.external.eventbus.EventBus;
+import com.grandmagic.BeeFramework.activity.BaseActivity;
 import com.grandmagic.BeeFramework.model.BusinessResponse;
+import com.grandmagic.BeeFramework.view.MyDialog;
 import com.grandmagic.BeeFramework.view.ToastView;
-import com.grandmagic.edustore.model.ProtocolConst;
+import com.grandmagic.edustore.ECMobileAppConst;
+import com.grandmagic.edustore.R;
+import com.grandmagic.edustore.ShareConst;
+import com.grandmagic.edustore.model.OrderModel;
 import com.grandmagic.edustore.model.ShoppingCartModel;
+import com.grandmagic.edustore.protocol.ApiInterface;
+import com.grandmagic.edustore.protocol.BONUS;
+import com.grandmagic.edustore.protocol.ORDER_INFO;
+import com.grandmagic.edustore.protocol.PAYMENT;
+import com.grandmagic.edustore.protocol.SHIPPING;
+import com.grandmagic.edustore.protocol.STATUS;
+import com.grandmagic.edustore.protocol.flowcheckOrderResponse;
+import com.grandmagic.edustore.protocol.wxbeforepayResponse;
+import com.insthub.ecmobile.EcmobileManager;
+import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.umeng.analytics.MobclickAgent;
+import com.unionpay.UPPayAssistEx;
+import com.unionpay.uppay.PayActivity;
 
-import java.util.ArrayList;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class C1_CheckOutActivity extends BaseActivity implements OnClickListener, BusinessResponse {
 
@@ -137,9 +135,10 @@ public class C1_CheckOutActivity extends BaseActivity implements OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.c1_check_out);
 
-        mWeixinAPI = WXAPIFactory.createWXAPI(this, EcmobileManager.getWeixinAppId(this));
+        String app_id = "wxac39735575af3099";
+        mWeixinAPI = WXAPIFactory.createWXAPI(this,app_id);
         // 将该app注册到微信
-        mWeixinAPI.registerApp(EcmobileManager.getWeixinAppId(this));
+        mWeixinAPI.registerApp(app_id);
 
         title = (TextView) findViewById(R.id.top_view_text);
         Resources resource = (Resources) getBaseContext().getResources();
@@ -607,8 +606,10 @@ public class C1_CheckOutActivity extends BaseActivity implements OnClickListener
             response.fromJson(jo);
 
             PayReq req = new PayReq();
-            req.appId = EcmobileManager.getWeixinAppId(this);
-            req.partnerId = EcmobileManager.getWeixinAppPartnerId(this);
+//            req.appId = EcmobileManager.getWeixinAppId(this);
+//            req.partnerId = EcmobileManager.getWeixinAppPartnerId(this);
+            req.appId = "wxac39735575af3099";
+            req.partnerId = "1403289802";
             req.prepayId = response.prepayid;
             req.nonceStr = response.noncestr;
             req.timeStamp = response.timestamp;

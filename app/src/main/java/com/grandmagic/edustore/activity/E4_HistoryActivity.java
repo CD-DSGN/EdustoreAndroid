@@ -14,48 +14,46 @@ package com.grandmagic.edustore.activity;
 //  Powered by BeeFramework
 //
 
-import java.util.ArrayList;
-
 import android.app.Dialog;
-import android.content.res.Resources;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.widget.*;
-import com.grandmagic.BeeFramework.activity.BaseActivity;
-import com.grandmagic.edustore.ECMobileAppConst;
-import com.insthub.ecmobile.EcmobileManager;
-import com.grandmagic.edustore.ShareConst;
-import com.grandmagic.edustore.protocol.ApiInterface;
-import com.grandmagic.edustore.protocol.GOODORDER;
-import com.grandmagic.edustore.protocol.ORDER_INFO;
-import com.grandmagic.edustore.protocol.SESSION;
-import com.umeng.analytics.MobclickAgent;
-import com.unionpay.UPPayAssistEx;
-import com.unionpay.uppay.PayActivity;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.external.androidquery.callback.AjaxStatus;
 import com.external.maxwin.view.XListView;
 import com.external.maxwin.view.XListView.IXListViewListener;
-import com.grandmagic.edustore.R;
+import com.grandmagic.BeeFramework.activity.BaseActivity;
 import com.grandmagic.BeeFramework.model.BusinessResponse;
 import com.grandmagic.BeeFramework.view.MyDialog;
 import com.grandmagic.BeeFramework.view.ToastView;
-import com.grandmagic.edustore.adapter.C0_ShoppingCartAdapter;
+import com.grandmagic.edustore.ECMobileAppConst;
+import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.adapter.E4_HistoryAdapter;
 import com.grandmagic.edustore.model.OrderModel;
-import com.grandmagic.edustore.model.ProtocolConst;
+import com.grandmagic.edustore.model.ShoppingCartModel;
+import com.grandmagic.edustore.protocol.ApiInterface;
+import com.grandmagic.edustore.protocol.GOODORDER;
+import com.grandmagic.edustore.protocol.ORDER_INFO;
+import com.grandmagic.edustore.protocol.wxbeforepayResponse;
+import com.insthub.ecmobile.EcmobileManager;
+import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.umeng.analytics.MobclickAgent;
+import com.unionpay.UPPayAssistEx;
+import com.unionpay.uppay.PayActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class E4_HistoryActivity extends BaseActivity implements BusinessResponse, IXListViewListener {
 	
@@ -74,11 +72,18 @@ public class E4_HistoryActivity extends BaseActivity implements BusinessResponse
     private final static int REQUEST_Pay_Web = 8;
     private final static int REQUEST_UPPay  = 10;
 
+    private IWXAPI mWeixinAPI = null;
+    private ShoppingCartModel mShoppingCartModel;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {		
         Resources resource = (Resources) getBaseContext().getResources();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.e4_history);
+
+        mWeixinAPI = WXAPIFactory.createWXAPI(this, EcmobileManager.getWeixinAppId(this));
+        // 将该app注册到微信
+        mWeixinAPI.registerApp(EcmobileManager.getWeixinAppId(this));
 		
 		Intent intent = getIntent();
 		flag = intent.getStringExtra("flag");
@@ -101,6 +106,9 @@ public class E4_HistoryActivity extends BaseActivity implements BusinessResponse
 		
 		orderModel = new OrderModel(this);
 		orderModel.addResponseListener(this);
+
+        mShoppingCartModel = new ShoppingCartModel(this);
+        mShoppingCartModel.addResponseListener(this);
 
         String awa=resource.getString(R.string.await_pay);
         String ship=resource.getString(R.string.await_ship);
@@ -147,18 +155,21 @@ public class E4_HistoryActivity extends BaseActivity implements BusinessResponse
                             && EcmobileManager.getAlipayParterId(getApplicationContext()) != null
                             && EcmobileManager.getAlipaySellerId(getApplicationContext()) != null
                             && EcmobileManager.getRsaAlipayPublic(getApplicationContext()) != null
-                            && EcmobileManager.getRsaPrivate(getApplicationContext()) != null)
+                            && EcmobileManager.getRsaPrivate(getApplicationContext()) != null || 1==1)
                     {
                         if (0 == order_info.pay_code.compareTo("alipay"))
                         {
-                            showAlipayDialog();
+//                            showAlipayDialog();
+                              Intent intent = new Intent(E4_HistoryActivity.this, AlixPayActivity.class);
+                              intent.putExtra(AlixPayActivity.ORDER_INFO, order_info);
+                              startActivityForResult(intent, REQUEST_ALIPAY);
                         }else if(0==order_info.pay_code.compareTo("upop")){
                             orderModel.orderPay(order_info.order_id);
                         }else if(0==order_info.pay_code.compareTo("tenpay")){
                             orderModel.orderPay(order_info.order_id);
-                        }
-                        else
-                        {
+                        } else if (0 == order_info.pay_code.compareTo("wxpay")) {
+                            mShoppingCartModel.wxpayWXBeforePay(order_info.order_id);
+                        } else {
                             orderModel.orderPay(order_info.order_id);
                         }
                     }
@@ -325,7 +336,25 @@ public class E4_HistoryActivity extends BaseActivity implements BusinessResponse
             
             orderModel.getOrder(flag);
             
-		}
+		}else if (url.endsWith(ECMobileAppConst.WEIXIN_PAY_REQUEST_URL)) {
+            wxbeforepayResponse response = new wxbeforepayResponse();
+            response.fromJson(jo);
+
+            PayReq req = new PayReq();
+            //            req.appId = EcmobileManager.getWeixinAppId(this);
+            //            req.partnerId = EcmobileManager.getWeixinAppPartnerId(this);
+            req.appId = "wxac39735575af3099";
+            req.partnerId = "1403289802";
+            req.prepayId = response.prepayid;
+            req.nonceStr = response.noncestr;
+            req.timeStamp = response.timestamp;
+            req.packageValue = response.wx_package;//"Sign=" + packageValue;
+            req.sign = response.sign;
+
+            // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+
+            mWeixinAPI.sendReq(req);
+        }
 		
 	}
 

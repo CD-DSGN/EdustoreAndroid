@@ -13,40 +13,34 @@ package com.grandmagic.edustore.activity;
 //  Powered by BeeFramework
 //
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.res.Resources;
-import android.net.wifi.WifiConfiguration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.Toast;
-import com.alipay.sdk.app.PayTask;
 
+import com.alipay.sdk.app.PayTask;
 import com.external.alipay.PartnerConfig;
 import com.external.alipay.PayResult;
-import com.external.alipay.Rsa;
+import com.external.androidquery.callback.AjaxStatus;
+import com.grandmagic.BeeFramework.model.BusinessResponse;
 import com.grandmagic.edustore.R;
-
+import com.grandmagic.edustore.model.AlixPaySignModel;
+import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.ORDER_INFO;
+import com.grandmagic.edustore.protocol.STATUS;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 
 /**
@@ -57,7 +51,7 @@ import com.grandmagic.edustore.protocol.ORDER_INFO;
  * 
  * @version v4_0413 2012-03-02
  */
-public class AlixPayActivity extends Activity  {
+public class AlixPayActivity extends Activity implements BusinessResponse {
     private  static String TAG = "AppDemo";
     private ProgressDialog mProgress = null;
     private  ORDER_INFO order_info;
@@ -65,11 +59,16 @@ public class AlixPayActivity extends Activity  {
     public static String ORDER_INFO="ONDER_INFO";
     private static final int SDK_PAY_FLAG = 1;
 
+    private String sign  = null;
+    private String mOrderinfo = null;
+    private AlixPaySignModel mAlixPaySignModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         order_info=(ORDER_INFO)getIntent().getSerializableExtra(ORDER_INFO);
         partnerConfig = new PartnerConfig(this);
+        mAlixPaySignModel = new AlixPaySignModel(AlixPayActivity.this);
         performPay();
 
 
@@ -120,8 +119,12 @@ public class AlixPayActivity extends Activity  {
      * @param content  待签名订单信息
      * @return
      */
-    String sign(String signType, String content) {
-        return Rsa.sign(content, partnerConfig.RSA_PRIVATE);
+    void sign(String signType, String content) {
+//        content = "abc";
+//        String a = Rsa.sign(content, partnerConfig.RSA_PRIVATE);
+//        System.out.println("a:" + a);
+        mAlixPaySignModel.addResponseListener(this);
+        mAlixPaySignModel.getSign(Integer.toString(order_info.order_id));
     }
 
     /**
@@ -143,38 +146,41 @@ public class AlixPayActivity extends Activity  {
             String orderInfo = getOrderInfo();
             // 这里根据签名方式对订单信息进行签名
             String signType = getSignType();
-            String strsign = sign(signType, orderInfo);
-            // 对签名进行编码
+            sign(signType, orderInfo);
+            mOrderinfo = orderInfo;
+
+    }
+
+    private void afterSign(String orderInfo, String strsign) {
         try {
             strsign = URLEncoder.encode(strsign, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         // 组装好参数
-            //getOrderInfo
-            final String info = orderInfo + "&sign=" + "\"" + strsign + "\"" + "&"
-                    + getSignType();
-            // start the pay.
-            Runnable payRunnable = new Runnable() {
+        //getOrderInfo
+        final String info = orderInfo + "&sign=" + "\"" + strsign + "\"" + "&"
+                + getSignType();
+        // start the pay.
+        Runnable payRunnable = new Runnable() {
 
-                @Override
-                public void run() {
-                    // 构造PayTask 对象
-                    PayTask alipay = new PayTask(AlixPayActivity.this);
-                    // 调用支付接口，获取支付结果
-                    String result = alipay.pay(info);
+            @Override
+            public void run() {
+                // 构造PayTask 对象
+                PayTask alipay = new PayTask(AlixPayActivity.this);
+                // 调用支付接口，获取支付结果
+                String result = alipay.pay(info);
 
-                    Message msg = new Message();
-                    msg.what = SDK_PAY_FLAG;
-                    msg.obj = result;
-                    mHandler.sendMessage(msg);
-                }
-            };
+                Message msg = new Message();
+                msg.what = SDK_PAY_FLAG;
+                msg.obj = result;
+                mHandler.sendMessage(msg);
+            }
+        };
 
-            // 必须异步调用
-            Thread payThread = new Thread(payRunnable);
-            payThread.start();
-
+        // 必须异步调用
+        Thread payThread = new Thread(payRunnable);
+        payThread.start();
     }
 
     /**
@@ -206,8 +212,8 @@ public class AlixPayActivity extends Activity  {
 
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        Toast.makeText(AlixPayActivity.this, "支付成功",
-                                Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(AlixPayActivity.this, "支付成功",
+//                                Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.putExtra("pay_result", "success");
                         setResult(Activity.RESULT_OK, intent);
@@ -221,8 +227,8 @@ public class AlixPayActivity extends Activity  {
 
                         } else {
                             // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-                            Toast.makeText(AlixPayActivity.this, "支付失败",
-                                    Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(AlixPayActivity.this, "支付失败",
+//                                    Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent();
                             intent.putExtra("pay_result", "fail");
                             setResult(Activity.RESULT_OK, intent);
@@ -238,7 +244,22 @@ public class AlixPayActivity extends Activity  {
         };
     };
 
-	/**
+    @Override
+    public void OnMessageResponse(String url, JSONObject jo, AjaxStatus status) throws JSONException {
+        if (url.endsWith(ApiInterface.ALIXPAY_SIGN)) {
+            STATUS res_status = new STATUS();
+            res_status.fromJson(jo.optJSONObject("status"));
+            if (res_status.succeed == 1) {
+                sign = jo.getJSONObject("data").optString("sign");
+                // 对签名进行编码
+                if (sign != null) {
+                    afterSign(mOrderinfo, sign);
+                }
+            }
+        }
+    }
+
+    /**
 	 * the OnCancelListener for lephone platform. lephone系统使用到的取消dialog监听
 	 */
 	public static class AlixOnCancelListener implements
