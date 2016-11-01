@@ -168,6 +168,15 @@ public class E4_HistoryActivity extends BaseActivity implements BusinessResponse
                         }else if(0==order_info.pay_code.compareTo("tenpay")){
                             orderModel.orderPay(order_info.order_id);
                         } else if (0 == order_info.pay_code.compareTo("wxpay")) {
+                            if(!(mWeixinAPI.isWXAppInstalled() && mWeixinAPI.isWXAppSupportAPI())){
+                                Resources resource = (Resources) getBaseContext().getResources();
+                                String install_wechat = resource.getString(R.string.install_wechat);
+                                ToastView toast = new ToastView(E4_HistoryActivity.this,install_wechat);
+                                String use = resource.getString(R.string.use);
+                                toast.setGravity(Gravity.CENTER, 0, 0);
+                                toast.show();
+                                return;
+                            }
                             mShoppingCartModel.wxpayWXBeforePay(order_info.order_id);
                         } else {
                             orderModel.orderPay(order_info.order_id);

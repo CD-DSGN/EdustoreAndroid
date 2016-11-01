@@ -26,6 +26,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.external.androidquery.callback.AjaxStatus;
 import com.external.eventbus.EventBus;
@@ -561,6 +562,16 @@ public class C1_CheckOutActivity extends BaseActivity implements OnClickListener
                                 orderModel.orderPay(order_info.order_id);
                             }else if (0 == order_info.pay_code.compareTo("wxpay")){
                                 /**微信支付*/
+                                //没有安装微信app的情况
+                                if(!(mWeixinAPI.isWXAppInstalled() && mWeixinAPI.isWXAppSupportAPI())){
+                                    Resources resource = (Resources) getBaseContext().getResources();
+                                    String install_wechat = resource.getString(R.string.install_wechat);
+                                    ToastView toast = new ToastView(C1_CheckOutActivity.this,install_wechat);
+                                    String use = resource.getString(R.string.use);
+                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                    toast.show();
+                                    return;
+                                 }
                                 shoppingCartModel.wxpayWXBeforePay(order_info.order_id);
                             }
                             else {
