@@ -44,7 +44,8 @@ import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.GOODORDER;
 import com.grandmagic.edustore.protocol.ORDER_INFO;
 import com.grandmagic.edustore.protocol.wxbeforepayResponse;
-import com.insthub.ecmobile.EcmobileManager;
+import com.grandmagic.grandMagicManager.GrandMagicManager;
+
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -81,9 +82,9 @@ public class E4_HistoryActivity extends BaseActivity implements BusinessResponse
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.e4_history);
 
-        mWeixinAPI = WXAPIFactory.createWXAPI(this, EcmobileManager.getWeixinAppId(this));
+        mWeixinAPI = WXAPIFactory.createWXAPI(this, GrandMagicManager.getWeixinAppId(this));
         // 将该app注册到微信
-        mWeixinAPI.registerApp(EcmobileManager.getWeixinAppId(this));
+        mWeixinAPI.registerApp(GrandMagicManager.getWeixinAppId(this));
 		
 		Intent intent = getIntent();
 		flag = intent.getStringExtra("flag");
@@ -151,11 +152,10 @@ public class E4_HistoryActivity extends BaseActivity implements BusinessResponse
                     GOODORDER order = (GOODORDER)msg.obj;
                     order_info = order.order_info;
 
-                    if (EcmobileManager.getAlipayCallback(getApplicationContext()) != null
-                            && EcmobileManager.getAlipayParterId(getApplicationContext()) != null
-                            && EcmobileManager.getAlipaySellerId(getApplicationContext()) != null
-                            && EcmobileManager.getRsaAlipayPublic(getApplicationContext()) != null
-                            && EcmobileManager.getRsaPrivate(getApplicationContext()) != null || 1==1)
+                    if (GrandMagicManager.getAlipayCallback(getApplicationContext()) != null
+                            && GrandMagicManager.getAlipayParterId(getApplicationContext()) != null
+                            && GrandMagicManager.getAlipaySellerId(getApplicationContext()) != null
+                            && GrandMagicManager.getRsaAlipayPublic(getApplicationContext()) != null)
                     {
                         if (0 == order_info.pay_code.compareTo("alipay"))
                         {
@@ -350,10 +350,9 @@ public class E4_HistoryActivity extends BaseActivity implements BusinessResponse
             response.fromJson(jo);
 
             PayReq req = new PayReq();
-            //            req.appId = EcmobileManager.getWeixinAppId(this);
-            //            req.partnerId = EcmobileManager.getWeixinAppPartnerId(this);
-            req.appId = "wxac39735575af3099";
-            req.partnerId = "1403289802";
+            req.appId = GrandMagicManager.getWeixinAppId(this);
+            req.partnerId = GrandMagicManager.getWeixinAppPartnerId(this);
+
             req.prepayId = response.prepayid;
             req.nonceStr = response.noncestr;
             req.timeStamp = response.timestamp;
@@ -379,15 +378,15 @@ public class E4_HistoryActivity extends BaseActivity implements BusinessResponse
     @Override
     public void onResume() {
         super.onResume();
-        if(EcmobileManager.getUmengKey(this)!=null){
+        if(GrandMagicManager.getUmengKey(this)!=null){
             MobclickAgent.onPageStart(getIntent().getStringExtra("flag"));
-            MobclickAgent.onResume(this, EcmobileManager.getUmengKey(this),"");
+            MobclickAgent.onResume(this, GrandMagicManager.getUmengKey(this),"");
         }
 }
     @Override
     public void onPause() {
         super.onPause();
-        if (EcmobileManager.getUmengKey(this) != null) {
+        if (GrandMagicManager.getUmengKey(this) != null) {
             MobclickAgent.onPageEnd(getIntent().getStringExtra("flag"));
             MobclickAgent.onPause(this);
         }

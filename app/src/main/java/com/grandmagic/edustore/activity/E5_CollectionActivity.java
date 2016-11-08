@@ -17,7 +17,8 @@ import java.util.ArrayList;
 
 import android.content.res.Resources;
 import com.grandmagic.BeeFramework.activity.BaseActivity;
-import com.insthub.ecmobile.EcmobileManager;
+import com.grandmagic.grandMagicManager.GrandMagicManager;
+
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
@@ -186,15 +187,15 @@ public class E5_CollectionActivity extends BaseActivity implements BusinessRespo
     @Override
     public void onResume() {
         super.onResume();
-        if(EcmobileManager.getUmengKey(this)!=null){
+        if(GrandMagicManager.getUmengKey(this)!=null){
             MobclickAgent.onPageStart("Collect");
-            MobclickAgent.onResume(this, EcmobileManager.getUmengKey(this),"");
+            MobclickAgent.onResume(this, GrandMagicManager.getUmengKey(this),"");
         }
     }
     @Override
     public void onPause() {
         super.onPause();
-        if(EcmobileManager.getUmengKey(this)!=null){
+        if(GrandMagicManager.getUmengKey(this)!=null){
             MobclickAgent.onPageEnd("Collect");
             MobclickAgent.onPause(this);
         }

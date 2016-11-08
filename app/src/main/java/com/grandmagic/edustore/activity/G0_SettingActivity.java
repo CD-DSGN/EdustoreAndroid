@@ -37,7 +37,8 @@ import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.model.ConfigModel;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.SESSION;
-import com.insthub.ecmobile.EcmobileManager;
+import com.grandmagic.grandMagicManager.GrandMagicManager;
+
 import com.insthub.ecmobile.EcmobilePush;
 import com.insthub.ecmobile.EcmobilePush.PushResponse;
 
@@ -340,7 +341,7 @@ public class G0_SettingActivity extends BaseActivity implements OnClickListener,
 				pushSwitch = true;
 				settingPush.setImageResource(R.drawable.on);
 				PushManager.activityStarted(this);
-				PushManager.startWork(getApplicationContext(),PushConstants.LOGIN_TYPE_API_KEY, EcmobileManager.getPushKey(this));
+				PushManager.startWork(getApplicationContext(),PushConstants.LOGIN_TYPE_API_KEY, GrandMagicManager.getPushKey(this));
 			} else {
 				pushSwitch = false;
 				settingPush.setImageResource(R.drawable.off);

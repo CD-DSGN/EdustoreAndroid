@@ -28,7 +28,8 @@ import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Message;
 import com.grandmagic.BeeFramework.Utils.TimeUtil;
-import com.insthub.ecmobile.EcmobileManager;
+import com.grandmagic.grandMagicManager.GrandMagicManager;
+
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
@@ -146,9 +147,9 @@ public class B2_ProductDetailActivity extends BaseActivity implements BusinessRe
 
         share = (ImageView) findViewById(R.id.top_view_share);
         share.setVisibility(View.VISIBLE);
-        if((EcmobileManager.getSinaKey(this) == null || EcmobileManager.getSinaSecret(this) == null || EcmobileManager.getSinaCallback(this) == null) 
-        		&& (EcmobileManager.getWeixinAppId(this) == null || EcmobileManager.getWeixinAppKey(this) == null) 
-        		&& (EcmobileManager.getTencentKey(this) == null || EcmobileManager.getTencentSecret(this) == null || EcmobileManager.getTencentCallback(this) == null)) {
+        if((GrandMagicManager.getSinaKey(this) == null || GrandMagicManager.getSinaSecret(this) == null || GrandMagicManager.getSinaCallback(this) == null)
+        		&& (GrandMagicManager.getWeixinAppId(this) == null || GrandMagicManager.getWeixinAppKey(this) == null)
+        		&& (GrandMagicManager.getTencentKey(this) == null || GrandMagicManager.getTencentSecret(this) == null || GrandMagicManager.getTencentCallback(this) == null)) {
         	share.setVisibility(View.GONE);
         }
         
@@ -626,9 +627,9 @@ public class B2_ProductDetailActivity extends BaseActivity implements BusinessRe
         if(isFresh){
             dataModel.fetchGoodDetail(Integer.parseInt(dataModel.goodId));
         }
-        if(EcmobileManager.getUmengKey(this)!=null){
+        if(GrandMagicManager.getUmengKey(this)!=null){
             MobclickAgent.onPageStart("GoodDetail");
-            MobclickAgent.onResume(this, EcmobileManager.getUmengKey(this),"");
+            MobclickAgent.onResume(this, GrandMagicManager.getUmengKey(this),"");
         }
 
     }
@@ -750,7 +751,7 @@ public class B2_ProductDetailActivity extends BaseActivity implements BusinessRe
     @Override
     protected void onPause() {
         super.onPause();
-        if(EcmobileManager.getUmengKey(this)!=null){
+        if(GrandMagicManager.getUmengKey(this)!=null){
             MobclickAgent.onPageEnd("GoodDetail");
             MobclickAgent.onPause(this);
         }

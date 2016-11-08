@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import android.content.res.Resources;
 import com.grandmagic.edustore.protocol.ApiInterface;
+import com.grandmagic.grandMagicManager.GrandMagicManager;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +45,7 @@ import com.grandmagic.BeeFramework.activity.BaseActivity;
 import com.grandmagic.BeeFramework.model.BusinessResponse;
 import com.grandmagic.BeeFramework.view.MyDialog;
 import com.grandmagic.BeeFramework.view.ToastView;
-import com.insthub.ecmobile.EcmobileManager;
+
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.adapter.C0_ShoppingCartAdapter;
 import com.grandmagic.edustore.model.AddressModel;
@@ -243,16 +244,16 @@ public class C0_ShoppingCartActivity extends BaseActivity  implements BusinessRe
     public void onResume() {        
         super.onResume();
 
-        if(EcmobileManager.getUmengKey(this)!=null){
+        if(GrandMagicManager.getUmengKey(this)!=null){
             MobclickAgent.onPageStart("ShopCart");
-            MobclickAgent.onResume(this, EcmobileManager.getUmengKey(this),"");
+            MobclickAgent.onResume(this, GrandMagicManager.getUmengKey(this),"");
         }
     }
 
     @Override
     public void onPause() {        
         super.onPause();
-        if(EcmobileManager.getUmengKey(this)!=null){
+        if(GrandMagicManager.getUmengKey(this)!=null){
             MobclickAgent.onPageEnd("ShopCart");
             MobclickAgent.onPause(this);
         }

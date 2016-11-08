@@ -1,8 +1,9 @@
 package com.external.alipay;
 
-import com.insthub.ecmobile.EcmobileManager;
-
 import android.content.Context;
+
+import com.grandmagic.grandMagicManager.GrandMagicManager;
+
 
 public class PartnerConfig {
 //
@@ -27,31 +28,13 @@ public class PartnerConfig {
     public Context mContext;
     
     public PartnerConfig(Context context) {
-//    	PARTNER = EcmobileManager.getAlipayParterId(context);
-//    	SELLER = EcmobileManager.getAlipaySellerId(context);
-//    	RSA_PRIVATE = EcmobileManager.getRsaPrivate(context);
-//    	RSA_ALIPAY_PUBLIC = EcmobileManager.getRsaAlipayPublic(context);
-//    	ALIPAY_CALLBACK = EcmobileManager.getAlipayCallback(context);
+    	PARTNER = GrandMagicManager.getAlipayParterId(context);
+    	SELLER = GrandMagicManager.getAlipaySellerId(context);
+    	RSA_PRIVATE = GrandMagicManager.getRsaPrivate(context);
+    	RSA_ALIPAY_PUBLIC = GrandMagicManager.getRsaAlipayPublic(context);
+    	ALIPAY_CALLBACK = GrandMagicManager.getAlipayCallback(context);
 
-        //TODO: 2016/10/11 zhangmengqi
-        PARTNER = "2088911655683743";
-        SELLER = "2088911655683743";
-        RSA_PRIVATE = "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBANBMvQSwwr8KfGv5" +
-                "JTBBFxengfb4R7sDY1C9aIZbtlE0NqpuRvpbrEYcHhGhO7pOQ9rfI64Jb+gdAJwC" +
-                "uzd69BpcmvbCp6O78X7SwgXtV9+IC97QwLxtkDhIrHeTyzXiSudpbiRf46KS1U3g" +
-                "FierBpBWNmp3EUTz3MW8LM3gfxc1AgMBAAECgYARq/D9TOG4w3L61hBJn7wNzbBA" +
-                "+59aRldOqkML4wv8p6lbnC95Xf2nlQsYA83FaI5pKzUjtrk/v/YlRjYL5up+isk4" +
-                "kvQhSo7x6ipsRk195v9uxJy6bmIUYp531YkFL5LIQkaihu5jqstHK6EV8VF+iNyu" +
-                "hT1XFJ1TYQwW5mnvAQJBAPZM+jLHJIHwnVnDUu9ab7FORrW8l4mIJk9owJmNLw+Z" +
-                "PQFC922K/0DmzMcJMdsMG/+qgoqQdUA/99kQUgtA4Z0CQQDYgKncRrOXjWH5WQP+" +
-                "pTVu/Wu3xTN7Nrj8csAAdv6xLRGt1jwpMAAWrTd6pnzia+ldB1R/S5IZEqzPnQnm" +
-                "JgR5AkBCyHiG0Cx79ywTLL0OHW1vnBPcLzi/l+UbXwHqILgD+L7r2qaQU0IG7Q3V" +
-                "Yg7coBnvZuJig+zm8PFZL+2vE3aZAkBZjGY1kRzJS5ZBj1sCoYzHWpSKT0uq5AiB" +
-                "imj2CEHyQKT2VQ1PL+Zper3ewiwXbvD4JIcDm9tS+ZF20gp9Ii5pAkB2TW96cGyr" +
-                "PuwQdUzfMY8fP1HjqmPUVc2jmfjicgNWcNOok8/85dQCSQdepwDraszxcjfb86y8" +
-                "s7rnvyfUVXNd";
-        RSA_ALIPAY_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB";
-        ALIPAY_CALLBACK = "http://60.205.92.85/ecmobile/payment/alipay/sdk/notify_url.php";
+
     }
 
 

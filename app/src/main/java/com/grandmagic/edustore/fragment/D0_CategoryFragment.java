@@ -20,11 +20,12 @@ import android.app.Activity;
 import android.util.Log;
 import android.widget.*;
 import com.external.maxwin.view.XListView;
+import com.grandmagic.grandMagicManager.GrandMagicManager;
 import com.iflytek.cloud.speech.*;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.grandmagic.BeeFramework.Utils.JsonParser;
-import com.insthub.ecmobile.EcmobileManager;
+
 import com.grandmagic.edustore.ShareConst;
 import com.grandmagic.edustore.activity.D2_FilterActivity;
 import com.grandmagic.edustore.activity.D1_CategoryActivity;
@@ -248,11 +249,11 @@ public class D0_CategoryFragment extends BaseFragment implements OnClickListener
 	}
 	
 	public void showRecognizerDialog() {
-        String appid=EcmobileManager.getXunFeiCode(getActivity());
+        String appid= GrandMagicManager.getXunFeiCode(getActivity());
         if(appid!=null&&!"".equals(appid)) {
             //用户登录
             SpeechUser.getUser().login(getActivity(), null, null
-                    , "appid=" + EcmobileManager.getXunFeiCode(getActivity()), listener);
+                    , "appid=" + GrandMagicManager.getXunFeiCode(getActivity()), listener);
             final RecognizerDialog recognizerDialog = new RecognizerDialog(getActivity());
             //设置引擎为转写
             recognizerDialog.setParameter(SpeechConstant.DOMAIN, "iat");

@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.external.androidquery.callback.AjaxStatus;
 import com.external.maxwin.view.XListView;
+import com.grandmagic.grandMagicManager.GrandMagicManager;
 import com.iflytek.cloud.speech.RecognizerResult;
 import com.iflytek.cloud.speech.SpeechConstant;
 import com.iflytek.cloud.speech.SpeechError;
@@ -28,7 +29,7 @@ import com.grandmagic.BeeFramework.activity.BaseActivity;
 import com.grandmagic.BeeFramework.model.BusinessResponse;
 import com.grandmagic.BeeFramework.view.MyViewGroup;
 import com.grandmagic.BeeFramework.view.ToastView;
-import com.insthub.ecmobile.EcmobileManager;
+
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.adapter.SearchTeacherAdapter;
 import com.grandmagic.edustore.model.SearchModel;
@@ -195,11 +196,11 @@ public class SearchSubscriptionTeacher extends BaseActivity implements View.OnCl
     }
 
     public void showRecognizerDialog() {
-        String appid = EcmobileManager.getXunFeiCode(this);
+        String appid = GrandMagicManager.getXunFeiCode(this);
         if (appid != null && !"".equals(appid)) {
             //用户登录
             SpeechUser.getUser().login(this, null, null
-                    , "appid=" + EcmobileManager.getXunFeiCode(this), listener);
+                    , "appid=" + GrandMagicManager.getXunFeiCode(this), listener);
             final RecognizerDialog recognizerDialog = new RecognizerDialog(this);
             //设置引擎为转写
             recognizerDialog.setParameter(SpeechConstant.DOMAIN, "iat");

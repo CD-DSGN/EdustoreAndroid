@@ -11,7 +11,8 @@ import com.external.activeandroid.util.Log;
 import com.external.eventbus.EventBus;
 import com.grandmagic.BeeFramework.view.ToastView;
 import com.grandmagic.edustore.ECMobileAppConst;
-import com.insthub.ecmobile.EcmobileManager;
+import com.grandmagic.grandMagicManager.GrandMagicManager;
+
 import com.grandmagic.edustore.ShareConst;
 import com.grandmagic.edustore.R;
 
@@ -31,7 +32,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-    	api = WXAPIFactory.createWXAPI(this, EcmobileManager.getWeixinAppId(this));
+    	api = WXAPIFactory.createWXAPI(this, GrandMagicManager.getWeixinAppId(this));
         api.handleIntent(getIntent(), this);
     }
 

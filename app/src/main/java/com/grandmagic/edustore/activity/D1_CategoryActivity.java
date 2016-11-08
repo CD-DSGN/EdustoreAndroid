@@ -24,7 +24,8 @@ import android.widget.*;
 import com.external.maxwin.view.XListView;
 import com.grandmagic.BeeFramework.activity.BaseActivity;
 import com.grandmagic.BeeFramework.view.MyViewGroup;
-import com.insthub.ecmobile.EcmobileManager;
+import com.grandmagic.grandMagicManager.GrandMagicManager;
+
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.adapter.D0_CategoryAdapter;
 import com.grandmagic.edustore.protocol.CATEGORY;
@@ -109,16 +110,16 @@ public class D1_CategoryActivity extends BaseActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if(EcmobileManager.getUmengKey(this)!=null){
+        if(GrandMagicManager.getUmengKey(this)!=null){
             MobclickAgent.onPageStart("CategoryList");
-            MobclickAgent.onResume(this, EcmobileManager.getUmengKey(this),"");
+            MobclickAgent.onResume(this, GrandMagicManager.getUmengKey(this),"");
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if(EcmobileManager.getUmengKey(this)!=null){
+        if(GrandMagicManager.getUmengKey(this)!=null){
             MobclickAgent.onPageEnd("CategoryList");
             MobclickAgent.onPause(this);
         }

@@ -17,7 +17,8 @@ import java.util.List;
 
 import android.content.res.Resources;
 import com.grandmagic.BeeFramework.activity.BaseActivity;
-import com.insthub.ecmobile.EcmobileManager;
+import com.grandmagic.grandMagicManager.GrandMagicManager;
+
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
@@ -131,9 +132,9 @@ public class F0_AddressListActivity extends BaseActivity implements BusinessResp
 	protected void onResume() {		
 		super.onResume();
 		addressModel.getAddressList();
-        if(EcmobileManager.getUmengKey(this)!=null){
+        if(GrandMagicManager.getUmengKey(this)!=null){
             MobclickAgent.onPageStart("AddressManage");
-            MobclickAgent.onResume(this, EcmobileManager.getUmengKey(this),"");
+            MobclickAgent.onResume(this, GrandMagicManager.getUmengKey(this),"");
         }
 	}
 
@@ -165,7 +166,7 @@ public class F0_AddressListActivity extends BaseActivity implements BusinessResp
     @Override
     public void onPause() {
         super.onPause();
-        if(EcmobileManager.getUmengKey(this)!=null){
+        if(GrandMagicManager.getUmengKey(this)!=null){
             MobclickAgent.onPageEnd("AddressManage");
             MobclickAgent.onPause(this);
         }

@@ -34,7 +34,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.insthub.ecmobile.EcmobileManager;
+import com.grandmagic.grandMagicManager.GrandMagicManager;
+
 import com.grandmagic.edustore.R;
 import com.tencent.weibo.sdk.android.api.WeiboAPI;
 import com.tencent.weibo.sdk.android.api.adapter.GalleryAdapter;
@@ -117,9 +118,9 @@ public class ShareTencentActivity extends Activity {
 			public void onClick(View v) {				
 				if(accessToken==null || "".equals(accessToken))
 		        {
-		            if(EcmobileManager.getTencentKey(ShareTencentActivity.this) != null && EcmobileManager.getTencentSecret(ShareTencentActivity.this) != null) {
-						long appid = Long.valueOf(EcmobileManager.getTencentKey(ShareTencentActivity.this));
-			            String app_secket = EcmobileManager.getTencentSecret(ShareTencentActivity.this);
+		            if(GrandMagicManager.getTencentKey(ShareTencentActivity.this) != null && GrandMagicManager.getTencentSecret(ShareTencentActivity.this) != null) {
+						long appid = Long.valueOf(GrandMagicManager.getTencentKey(ShareTencentActivity.this));
+			            String app_secket = GrandMagicManager.getTencentSecret(ShareTencentActivity.this);
 			            tencentAuth(appid, app_secket);
 					}
 		            
@@ -143,8 +144,8 @@ public class ShareTencentActivity extends Activity {
 				accessToken = Util.getSharePersistent(getApplicationContext(), "ACCESS_TOKEN");
 				if(accessToken==null || "".equals(accessToken))
 		        {
-		            long appid = Long.valueOf(EcmobileManager.getTencentKey(ShareTencentActivity.this));
-		            String app_secket = EcmobileManager.getTencentSecret(ShareTencentActivity.this);;
+		            long appid = Long.valueOf(GrandMagicManager.getTencentKey(ShareTencentActivity.this));
+		            String app_secket = GrandMagicManager.getTencentSecret(ShareTencentActivity.this);;
 		            tencentAuth(appid, app_secket);
 					return ;
 				}

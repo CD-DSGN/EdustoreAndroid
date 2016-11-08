@@ -37,7 +37,8 @@ import com.baidu.android.pushservice.PushManager;
 import com.grandmagic.BeeFramework.BeeFrameworkApp;
 import com.grandmagic.BeeFramework.model.BeeQuery;
 import com.grandmagic.BeeFramework.view.ToastView;
-import com.insthub.ecmobile.EcmobileManager;
+import com.grandmagic.grandMagicManager.GrandMagicManager;
+
 import com.insthub.ecmobile.EcmobilePush;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.protocol.FILTER;
@@ -156,7 +157,7 @@ public class EcmobileMainActivity extends FragmentActivity
         super.onStart();
         
         if(EcmobilePush.isPush(this)) {
-        	API_KEY = EcmobileManager.getPushKey(this);
+        	API_KEY = GrandMagicManager.getPushKey(this);
             PushManager.activityStarted(this);
             PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY, API_KEY);
         }
@@ -165,8 +166,8 @@ public class EcmobileMainActivity extends FragmentActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if(EcmobileManager.getUmengKey(this)!=null){
-            MobclickAgent.onResume(this, EcmobileManager.getUmengKey(this), "");
+        if(GrandMagicManager.getUmengKey(this)!=null){
+            MobclickAgent.onResume(this, GrandMagicManager.getUmengKey(this), "");
         }
 
     }
@@ -221,7 +222,7 @@ public class EcmobileMainActivity extends FragmentActivity
     @Override
     protected void onPause() {
         super.onPause();
-        if(EcmobileManager.getUmengKey(this)!=null){
+        if(GrandMagicManager.getUmengKey(this)!=null){
             MobclickAgent.onPause(this);
         }
     }

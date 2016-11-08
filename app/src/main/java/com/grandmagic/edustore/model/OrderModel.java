@@ -18,9 +18,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.grandmagic.BeeFramework.view.MyProgressDialog;
-import com.insthub.ecmobile.EcmobileManager;
+import com.grandmagic.grandMagicManager.GrandMagicManager;
+
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.protocol.*;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -338,7 +340,7 @@ public class OrderModel extends BaseModel {
 
         request.session = SESSION.getInstance();
         request.order_id = order_id;
-        request.app_key = EcmobileManager.getKuaidiKey(mContext);
+        request.app_key = GrandMagicManager.getKuaidiKey(mContext);
         Map<String, String> params = new HashMap<String, String>();
         try {
             params.put("json", request.toJson().toString());

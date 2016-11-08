@@ -55,6 +55,7 @@ import com.grandmagic.edustore.model.ShoppingCartModel;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.FILTER;
 import com.grandmagic.edustore.protocol.PLAYER;
+import com.grandmagic.grandMagicManager.GrandMagicManager;
 import com.insthub.ecmobile.EcmobileManager;
 import com.insthub.ecmobile.EcmobileManager.RegisterApp;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -235,7 +236,7 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
 		shoppingCartModel.addResponseListener(this);
 		shoppingCartModel.homeCartList();
 
-        bannerViewPager.startImageCycle();
+//        bannerViewPager.startImageCycle();
         return mainView;
     }
 
@@ -247,8 +248,11 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
        
         if (!isActive) {
             isActive = true;
-            EcmobileManager.registerApp(this);
-    		EcmobileManager.startWork(getActivity(), ECMobileAppConst.AppId, ECMobileAppConst.AppKey);
+//            EcmobileManager.registerApp(this);
+//    		EcmobileManager.startWork(getActivity(), ECMobileAppConst.AppId, ECMobileAppConst.AppKey);
+
+//            GrandMagicManager.registerApp(this);
+            GrandMagicManager.startWork(getActivity(), ECMobileAppConst.AppId, ECMobileAppConst.AppKey);
         }
         
         msgModel.getMessageCont();
@@ -436,6 +440,7 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
         mIndicator.setCurrentItem(0);
         bannerPageAdapter.mListViews = bannerListView;
         bannerViewPager.setAdapter(bannerPageAdapter);
+        bannerViewPager.startImageCycle();
 
     }
     

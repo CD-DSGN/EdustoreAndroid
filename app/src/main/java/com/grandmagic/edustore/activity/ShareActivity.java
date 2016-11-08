@@ -42,7 +42,8 @@ import android.widget.Toast;
 
 import com.grandmagic.BeeFramework.Utils.WeixinUtil;
 import com.grandmagic.BeeFramework.view.ToastView;
-import com.insthub.ecmobile.EcmobileManager;
+import com.grandmagic.grandMagicManager.GrandMagicManager;
+
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.ShareConst;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -106,21 +107,21 @@ public class ShareActivity extends Activity implements IWeiboHandler.Response
         imageLoader.init(ImageLoaderConfiguration.createDefault(this));
         sinaWeibo = (LinearLayout)findViewById(R.id.sina_weibo);
 
-        if(EcmobileManager.getSinaKey(this) == null || EcmobileManager.getSinaSecret(this) == null
-        		|| EcmobileManager.getSinaCallback(this) == null) {
+        if(GrandMagicManager.getSinaKey(this) == null || GrandMagicManager.getSinaSecret(this) == null
+        		|| GrandMagicManager.getSinaCallback(this) == null) {
         	sinaWeibo.setVisibility(View.GONE);
         }
         
-        if(EcmobileManager.getSinaKey(ShareActivity.this) != null && EcmobileManager.getSinaCallback(ShareActivity.this) != null) {
-    		mWeibo=new WeiboAuth(ShareActivity.this, EcmobileManager.getSinaKey(ShareActivity.this), EcmobileManager.getSinaCallback(ShareActivity.this), ShareConst.SCOPE);
-    		weiboAPI=WeiboShareSDK.createWeiboAPI(ShareActivity.this, EcmobileManager.getSinaKey(ShareActivity.this));
+        if(GrandMagicManager.getSinaKey(ShareActivity.this) != null && GrandMagicManager.getSinaCallback(ShareActivity.this) != null) {
+    		mWeibo=new WeiboAuth(ShareActivity.this, GrandMagicManager.getSinaKey(ShareActivity.this), GrandMagicManager.getSinaCallback(ShareActivity.this), ShareConst.SCOPE);
+    		weiboAPI=WeiboShareSDK.createWeiboAPI(ShareActivity.this, GrandMagicManager.getSinaKey(ShareActivity.this));
     		weiboAPI.registerApp();
     	}
         sinaWeibo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-            	if(EcmobileManager.getSinaKey(ShareActivity.this) != null && EcmobileManager.getSinaCallback(ShareActivity.this) != null) {
+            	if(GrandMagicManager.getSinaKey(ShareActivity.this) != null && GrandMagicManager.getSinaCallback(ShareActivity.this) != null) {
 
                     shareSinaContent();
             	}
@@ -128,7 +129,7 @@ public class ShareActivity extends Activity implements IWeiboHandler.Response
         });
         
         tencentWeibo = (LinearLayout)findViewById(R.id.tencent_weibo);
-        if(EcmobileManager.getTencentKey(this) == null || EcmobileManager.getTencentSecret(this) == null) {
+        if(GrandMagicManager.getTencentKey(this) == null || GrandMagicManager.getTencentSecret(this) == null) {
         	tencentWeibo.setVisibility(View.GONE);
         }
         
@@ -146,7 +147,7 @@ public class ShareActivity extends Activity implements IWeiboHandler.Response
         });
 
         tencentWeixin = (LinearLayout)findViewById(R.id.tencent_weixin);
-        if(EcmobileManager.getWeixinAppId(this) == null) {
+        if(GrandMagicManager.getWeixinAppId(this) == null) {
         	tencentWeixin.setVisibility(View.GONE);
         }
         tencentWeixin.setOnClickListener(new View.OnClickListener() {
@@ -190,9 +191,9 @@ public class ShareActivity extends Activity implements IWeiboHandler.Response
         isTimelineCb = (CheckBox) findViewById(R.id.is_timeline_cb);
         isTimelineCb.setChecked(false);
 
-        if(EcmobileManager.getWeixinAppId(ShareActivity.this)!=null) {
-        	weixinAPI = WXAPIFactory.createWXAPI(this, EcmobileManager.getWeixinAppId(ShareActivity.this));
-            weixinAPI.registerApp(EcmobileManager.getWeixinAppId(ShareActivity.this));
+        if(GrandMagicManager.getWeixinAppId(ShareActivity.this)!=null) {
+        	weixinAPI = WXAPIFactory.createWXAPI(this, GrandMagicManager.getWeixinAppId(ShareActivity.this));
+            weixinAPI.registerApp(GrandMagicManager.getWeixinAppId(ShareActivity.this));
         }
         
         shareContent = getIntent().getStringExtra("content");
@@ -285,11 +286,11 @@ public class ShareActivity extends Activity implements IWeiboHandler.Response
         HttpClient httpClient = new HttpClient();
         PostMethod postMethod = new PostMethod(url);
         // 填入各个表单域的值        
-        NameValuePair[] data = { new NameValuePair("client_id", EcmobileManager.getSinaKey(this)),
-                new NameValuePair("client_secret", EcmobileManager.getSinaSecret(this)),
+        NameValuePair[] data = { new NameValuePair("client_id", GrandMagicManager.getSinaKey(this)),
+                new NameValuePair("client_secret", GrandMagicManager.getSinaSecret(this)),
                 new NameValuePair("grant_type", "authorization_code"),
                 new NameValuePair("code", code),
-                new NameValuePair("redirect_uri", EcmobileManager.getSinaCallback(this)),
+                new NameValuePair("redirect_uri", GrandMagicManager.getSinaCallback(this)),
                 };
         // 将表单的值放入postMethod中
         postMethod.setRequestBody(data);
