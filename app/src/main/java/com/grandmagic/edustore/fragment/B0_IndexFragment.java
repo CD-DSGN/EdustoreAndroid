@@ -45,6 +45,7 @@ import com.grandmagic.edustore.activity.BannerWebActivity;
 import com.grandmagic.edustore.activity.G3_MessageActivity;
 import com.grandmagic.edustore.adapter.B0_IndexAdapter;
 import com.grandmagic.edustore.adapter.Bee_PageAdapter;
+import com.grandmagic.edustore.component.CircleFrameLayout;
 import com.grandmagic.edustore.component.CircleViewPager;
 import com.grandmagic.edustore.model.ConfigModel;
 import com.grandmagic.edustore.model.HomeModel;
@@ -71,14 +72,14 @@ import java.util.List;
 
 public class B0_IndexFragment extends BaseFragment implements BusinessResponse,XListView.IXListViewListener, RegisterApp, OnMessageContResponse
 {
-    private CircleViewPager bannerViewPager;
+    private ViewPager bannerViewPager;
     private PageIndicator mIndicator;
     private MyListView mListView;
     private B0_IndexAdapter listAdapter;
 
     private ArrayList<View> bannerListView;
     private Bee_PageAdapter bannerPageAdapter;
-    FrameLayout bannerView;
+    CircleFrameLayout bannerView;
 
     private View mTouchTarget;
     private ShoppingCartModel shoppingCartModel;
@@ -159,9 +160,9 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
 
         dataModel.addResponseListener(this);
 
-        bannerView = (FrameLayout)LayoutInflater.from(getActivity()).inflate(R.layout.b0_index_banner, null);
+        bannerView = (CircleFrameLayout)LayoutInflater.from(getActivity()).inflate(R.layout.b0_index_banner, null);
 
-        bannerViewPager = (CircleViewPager) bannerView.findViewById(R.id.banner_viewpager);
+        bannerViewPager = (ViewPager) bannerView.findViewById(R.id.banner_viewpager);
         
         LayoutParams params1 = bannerViewPager.getLayoutParams();
 		params1.width = getDisplayMetricsWidth();
@@ -175,51 +176,13 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
         bannerPageAdapter = new Bee_PageAdapter(bannerListView);
 
         bannerViewPager.setAdapter(bannerPageAdapter);
-        bannerViewPager.setCurrentItem(0);
+//        bannerViewPager.setCurrentItem(0);
 
         mIndicator = (PageIndicator)bannerView.findViewById(R.id.indicator);
         mIndicator.setViewPager(bannerViewPager);
 
-        mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            private int mPreviousState = ViewPager.SCROLL_STATE_IDLE;
-            @Override
-            public void onPageScrolled(int i, float v, int i2) {
-
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                // All of this is to inhibit any scrollable container from consuming our touch events as the user is changing pages
-                if (mPreviousState != ViewPager.SCROLL_STATE_IDLE && state == ViewPager.SCROLL_STATE_IDLE) {
-                    bannerViewPager.startImageCycle();
-                }
-
-                if (mPreviousState == ViewPager.SCROLL_STATE_IDLE) {
-                    if (state == ViewPager.SCROLL_STATE_DRAGGING) {
-                        mTouchTarget = bannerViewPager;
-                    }
-                } else {
-                    if (state == ViewPager.SCROLL_STATE_IDLE || state == ViewPager.SCROLL_STATE_SETTLING) {
-                        mTouchTarget = null;
-                    }
-
-                    if (state == ViewPager.SCROLL_STATE_IDLE) {
-
-                    }
-                }
-
-                mPreviousState = state;
-            }
-        });
-
-
-
+        bannerView.setPageIndicator(mIndicator);
+        bannerView.setViewPager(bannerViewPager);
 
         mListView = (MyListView)mainView.findViewById(R.id.home_listview);
         mListView.addHeaderView(bannerView);
@@ -265,7 +228,7 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
         MobclickAgent.onPageStart("Home");
 
         //zhangmengqi begin
-        bannerViewPager.startImageCycle();
+        bannerView.startImageCycle();
         //zhangmengqi end
     }
 
@@ -324,7 +287,7 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
     public void onDestroy() {    
     	super.onDestroy();
     	dataModel.removeResponseListener(this);
-        bannerViewPager.pushImageCycle();
+        bannerView.pushImageCycle();
     }
 
     public void onRefresh(int id)
@@ -440,7 +403,7 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
         mIndicator.setCurrentItem(0);
         bannerPageAdapter.mListViews = bannerListView;
         bannerViewPager.setAdapter(bannerPageAdapter);
-        bannerViewPager.startImageCycle();
+        bannerView.startImageCycle();
 
     }
     
@@ -463,7 +426,7 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
         super.onPause();
         MobclickAgent.onPageEnd("Home");
         //zhangmengqi begin
-        bannerViewPager.pushImageCycle();
+        bannerView.pushImageCycle();
         //zhangmengqi end
 
     }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.grandmagic.edustore.component.CircleFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
 
-    <com.grandmagic.edustore.component.CircleViewPager
+    <android.support.v4.view.ViewPager
         android:id="@+id/banner_viewpager"
         android:layout_width="match_parent"
         android:layout_height="160dp" />
@@ -23,4 +23,4 @@
             android:padding="2dp" />
     </FrameLayout>
 
-</FrameLayout>
+</com.grandmagic.edustore.component.CircleFrameLayout>
