@@ -49,7 +49,7 @@ public class CircleFrameLayout extends FrameLayout {
             @Override
             public void onPageScrollStateChanged(int state) {
                 // All of this is to inhibit any scrollable container from consuming our touch events as the user is changing pages
-                System.out.println("state:" + state);
+//                System.out.println("state:" + state);
                 if (mPreviousState != ViewPager.SCROLL_STATE_IDLE && state == ViewPager.SCROLL_STATE_IDLE) {
                     mImageIndex = mViewPager.getCurrentItem();
                     startImageCycle();
@@ -68,7 +68,7 @@ public class CircleFrameLayout extends FrameLayout {
      * 开始轮播(手动控制自动轮播与否，便于资源控制)
      */
     public void startImageCycle() {
-        System.out.println("startImageCycle:" + mImageIndex);
+//        System.out.println("startImageCycle:" + mImageIndex);
         startImageTimerTask();
     }
 
@@ -76,7 +76,7 @@ public class CircleFrameLayout extends FrameLayout {
      * 暂停轮播——用于节省资源
      */
     public void pushImageCycle() {
-        System.out.println(" pushImageCycle" + mImageIndex);
+//        System.out.println(" pushImageCycle" + mImageIndex);
         stopImageTimerTask();
     }
 
