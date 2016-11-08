@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
 import com.external.viewpagerindicator.PageIndicator;
@@ -30,6 +31,19 @@ public class CircleFrameLayout extends FrameLayout {
 //        super(context, attrs, 0);
 //    }
 
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+//            System.out.println("ACTION_DOWN");
+            pushImageCycle();
+        } else if (ev.getAction() == MotionEvent.ACTION_UP) {
+//            System.out.println("ACTION_UP");
+            startImageCycle();
+        }
+
+        return false;
+    }
 
     public void setPageIndicator(PageIndicator indicator) {
         this.mPageIndicator = indicator;
