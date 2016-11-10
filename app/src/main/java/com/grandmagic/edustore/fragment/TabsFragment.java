@@ -56,6 +56,7 @@ public class TabsFragment extends Fragment
     D0_CategoryFragment searchFragment;
     C0_ShoppingCartFragment shoppingCartFragment;
     E0_ProfileFragment profileFragment;
+    Z0_InteractionFragment interactionFragment;
 
     public TabsFragment() {
     }
@@ -153,11 +154,12 @@ public class TabsFragment extends Fragment
         else if (tabName == "tab_two")
         {
             
-                searchFragment = new D0_CategoryFragment();
+                //searchFragment = new D0_CategoryFragment();
+            interactionFragment = new Z0_InteractionFragment();
             
 
             FragmentTransaction localFragmentTransaction = getFragmentManager().beginTransaction();
-            localFragmentTransaction.replace(R.id.fragment_container, searchFragment, "tab_two");
+            localFragmentTransaction.replace(R.id.fragment_container, interactionFragment, "tab_two");
             localFragmentTransaction.commit();
         	
 

@@ -77,6 +77,7 @@
 <string name="login_register_teacher">Sign up for teacher</string>
 <string name="login_register_student">Sign up for student</string>
 <string name="profile_personal">Account</string>
+    <string name="interaction_tch_stu">teacher circle</string>
 <string name="profile_obligation">Cart</string>
 <string name="profile_readyforshipment">Delivering</string>
 <string name="profile_forthegoods">Delivered</string>
@@ -390,6 +391,8 @@
     <string name="china_86">please choose school address</string>
     <string name="country_and_zone">please choose school address</string>
     <string name="get_verification_code">please choose school address</string>
+    <string name="teacher_publish_button">publish</string>
+    <string name="teacher_publish_hint">please input publish content</string>
     <string name="get_verification_code_again">please choose school address</string>
     <string name="hint_verification_code">please choose school address</string>
     <string name="input_cellphone_hint">please choose school address</string>
@@ -415,6 +418,7 @@
 <string name="student_subscription_num">There are 0 student(s) subscripted you</string>
 <string name="recommand_num">you recommand 0 teachers(s)</string>
     <!--begin by chenggaoyuan-->
+    <string name="teacher_publish">message publishing</string>
     <string name="login_username_teacher">username</string>
     <string name="verification_wrong">verification code is wrong</string>
     <string name="introduction"></string>
@@ -423,4 +427,6 @@
     <string name="longtu_website">website under control of shengyang longtu company</string>
     <string name="shengyanglongtu">longtu culture, CO,. LTD </string>
     <string name="install_wechat">wechat is not installed, please install it first</string>
+    <string name="publish_content_not_empty">publish content cannot be empty</string>
+    <string name="publish_failed">publish failed</string>
 </resources>

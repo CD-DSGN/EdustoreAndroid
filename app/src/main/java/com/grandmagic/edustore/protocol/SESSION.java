@@ -31,29 +31,29 @@ public class SESSION  extends Model
      }
      
 
- public void fromJson(JSONObject jsonObject)  throws JSONException
- {
-     if(null == jsonObject){
-       return ;
-      }
+     public void fromJson(JSONObject jsonObject)  throws JSONException
+     {
+         if(null == jsonObject){
+           return ;
+          }
 
 
 
-     JSONArray subItemArray;
+         JSONArray subItemArray;
 
-     this.uid = jsonObject.optString("uid");
+         this.uid = jsonObject.optString("uid");
 
-     this.sid = jsonObject.optString("sid");
-     return ;
- }
+         this.sid = jsonObject.optString("sid");
+         return ;
+     }
 
- public JSONObject  toJson() throws JSONException 
- {
-     JSONObject localItemObject = new JSONObject();
-     JSONArray itemJSONArray = new JSONArray();
-     localItemObject.put("uid", uid);
-     localItemObject.put("sid", sid);
-     return localItemObject;
- }
+     public JSONObject  toJson() throws JSONException
+     {
+         JSONObject localItemObject = new JSONObject();
+         JSONArray itemJSONArray = new JSONArray();
+         localItemObject.put("uid", uid);
+         localItemObject.put("sid", sid);
+         return localItemObject;
+     }
 
 }

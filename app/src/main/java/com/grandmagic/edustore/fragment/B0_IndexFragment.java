@@ -19,12 +19,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -96,6 +98,9 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
 	private SharedPreferences.Editor editor;
     protected ImageLoader imageLoader = ImageLoader.getInstance();
 
+    public D0_CategoryFragment searchFragment;
+    private Button categoryBtn;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +111,20 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         imageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
         View mainView = inflater.inflate(R.layout.b0_index,null);
+
+        categoryBtn = (Button) mainView.findViewById(R.id.categorybutton);
+        categoryBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchFragment = new D0_CategoryFragment();
+
+                FragmentTransaction localFragmentTransaction = getFragmentManager().beginTransaction();
+                localFragmentTransaction.replace(R.id.fragment_container, searchFragment, "tab_two_in_one");
+                localFragmentTransaction.commit();
+
+            }
+        });
+
         
         back = (ImageView) mainView.findViewById(R.id.top_view_back);
         back.setVisibility(View.GONE);
