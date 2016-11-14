@@ -430,4 +430,5 @@
     <string name="longtu_website">沈阳龙图文化公司旗下网站</string>
     <string name="shengyanglongtu">沈阳龙图文化有限公司</string>
     <string name="install_wechat">未检测到微信，请先安装微信客户端</string>
+    <string name="search_teacher_full_name">请输入教师全名</string>
 </resources>

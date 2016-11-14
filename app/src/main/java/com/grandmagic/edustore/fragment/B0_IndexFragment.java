@@ -48,7 +48,6 @@ import com.grandmagic.edustore.activity.G3_MessageActivity;
 import com.grandmagic.edustore.adapter.B0_IndexAdapter;
 import com.grandmagic.edustore.adapter.Bee_PageAdapter;
 import com.grandmagic.edustore.component.CircleFrameLayout;
-import com.grandmagic.edustore.component.CircleViewPager;
 import com.grandmagic.edustore.model.ConfigModel;
 import com.grandmagic.edustore.model.HomeModel;
 import com.grandmagic.edustore.model.LoginModel;

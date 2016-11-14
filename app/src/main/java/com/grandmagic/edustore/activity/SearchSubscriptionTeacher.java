@@ -1,5 +1,6 @@
 package com.grandmagic.edustore.activity;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -43,6 +44,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by zhangmengqi on 2016/9/5.
@@ -103,6 +106,18 @@ public class SearchSubscriptionTeacher extends BaseActivity implements View.OnCl
                         if (TextUtils.isEmpty(keywords)) {
                             return false;
                         }
+                        //检测是否输入条件少于两个汉字
+                        Pattern p = Pattern.compile("[\u4e00-\u9fa5]{2,}");
+                        Matcher m = p.matcher(keywords);
+                        if (!m.matches()) {
+                            Resources resource = SearchSubscriptionTeacher.this.getResources();
+                            String registration_closed = resource.getString(R.string.search_teacher_full_name);
+                            ToastView toast = new ToastView(SearchSubscriptionTeacher.this, registration_closed);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+                            return false;
+                        }
+
                         teacherListModel.fetchPreSearch(keywords,course_id);
                         //                        intent.putExtra(B1_ProductListActivity.FILTER,filter.toJson().toString());
                         //                        startActivity(intent);

@@ -429,4 +429,5 @@
     <string name="install_wechat">wechat is not installed, please install it first</string>
     <string name="publish_content_not_empty">publish content cannot be empty</string>
     <string name="publish_failed">publish failed</string>
+    <string name="search_teacher_full_name">please using full name of teacher to search</string>
 </resources>
