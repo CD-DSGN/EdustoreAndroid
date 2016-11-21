@@ -41,7 +41,7 @@
             android:text="@string/publish"
             android:gravity="center"
             android:textColor="#ffffff"
-            android:textSize="18dp"
+            android:textSize="14dp"
             android:visibility="gone"/>
     </FrameLayout>
 
