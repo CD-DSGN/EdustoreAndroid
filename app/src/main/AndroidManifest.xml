@@ -72,6 +72,10 @@
             android:windowSoftInputMode="stateVisible|adjustResize"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".activity.D0_AllCategoryActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:screenOrientation="portrait" />
+
         <activity android:name=".activity.A0_SigninActivity"
                   android:launchMode="singleTask"
                   android:screenOrientation="portrait" />

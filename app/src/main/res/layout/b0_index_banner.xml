@@ -22,5 +22,4 @@
             android:layout_gravity="center"
             android:padding="2dp" />
     </FrameLayout>
-
 </com.grandmagic.edustore.component.CircleFrameLayout>

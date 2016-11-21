@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.grandmagic.BeeFramework.fragment.BaseFragment;
 import com.grandmagic.BeeFramework.model.BusinessResponse;
@@ -27,7 +28,7 @@ public class Z0_InteractionFragment extends BaseFragment implements BusinessResp
     private SharedPreferences shared;
     private SharedPreferences.Editor editor;
 
-    ImageView publish;
+    TextView publish;
 
     private String uid;
 
@@ -45,10 +46,11 @@ public class Z0_InteractionFragment extends BaseFragment implements BusinessResp
 
         //headView = LayoutInflater.from(getActivity()).inflate(R.layout., null);
 
-        publish = (ImageView) view.findViewById(R.id.teacher_publish);
-        publish.setOnClickListener(this);
-
-
+        if (!uid.equals("")){
+            publish = (TextView) view.findViewById(R.id.teacher_publish);
+            publish.setVisibility(View.VISIBLE);
+            publish.setOnClickListener(this);
+        }
 
         return view;
     }
@@ -60,18 +62,12 @@ public class Z0_InteractionFragment extends BaseFragment implements BusinessResp
         Intent intent;
         switch(v.getId()) {
             case R.id.teacher_publish:
-                if (uid.equals("")) {
-                    intent = new Intent(getActivity(), A0_SigninActivity.class);
-                    startActivity(intent);
-                    getActivity().overridePendingTransition(R.anim.push_buttom_in,R.anim.push_buttom_out);
-                } else {
-                    intent = new Intent(getActivity(), Z1_TeacherPublishActivity.class);
-                    startActivity(intent);
-                    getActivity().overridePendingTransition(R.anim.push_right_in,
-                            R.anim.push_right_out);
-                }
+                intent = new Intent(getActivity(), Z1_TeacherPublishActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                    break;
+            default:
                 break;
-
         }
 
     }

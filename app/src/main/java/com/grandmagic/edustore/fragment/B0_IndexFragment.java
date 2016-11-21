@@ -19,15 +19,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -44,7 +41,10 @@ import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.activity.B1_ProductListActivity;
 import com.grandmagic.edustore.activity.B2_ProductDetailActivity;
 import com.grandmagic.edustore.activity.BannerWebActivity;
+import com.grandmagic.edustore.activity.D0_AllCategoryActivity;
 import com.grandmagic.edustore.activity.G3_MessageActivity;
+import com.grandmagic.edustore.activity.SubscriptionActivity;
+import com.grandmagic.edustore.activity.UserIntegralActivity;
 import com.grandmagic.edustore.adapter.B0_IndexAdapter;
 import com.grandmagic.edustore.adapter.Bee_PageAdapter;
 import com.grandmagic.edustore.component.CircleFrameLayout;
@@ -90,15 +90,18 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
 
 	private ImageView back;
 	private TextView title;
-    private LinearLayout title_right_button;
+    //private LinearLayout title_right_button;
     private TextView headUnreadTextView;
 	
     private SharedPreferences shared;
 	private SharedPreferences.Editor editor;
     protected ImageLoader imageLoader = ImageLoader.getInstance();
 
-    public D0_CategoryFragment searchFragment;
-    private Button categoryBtn;
+    private LinearLayout b0_index_banner_and_button;
+    private ImageView all_category_btn;
+    private ImageView check_points_btn;
+    private ImageView connect_teacher_btn;
+    private ImageView notification_btn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,20 +114,6 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
         imageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
         View mainView = inflater.inflate(R.layout.b0_index,null);
 
-        categoryBtn = (Button) mainView.findViewById(R.id.categorybutton);
-        categoryBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchFragment = new D0_CategoryFragment();
-
-                FragmentTransaction localFragmentTransaction = getFragmentManager().beginTransaction();
-                localFragmentTransaction.replace(R.id.fragment_container, searchFragment, "tab_two_in_one");
-                localFragmentTransaction.commit();
-
-            }
-        });
-
-        
         back = (ImageView) mainView.findViewById(R.id.top_view_back);
         back.setVisibility(View.GONE);
         title = (TextView) mainView.findViewById(R.id.top_view_text);
@@ -141,23 +130,6 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
             msgModel = MsgModel.getInstance();
         }
 
-        title_right_button = (LinearLayout)mainView.findViewById(R.id.top_right_button);
-        title_right_button.setVisibility(View.VISIBLE);
-        title_right_button.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                msgModel.unreadCount = 0;
-                headUnreadTextView.setVisibility(View.GONE);
-                Intent intent = new Intent(getActivity(), G3_MessageActivity.class);
-                startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.push_right_in,
-                        R.anim.push_right_out);
-            }
-        });
-
-        headUnreadTextView = (TextView)mainView.findViewById(R.id.head_unread_num);
-        
         if (null == dataModel)
         {
             dataModel = new HomeModel(getActivity());
@@ -178,8 +150,59 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
 
         dataModel.addResponseListener(this);
 
-        bannerView = (CircleFrameLayout)LayoutInflater.from(getActivity()).inflate(R.layout.b0_index_banner, null);
+        //bannerView = (CircleFrameLayout)LayoutInflater.from(getActivity()).inflate(R.layout.b0_index_banner, null);
+        b0_index_banner_and_button = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.b0_index_banner_and_button, null);
+        headUnreadTextView = (TextView)b0_index_banner_and_button.findViewById(R.id.head_unread_num);
 
+        all_category_btn = (ImageView) b0_index_banner_and_button.findViewById(R.id.all_category);
+        all_category_btn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), D0_AllCategoryActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.push_right_in,
+                        R.anim.push_right_out);
+
+            }
+        });
+
+        connect_teacher_btn = (ImageView) b0_index_banner_and_button.findViewById(R.id.connect_teacher);
+        connect_teacher_btn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SubscriptionActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.push_right_in,
+                        R.anim.push_right_out);
+            }
+        });
+
+        check_points_btn = (ImageView) b0_index_banner_and_button.findViewById(R.id.check_integral);
+        check_points_btn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), UserIntegralActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.push_right_in,
+                        R.anim.push_right_out);
+
+            }
+        });
+        notification_btn = (ImageView) b0_index_banner_and_button.findViewById(R.id.notification_btn);
+        notification_btn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                msgModel.unreadCount = 0;
+                headUnreadTextView.setVisibility(View.GONE);
+                Intent intent = new Intent(getActivity(), G3_MessageActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.push_right_in,
+                        R.anim.push_right_out);
+            }
+        });
+
+
+        bannerView = (CircleFrameLayout)b0_index_banner_and_button.findViewById(R.id.index_banner);
         bannerViewPager = (ViewPager) bannerView.findViewById(R.id.banner_viewpager);
         
         LayoutParams params1 = bannerViewPager.getLayoutParams();
@@ -203,7 +226,7 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
         bannerView.setViewPager(bannerViewPager);
 
         mListView = (MyListView)mainView.findViewById(R.id.home_listview);
-        mListView.addHeaderView(bannerView);
+        mListView.addHeaderView(b0_index_banner_and_button);
         mListView.bannerView = bannerView;
 
         mListView.setPullLoadEnable(false);

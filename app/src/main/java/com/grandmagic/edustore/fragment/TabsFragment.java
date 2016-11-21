@@ -53,7 +53,6 @@ public class TabsFragment extends Fragment
 	private SharedPreferences shared;
 	private SharedPreferences.Editor editor;
     B0_IndexFragment homeFragment;
-    D0_CategoryFragment searchFragment;
     C0_ShoppingCartFragment shoppingCartFragment;
     E0_ProfileFragment profileFragment;
     Z0_InteractionFragment interactionFragment;
@@ -153,8 +152,7 @@ public class TabsFragment extends Fragment
         }
         else if (tabName == "tab_two")
         {
-            
-                //searchFragment = new D0_CategoryFragment();
+
             interactionFragment = new Z0_InteractionFragment();
             
 

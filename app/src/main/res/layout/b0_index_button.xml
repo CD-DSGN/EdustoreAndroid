@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="@drawable/btn_bg">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_weight="0.25"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/all_category"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/all_goods_category"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_weight="0.25"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/connect_teacher"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/connect_teacher"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_weight="0.25"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/check_integral"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/check_points"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_weight="0.25"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/notification_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/notifications"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/head_unread_num"
+            android:layout_width="20dp"
+            android:layout_height="15dp"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="23dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/profile_refresh_goods_num_bg"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="#ffffff"
+            android:textSize="10dp"
+            />
+    </FrameLayout>
+
+</LinearLayout>
