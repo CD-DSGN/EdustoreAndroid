@@ -8,7 +8,8 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        layout="@layout/top_view" />
+        layout="@layout/search_topview_with_icon"
+        android:id="@+id/fragment_bo_index_search"/>
 
     <com.grandmagic.BeeFramework.view.MyListView
         android:id="@+id/home_listview"

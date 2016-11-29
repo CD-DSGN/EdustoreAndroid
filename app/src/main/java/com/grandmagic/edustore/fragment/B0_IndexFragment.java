@@ -17,14 +17,17 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
+
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -53,6 +56,7 @@ import com.grandmagic.edustore.model.HomeModel;
 import com.grandmagic.edustore.model.LoginModel;
 import com.grandmagic.edustore.model.MsgModel;
 import com.grandmagic.edustore.model.MsgModel.OnMessageContResponse;
+
 import com.grandmagic.edustore.model.ShoppingCartModel;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.FILTER;
@@ -69,6 +73,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 
 public class B0_IndexFragment extends BaseFragment implements BusinessResponse,XListView.IXListViewListener, RegisterApp, OnMessageContResponse
@@ -103,6 +109,10 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
     private ImageView connect_teacher_btn;
     private ImageView notification_btn;
 
+    private EditText input;
+    private ImageView search_search;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,12 +124,46 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
         imageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
         View mainView = inflater.inflate(R.layout.b0_index,null);
 
-        back = (ImageView) mainView.findViewById(R.id.top_view_back);
-        back.setVisibility(View.GONE);
-        title = (TextView) mainView.findViewById(R.id.top_view_text);
-        Resources resource = this.getResources();
-        String ecmobileStr=resource.getString(R.string.huishi);
-        title.setText(ecmobileStr);
+        input = (EditText) mainView.findViewById(R.id.search_input);
+        search_search = (ImageView) mainView.findViewById(R.id.search_search);
+
+        input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if (actionId == EditorInfo.IME_ACTION_SEARCH)
+                {
+                    try
+                    {
+                        searchByKeyWord();
+                        return true;
+
+                    }
+                    catch (JSONException e)
+                    {
+
+                    }
+                }
+                return false;
+            }
+        });
+
+        search_search.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try
+                {
+                    searchByKeyWord();
+
+                }
+                catch (JSONException e)
+                {
+
+                }
+            }
+        });
+
 
         if (null == MsgModel.getInstance())
         {
@@ -244,8 +288,18 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
         return mainView;
     }
 
+    private void searchByKeyWord() throws JSONException {
+        Intent intent = new Intent(getActivity(), B1_ProductListActivity.class);
+        FILTER filter = new FILTER();
+        filter.keywords = input.getText().toString().toString();
+        intent.putExtra(B1_ProductListActivity.FILTER,filter.toJson().toString());
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.push_right_in,
+                R.anim.push_right_out);
+    }
 
-	public boolean isActive = false;
+
+    public boolean isActive = false;
     @Override
     public void onResume() {
         super.onResume();
