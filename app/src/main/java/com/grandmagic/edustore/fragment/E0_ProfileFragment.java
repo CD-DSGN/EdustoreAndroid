@@ -15,15 +15,21 @@ package com.grandmagic.edustore.fragment;
 //
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,6 +57,7 @@ import com.grandmagic.edustore.activity.G3_MessageActivity;
 import com.grandmagic.edustore.activity.SubscriptionActivity;
 import com.grandmagic.edustore.activity.UserIntegralActivity;
 import com.grandmagic.edustore.model.ProtocolConst;
+import com.grandmagic.edustore.model.UserImgModel;
 import com.grandmagic.edustore.model.UserInfoModel;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.USER;
@@ -58,6 +65,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -97,6 +105,13 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
 	private LinearLayout ll_query_points;
 	private LinearLayout ll_subscription;
 	//zhangmengqi end
+
+	//chenggaoyuan begin
+	protected static final int CHOOSE_PICTURE = 0;
+	protected static final int TAKE_PICTURE = 1;
+	private static final int CROP_SMALL_PICTURE = 2;
+	private UserImgModel userImgModel;
+	//chenggaoyuan end
 
     private LinearLayout memberLevelLayout;
     private TextView     memberLevelName;
@@ -174,6 +189,13 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
             userInfoModel = new UserInfoModel(getActivity());
         }
         userInfoModel.addResponseListener(this);
+
+		if (null == userImgModel)
+		{
+			userImgModel = new UserImgModel(getActivity());
+		}
+		//userImgModel.addResponseListener(this);
+
 		if (uid.equals("")) {
 
 			Resources resource = mContext.getResources();
@@ -354,10 +376,11 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
 				startActivity(intent);
             	getActivity().overridePendingTransition(R.anim.push_buttom_in,R.anim.push_buttom_out);
 			} else {
-				intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);  
-	            startActivityForResult(intent, 1);
-                getActivity().overridePendingTransition(R.anim.push_right_in,
-                        R.anim.push_right_out);
+//				intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//	            startActivityForResult(intent, 1);
+//                getActivity().overridePendingTransition(R.anim.push_right_in,
+//                        R.anim.push_right_out);
+				showChoosePicDialog();
 			}
 			break;
 		case R.id.profile_head_payment:
@@ -477,10 +500,11 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
              	startActivity(intent);
              	getActivity().overridePendingTransition(R.anim.push_buttom_in,R.anim.push_buttom_out);
  			 }else{
-                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                 startActivityForResult(intent, 1);
-                 getActivity().overridePendingTransition(R.anim.push_right_in,
-                         R.anim.push_right_out);
+//                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                 startActivityForResult(intent, 1);
+//                 getActivity().overridePendingTransition(R.anim.push_right_in,
+//                         R.anim.push_right_out);
+				 showChoosePicDialog();
              }
         	 break;
 		 //zhangmengqi begin
@@ -526,35 +550,21 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
         
         if (resultCode == Activity.RESULT_OK) {
 
-        	if(requestCode == 1) {
-        		String sdStatus = Environment.getExternalStorageState();
-                Bundle bundle = data.getExtras();
-                Bitmap bitmap = (Bitmap) bundle.get("data");// 获取相机返回的数据，并转换为Bitmap图片格式
-
-                if (file == null) {
-					file = new File(ProtocolConst.FILEPATH);
-					if (!file.exists()) {
-						file.mkdirs();
+			switch (requestCode) {
+				case TAKE_PICTURE:
+					File temp = new File(Environment.getExternalStorageDirectory()
+							+ "/" + uid + ".jpg");
+					startPhotoZoom(Uri.fromFile(temp));// 开始对图片进行裁剪处理
+					break;
+				case CHOOSE_PICTURE:
+					startPhotoZoom(data.getData()); // 开始对图片进行裁剪处理
+					break;
+				case CROP_SMALL_PICTURE:
+					if (data != null) {
+						setImageToView(data); // 让刚才选择裁剪得到的图片显示在界面上
 					}
-				}
-                FileOutputStream b = null;
-                String fileName = getActivity().getCacheDir()+"/ECMobile/cache"+"/"+uid+"-temp.jpg";
-                try {
-                    b = new FileOutputStream(fileName);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        b.flush();
-                        b.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                ((ImageView) view.findViewById(R.id.profile_head_photo)).setImageBitmap(bitmap);// 将图片显示在ImageView里
-        	}
-
+					break;
+			}
         }
         
         if(requestCode == 2) {
@@ -589,4 +599,121 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
         super.onPause();
         MobclickAgent.onPageEnd("Profile");
     }
+	/*begin,added by chenggaoyuan*/
+	protected void showChoosePicDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setTitle("设置头像");
+		String[] items = { "选择本地照片", "拍照" };
+		builder.setNegativeButton("取消", null);
+		builder.setItems(items, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				switch (which) {
+					case CHOOSE_PICTURE: // 选择本地照片
+						Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
+						openAlbumIntent.setType("image/*");
+						startActivityForResult(openAlbumIntent, CHOOSE_PICTURE);
+						break;
+					case TAKE_PICTURE: // 拍照
+						Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+						//tempUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "image.jpg"));
+						// 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
+						//openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
+						openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment
+										.getExternalStorageDirectory(),
+										uid + ".jpg")));
+						startActivityForResult(openCameraIntent, TAKE_PICTURE);
+						break;
+				}
+			}
+		});
+		builder.create().show();
+	}
+
+
+	private void getPhotoFromCamera(Intent data){
+		//String sdStatus = Environment.getExternalStorageState();
+		//Bundle bundle = data.getExtras();
+		//Bitmap bitmap = (Bitmap) bundle.get("data");// 获取相机返回的数据，并转换为Bitmap图片格式
+
+	}
+	/**
+	 * 裁剪图片方法实现
+	 *
+	 * @param uri
+	 */
+	protected void startPhotoZoom(Uri uri) {
+		if (uri == null) {
+			Log.i("tag", "The uri is not exist.");
+		}
+		Intent intent = new Intent("com.android.camera.action.CROP");
+		intent.setDataAndType(uri, "image/*");
+		// 设置裁剪
+		intent.putExtra("crop", "true");
+		// aspectX aspectY 是宽高的比例
+		intent.putExtra("aspectX", 1);
+		intent.putExtra("aspectY", 1);
+		// outputX outputY 是裁剪图片宽高
+		intent.putExtra("outputX", 150);
+		intent.putExtra("outputY", 150);
+		intent.putExtra("return-data", true);
+		startActivityForResult(intent, CROP_SMALL_PICTURE);
+	}
+
+	/**
+	 * 保存裁剪之后的图片数据
+	 *
+	 * @param
+	 *
+	 * @param data
+	 */
+	protected void setImageToView(Intent data) {
+		Bundle extras = data.getExtras();
+		if (extras != null) {
+			Bitmap bitmap = extras.getParcelable("data");
+			if (file == null) {
+				file = new File(ProtocolConst.FILEPATH);
+				if (!file.exists()) {
+					file.mkdirs();
+				}
+			}
+			FileOutputStream b = null;
+			String fileName = getActivity().getCacheDir()+"/ECMobile/cache"+"/"+uid+"-temp.jpg";
+			try {
+				b = new FileOutputStream(fileName);
+				bitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					b.flush();
+					b.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+			// draw转换为String
+			ByteArrayOutputStream stream = new ByteArrayOutputStream();
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 60, stream);
+			byte[] bs = stream.toByteArray();
+
+			// 将图片流以字符串形式存储下来
+			String user_img_str = new String(Base64Coder.encodeLines(bs));
+			((ImageView) view.findViewById(R.id.profile_head_photo)).setImageBitmap(bitmap);// 将图片显示在ImageView里
+
+			uploadPic(user_img_str);
+		}
+	}
+
+	private void uploadPic(String user_img_str) {
+		// 上传至服务器
+		Log.e("imagePath", user_img_str+"");
+		if(user_img_str != null){
+			userImgModel.uploadUserImg(user_img_str);
+		}
+	}
+
 }
+

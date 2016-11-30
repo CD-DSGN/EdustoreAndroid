@@ -26,6 +26,7 @@ public class ApiInterface
      public static final String USER_SIGNIN  ="/user/signin";
      public static final String USER_SIGNUP  ="/user/signup";
      /*begin added by chenggaoyuan*/
+     public static final String USER_IMG_UPLOAD  ="/user/post_avatar";
      public static final String USER_SINGUP_CHECK_PHONE = "/user/signupcheckphone";
      public static final String TEACHER_PUBLISH = "/interaction/teacherpublish";
      /*end added by chenggaoyuan*/

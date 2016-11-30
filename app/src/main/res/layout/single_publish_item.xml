@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="9.5dp"
+        android:paddingLeft="12.5dp"
+        android:paddingRight="18.5dp"
+        android:paddingTop="12.5dp">
+
+        <com.grandmagic.edustore.view.CircularImage
+            android:id="@+id/icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:scaleType="fitXY" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+
+                android:id="@+id/ll_replay_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="张老师"
+                    android:textColor="#6b8747"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:id="@+id/tv_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:text="阿呆沙发是大法师大法是否是大法师大法大术发达省份撒旦发所发生的阿斯大法阿斯顿发生大法是否发生发送方阿斯顿发生大法"
+                android:textColor="#505050"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2015-12-31 12:30"
+                android:textColor="#8e8e8e"
+                android:textSize="9.5sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

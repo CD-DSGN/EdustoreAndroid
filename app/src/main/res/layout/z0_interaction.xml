@@ -57,4 +57,10 @@
         android:scrollbars="none" >
     </com.external.maxwin.view.XListView>
 
+    <include
+        android:id="@+id/null_pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        layout="@layout/null_pager"
+        android:visibility="gone" />
 </LinearLayout>
