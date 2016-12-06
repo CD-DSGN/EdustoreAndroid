@@ -56,4 +56,5 @@ public class ApiInterface
      public static final String DELETE_TEACHER  ="/user/delete_teacher";
      public static final String TEACHER_INFO  ="/user/teacher_info";
      public static final String ALIXPAY_SIGN ="/get_sign";
+     public static final String FETCH_COMMENTS ="/user/comments_list";
 }

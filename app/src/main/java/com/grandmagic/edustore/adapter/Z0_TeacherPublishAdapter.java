@@ -30,6 +30,6 @@ public class Z0_TeacherPublishAdapter extends BeeBaseAdapter {
 
     @Override
     public View createCellView() {
-        return mInflater.inflate(R.layout.single_publish_item, null);
+        return mInflater.inflate(R.layout.z0_single_publish_item, null);
     }
 }

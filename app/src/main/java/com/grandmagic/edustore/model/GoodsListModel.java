@@ -101,7 +101,6 @@ public class GoodsListModel extends BaseModel {
 
     public void fetchPreSearchMore(FILTER filter) {
         searchRequest request = new searchRequest();
-        ;
 
         BeeCallback<JSONObject> cb = new BeeCallback<JSONObject>() {
 
