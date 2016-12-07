@@ -9,9 +9,9 @@ import org.json.JSONObject;
 /**
  * Created by chenggaoyuan on 2016/12/6.
  */
-public class TeacherComments extends Model {
+public class TEACHERCOMMENTS extends Model {
 
-    public PHOTO teacher_img;
+    public String teacher_img_small;
 
     public String teacher_name;
 
@@ -24,28 +24,34 @@ public class TeacherComments extends Model {
         if(null == jsonObject){
             return ;
         }
+        JSONObject teacher_info = jsonObject.optJSONObject("teacher_info");
+        JSONObject publish_info = jsonObject.optJSONObject("publish_info");
 
-        this.teacher_name = jsonObject.optString("teacher_name");
 
-        this.teacher_comments = jsonObject.optString("teacher_comments");
+        this.teacher_name = teacher_info.optString("real_name");
 
-        this.publish_time = jsonObject.optString("publish_time");
+        this.teacher_comments = publish_info.optString("news_content");
 
-        PHOTO img = new PHOTO();
-        img.fromJson(jsonObject.optJSONObject("teacher_img"));
-        this.teacher_img = img;
+        this.publish_time = publish_info.optString("publish_time");
+
+        this.teacher_img_small = teacher_info.optString("avatar");
 
         return;
     }
 
     public JSONObject toJson() throws JSONException{
+        JSONObject localObj_teacher_info = new JSONObject();
+        JSONObject localObj_publish_info = new JSONObject();
         JSONObject localItemObject = new JSONObject();
-        localItemObject.put("teacher_name",teacher_name);
-        localItemObject.put("teacher_comments",teacher_comments);
-        localItemObject.put("publish_time",publish_time);
-        if(null!=teacher_img){
-            localItemObject.put("teacher_img",teacher_img.toJson());
-        }
+
+        localObj_teacher_info.put("real_name",teacher_name);
+        localObj_teacher_info.put("avatar",teacher_img_small);
+        localObj_publish_info.put("news_content",teacher_comments);
+        localObj_publish_info.put("publish_time",publish_time);
+
+        localItemObject.put("teacher_info",localObj_teacher_info);
+        localItemObject.put("publish_info",localObj_publish_info);
+
         return localItemObject;
     }
 }

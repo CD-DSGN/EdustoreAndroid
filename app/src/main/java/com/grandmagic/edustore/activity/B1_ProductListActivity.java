@@ -356,7 +356,7 @@ public class B1_ProductListActivity extends BaseActivity implements BusinessResp
             tabThreeCellHolder.titleTextView.setTextColor(selectedTextColor);
 
             filter.sort_by = dataModel.PRICE_DESC;
-            dataModel.fetchPreSearch(filter);;
+            dataModel.fetchPreSearch(filter);
         }
         else
         {

@@ -17,7 +17,7 @@ public class fetchCommentsResponse extends Model {
     @Column(name = "status")
     public STATUS   status;
 
-    public ArrayList<TeacherComments> data = new ArrayList<TeacherComments>();
+    public ArrayList<TEACHERCOMMENTS> data = new ArrayList<TEACHERCOMMENTS>();
 
     @Column(name = "paginated")
     public PAGINATED   paginated;
@@ -28,18 +28,20 @@ public class fetchCommentsResponse extends Model {
             return ;
         }
 
-        JSONArray subItemArray;
+
         STATUS  status = new STATUS();
         status.fromJson(jsonObject.optJSONObject("status"));
         this.status = status;
 
-        subItemArray = jsonObject.optJSONArray("data");
+        JSONArray subItemArray;
+        JSONObject info = jsonObject.optJSONObject("data");
+        subItemArray = info.optJSONArray("info");
         if(null != subItemArray)
         {
             for(int i = 0;i < subItemArray.length();i++)
             {
                 JSONObject subItemObject = subItemArray.getJSONObject(i);
-                TeacherComments subItem = new TeacherComments();
+                TEACHERCOMMENTS subItem = new TEACHERCOMMENTS();
                 subItem.fromJson(subItemObject);
                 this.data.add(subItem);
             }
@@ -62,11 +64,13 @@ public class fetchCommentsResponse extends Model {
 
         for(int i =0; i< data.size(); i++)
         {
-            TeacherComments itemData =data.get(i);
+            TEACHERCOMMENTS itemData =data.get(i);
             JSONObject itemJSONObject = itemData.toJson();
             itemJSONArray.put(itemJSONObject);
         }
-        localItemObject.put("data", itemJSONArray);
+        JSONObject localItemObject_info = new JSONObject();
+        localItemObject_info.put("info",itemJSONArray);
+        localItemObject.put("data", localItemObject_info);
         if(null != paginated)
         {
             localItemObject.put("paginated", paginated.toJson());

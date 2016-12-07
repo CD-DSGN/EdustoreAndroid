@@ -24,7 +24,7 @@ public class userImgRequest extends Model {
         SESSION session = new SESSION();
         session.fromJson(jsonObject.optJSONObject("session"));
         this.session = session;
-        return ;
+        return;
     }
 
     public JSONObject  toJson() throws JSONException

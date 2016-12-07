@@ -50,10 +50,11 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#00000000"
-        android:divider="#00000000"
+        android:divider="#cccccc"
         android:fadingEdge="none"
-        android:footerDividersEnabled="false"
+        android:footerDividersEnabled="true"
         android:headerDividersEnabled="false"
+        android:dividerHeight="1px"
         android:scrollbars="none" >
     </com.external.maxwin.view.XListView>
 

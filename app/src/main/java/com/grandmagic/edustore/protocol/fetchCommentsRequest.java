@@ -11,8 +11,9 @@ import org.json.JSONObject;
  */
 public class fetchCommentsRequest {
 
-        @Column(name = "pagination")
-        public PAGINATION   pagination;
+    public PAGINATION   pagination;
+
+    public SESSION session;
 
 
 
@@ -26,6 +27,10 @@ public class fetchCommentsRequest {
         pagination.fromJson(jsonObject.optJSONObject("pagination"));
         this.pagination = pagination;
 
+        SESSION session = new SESSION();
+        session.fromJson(jsonObject.optJSONObject("session"));
+        this.session = session;
+
         return ;
     }
 
@@ -35,6 +40,10 @@ public class fetchCommentsRequest {
         if(null != pagination)
         {
             localItemObject.put("pagination", pagination.toJson());
+        }
+
+        if(null != session){
+            localItemObject.put("session", session.toJson());
         }
 
         return localItemObject;
