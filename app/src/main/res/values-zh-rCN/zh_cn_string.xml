@@ -435,4 +435,6 @@
     <string name="search_teacher_full_name">请输入教师全名</string>
     <string name="upload_img_success">上传头像成功</string>
     <string name="teacher_name">教师姓名</string>
+    <string name="presell">预售</string>
+    <string name="presell_shipping_time">预售时间</string>
 </resources>

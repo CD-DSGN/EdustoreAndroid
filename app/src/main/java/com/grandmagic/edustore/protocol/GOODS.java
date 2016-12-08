@@ -8,6 +8,8 @@ import com.external.activeandroid.Model;
 import com.external.activeandroid.annotation.Column;
 import com.external.activeandroid.annotation.Table;
 
+
+
 @Table(name = "GOODS")
 public class GOODS  extends Model
 {
@@ -71,6 +73,13 @@ public class GOODS  extends Model
 
     @Column(name="collected")
     public int collected;
+
+    @Column(name="is_presell")
+    public int is_presell;
+
+    @Column(name="presell_shipping_time")
+    public String presell_shipping_time;
+
 
 
      public ArrayList<SPECIFICATION>   specification = new ArrayList<SPECIFICATION>();
@@ -171,6 +180,9 @@ public class GOODS  extends Model
          }
      }
 
+     this.is_presell = jsonObject.optInt("is_presell");
+     this.presell_shipping_time = jsonObject.optString("presell_shipping_time");
+
      return ;
  }
 
@@ -231,6 +243,8 @@ public class GOODS  extends Model
          itemJSONArray.put(itemJSONObject);
      }
      localItemObject.put("specification", itemJSONArray);
+     localItemObject.put("is_presell", is_presell);
+     localItemObject.put("presell_shipping_time", presell_shipping_time);
      return localItemObject;
  }
 

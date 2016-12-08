@@ -434,4 +434,6 @@
     <string name="search_teacher_full_name">please using full name of teacher to search</string>
     <string name="upload_img_success">upload image successfully</string>
     <string name="teacher_name">name of teacher</string>  
+    <string name="presell">presell</string>
+    <string name="presell_shipping_time">shipping time of presell</string>
 </resources>

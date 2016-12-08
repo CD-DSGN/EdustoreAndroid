@@ -25,6 +25,7 @@ import java.util.TimerTask;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import com.grandmagic.BeeFramework.Utils.TimeUtil;
@@ -41,7 +42,11 @@ import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -489,7 +494,24 @@ public class B2_ProductDetailActivity extends BaseActivity implements BusinessRe
         	pager.setVisibility(View.GONE);
         	xlistView.setRefreshTime();
             GoodDetailDraft.getInstance().goodDetail = dataModel.goodDetail;
-            goodBriefTextView.setText(dataModel.goodDetail.goods_name );
+//            text_presell.length() + 2 + dataModel.goodDetail.goods_name.length()
+            //zhangmengqi begin
+            int isPresell = dataModel.goodDetail.is_presell;
+            if (isPresell > 0) {
+                String text_presell = getResources().getString(R.string.presell);
+                String span_text_presell = "[" + text_presell + "]";
+                SpannableStringBuilder ssb = new SpannableStringBuilder(span_text_presell + dataModel.goodDetail.goods_name);
+                ssb.setSpan(new ForegroundColorSpan(Color.RED), 0, span_text_presell.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                goodBriefTextView.setText(ssb);
+            }else{
+                goodBriefTextView.setText(dataModel.goodDetail.goods_name);
+            }
+            //zhangmengqi end
+
+
+
+
+
             String brp=resource.getString(R.string.formerprice);
             String marketStr=resource.getString(R.string.market_price);
             goodPromotePriceTextView.setText(dataModel.goodDetail.formated_promote_price);
@@ -532,6 +554,18 @@ public class B2_ProductDetailActivity extends BaseActivity implements BusinessRe
             for(int i=0;i<dataModel.goodDetail.rank_prices.size();i++) {
             	contentString += "<br>"+dataModel.goodDetail.rank_prices.get(i).rank_name+"：" + dataModel.goodDetail.rank_prices.get(i).price+"</br>";
             }
+
+            //zhangmengqi begin
+            //如果是预售商品
+            String presell_tag = getResources().getString(R.string.presell_shipping_time);
+
+            String presll_shipping_time =  dataModel.goodDetail.presell_shipping_time;
+            if (isPresell > 0 && !TextUtils.isEmpty(presll_shipping_time)) {
+                contentString += "<br>" + presell_tag + ": " + presll_shipping_time +"</br>";
+            }
+
+            //zhangmengqi end
+
 
             Spanned htmlString = Html.fromHtml(contentString);
             
