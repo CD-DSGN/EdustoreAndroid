@@ -1,5 +1,7 @@
 package com.grandmagic.edustore.protocol;
 
+import android.content.Intent;
+
 import com.external.activeandroid.Model;
 import com.external.activeandroid.annotation.Column;
 
@@ -22,6 +24,10 @@ public class fetchCommentsResponse extends Model {
     @Column(name = "paginated")
     public PAGINATED   paginated;
 
+    public static int IDLE = 0;   //作为学生没有关注教师,或者作为老师没有发表
+    public static int FOLLOW = 1; //作为学生关注至少一位教师，或者作为老师至少有一次发表
+    public int follow = IDLE;
+
     public void  fromJson(JSONObject jsonObject)  throws JSONException
     {
         if(null == jsonObject){
@@ -35,15 +41,19 @@ public class fetchCommentsResponse extends Model {
 
         JSONArray subItemArray;
         JSONObject info = jsonObject.optJSONObject("data");
-        subItemArray = info.optJSONArray("info");
-        if(null != subItemArray)
-        {
-            for(int i = 0;i < subItemArray.length();i++)
-            {
-                JSONObject subItemObject = subItemArray.getJSONObject(i);
-                TEACHERCOMMENTS subItem = new TEACHERCOMMENTS();
-                subItem.fromJson(subItemObject);
-                this.data.add(subItem);
+        if(info != null) {
+            subItemArray = info.optJSONArray("info");
+            if(subItemArray != null){
+                for(int i = 0;i < subItemArray.length();i++)
+                {
+                    JSONObject subItemObject = subItemArray.getJSONObject(i);
+                    TEACHERCOMMENTS subItem = new TEACHERCOMMENTS();
+                    subItem.fromJson(subItemObject);
+                    this.data.add(subItem);
+                }
+            }
+            if(1 == info.optInt("no_follow")){
+                this.follow = FOLLOW;
             }
         }
 
@@ -70,6 +80,8 @@ public class fetchCommentsResponse extends Model {
         }
         JSONObject localItemObject_info = new JSONObject();
         localItemObject_info.put("info",itemJSONArray);
+        localItemObject_info.put("no_follow",this.follow);
+
         localItemObject.put("data", localItemObject_info);
         if(null != paginated)
         {

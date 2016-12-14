@@ -55,13 +55,20 @@
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="false"
         android:dividerHeight="1px"
-        android:scrollbars="none" >
+        android:scrollbars="none"
+        android:visibility="gone" >
     </com.external.maxwin.view.XListView>
 
     <include
-        android:id="@+id/null_pager"
+        android:id="@+id/notlogin"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        layout="@layout/null_pager"
+        layout="@layout/not_login"
+        android:visibility="gone" />
+    <include
+        android:id="@+id/notpublish"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        layout="@layout/not_publish"
         android:visibility="gone" />
 </LinearLayout>

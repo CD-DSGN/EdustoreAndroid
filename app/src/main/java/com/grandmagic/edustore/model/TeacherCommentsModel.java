@@ -28,15 +28,21 @@ import java.util.Map;
  */
 public class TeacherCommentsModel extends BaseModel{
 
-
     public ArrayList<TEACHERCOMMENTS> singleTeacherCommentList = new ArrayList<TEACHERCOMMENTS>();
+
     public STATUS responseStatus;
 
-    public static final int PAGE_COUNT = 6;
+    public int follow_or_not;
+
+    public static final int PAGE_COUNT = 10;
+
     public TeacherCommentsModel(Context context) {
         super(context);
     }
 
+    private void setFollow(int tmp){
+        this.follow_or_not = tmp;
+    }
     public void fetchComments(){
         fetchCommentsRequest request = new fetchCommentsRequest();
         BeeCallback<JSONObject> cb = new BeeCallback<JSONObject>(){
@@ -57,6 +63,7 @@ public class TeacherCommentsModel extends BaseModel{
                                 singleTeacherCommentList.addAll(data);
 
                             }
+                            setFollow(response.follow);
 
                             TeacherCommentsModel.this.OnMessageResponse(url, jo, status);
                         }
@@ -124,8 +131,10 @@ public class TeacherCommentsModel extends BaseModel{
         };
 
         PAGINATION pagination = new PAGINATION();
-        pagination.page = //(int) Math.ceil((double) simplegoodsList.size() * 1.0 / PAGE_COUNT) + 1;
+        pagination.page = (int) Math.ceil((double) singleTeacherCommentList.size() * 1.0 / PAGE_COUNT) + 1;
         pagination.count = PAGE_COUNT;
+        SESSION session = SESSION.getInstance();
+        request.session = session;
         request.pagination = pagination;
 
         Map<String, String> params = new HashMap<String, String>();

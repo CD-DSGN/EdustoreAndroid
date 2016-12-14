@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,10 @@ import com.grandmagic.edustore.activity.G0_SettingActivity;
 import com.grandmagic.edustore.activity.Z1_TeacherPublishActivity;
 import com.grandmagic.edustore.adapter.Z0_TeacherCommentsAdapter;
 import com.grandmagic.edustore.model.TeacherCommentsModel;
+import com.grandmagic.edustore.model.UserInfoModel;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.PAGINATED;
+import com.grandmagic.edustore.protocol.USER;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,7 +44,8 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
 
     private String uid;
 
-    private View null_pager;
+    private View not_login;
+    private View not_publish;
 
     private XListView commentsListView;
 
@@ -49,38 +53,55 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
 
     private Z0_TeacherCommentsAdapter teacherCommentsAdapter;
 
+    private UserInfoModel userInfoModel;
+
+    private USER _user;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        shared = getActivity().getSharedPreferences("userInfo", 0);
-        editor = shared.edit();
-        uid = shared.getString("uid", "");
-        teacherCommentsModel = new TeacherCommentsModel(this.getActivity());
+
+        if(null == teacherCommentsModel){
+            teacherCommentsModel = new TeacherCommentsModel(this.getActivity());
+        }
         teacherCommentsModel.addResponseListener(this);
+
+        if (null == userInfoModel)
+        {
+            userInfoModel = new UserInfoModel(getActivity());
+        }
+        userInfoModel.addResponseListener(this);
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.z0_interaction,null);
+        Log.d("chenggaoyuan", "oncreateview");
+        shared = getActivity().getSharedPreferences("userInfo", 0);
+        editor = shared.edit();
+        uid = shared.getString("uid", "");
 
-        //headView = LayoutInflater.from(getActivity()).inflate(R.layout., null);
+        not_login = view.findViewById(R.id.notlogin);
+        not_publish = view.findViewById(R.id.notpublish);
+        publish = (TextView) view.findViewById(R.id.teacher_publish);
+        commentsListView = (XListView) view.findViewById(R.id.interaction_list);
 
-        null_pager = view.findViewById(R.id.null_pager);
-        if (!uid.equals("")){
-            publish = (TextView) view.findViewById(R.id.teacher_publish);
-            publish.setVisibility(View.VISIBLE);
-            publish.setOnClickListener(this);
+        if(uid.equals("")){
+            not_login.setVisibility(View.VISIBLE);
+            not_publish.setVisibility(View.GONE);
+            commentsListView.setVisibility(View.GONE);
+            publish.setVisibility(View.GONE);
         }else{
-            null_pager.setVisibility(View.VISIBLE);
+            userInfoModel.getUserInfo();
+            teacherCommentsModel.fetchComments();
         }
 
-        commentsListView = (XListView) view.findViewById(R.id.interaction_list);
+        publish.setOnClickListener(this);
+
         commentsListView.setPullLoadEnable(true);
         commentsListView.setRefreshTime();
         commentsListView.setXListViewListener(this,1);
-
-        teacherCommentsModel.fetchComments();
 
         return view;
     }
@@ -90,9 +111,13 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
         if(teacherCommentsAdapter == null){
 
             if(teacherCommentsModel.singleTeacherCommentList.size() == 0){
-                null_pager.setVisibility(View.VISIBLE);
+                not_publish.setVisibility(View.VISIBLE);
+                not_login.setVisibility(View.GONE);
+                commentsListView.setVisibility(View.GONE);
             } else{
-                null_pager.setVisibility(View.GONE);
+                not_publish.setVisibility(View.GONE);
+                not_login.setVisibility(View.GONE);
+                commentsListView.setVisibility(View.VISIBLE);
                 teacherCommentsAdapter = new Z0_TeacherCommentsAdapter(this.getActivity(),teacherCommentsModel.singleTeacherCommentList);
                 commentsListView.setAdapter(teacherCommentsAdapter);
 
@@ -104,6 +129,16 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        userInfoModel.removeResponseListener(this);
+        super.onDestroy();
+    }
 
     @Override
     public void onClick(View v) {
@@ -114,7 +149,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
                 intent = new Intent(getActivity(), Z1_TeacherPublishActivity.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-                    break;
+                break;
             default:
                 break;
         }
@@ -123,7 +158,9 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void onRefresh(int id) {
-        teacherCommentsModel.fetchComments();
+        if (!uid.equals("")){
+            teacherCommentsModel.fetchComments();
+        }
     }
 
     @Override
@@ -148,6 +185,23 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
             else
             {
                 commentsListView.setPullLoadEnable(true);
+            }
+            Log.d("chenggaoyuan", String.valueOf(teacherCommentsModel.follow_or_not));
+            if(0 == teacherCommentsModel.follow_or_not){
+                not_publish.setVisibility(View.VISIBLE);
+                not_login.setVisibility(View.GONE);
+                commentsListView.setVisibility(View.GONE);
+            }else if(1 == teacherCommentsModel.follow_or_not){
+                not_publish.setVisibility(View.GONE);
+                not_login.setVisibility(View.GONE);
+                commentsListView.setVisibility(View.VISIBLE);
+            }
+        } else if (url.endsWith(ApiInterface.USER_INFO)){
+            _user = userInfoModel.user;
+            if(_user.is_teacher.equals("0")){
+                publish.setVisibility(View.GONE);
+            }else {
+                publish.setVisibility(View.VISIBLE);
             }
         }
     }
