@@ -42,7 +42,6 @@ import com.grandmagic.BeeFramework.view.ToastView;
 import com.grandmagic.edustore.ECMobileAppConst;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.protocol.SESSION;
-import com.umeng.analytics.MobclickAgent;
 
 import java.net.URLDecoder;
 

@@ -42,7 +42,6 @@ import android.view.animation.Animation.AnimationListener;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.activity.EcmobileMainActivity;
 import com.grandmagic.edustore.activity.GalleryImageActivity;
-import com.umeng.analytics.MobclickAgent;
 
 public class StartActivity extends Activity {
     private Context context;
@@ -51,8 +50,6 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         final View startView = View.inflate(this, R.layout.splash, null);
         setContentView(startView);
-        MobclickAgent.openActivityDurationTrack(false);
-        MobclickAgent.onError(this);
         context = this;
         //渐变
         AlphaAnimation aa = new AlphaAnimation(0.3f, 1.0f);

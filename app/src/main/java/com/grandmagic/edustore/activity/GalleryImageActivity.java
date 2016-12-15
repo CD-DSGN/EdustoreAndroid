@@ -41,7 +41,6 @@ import com.grandmagic.BeeFramework.Utils.Utils;
 import com.grandmagic.BeeFramework.activity.BaseActivity;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.adapter.GalleryImageAdapter;
-import com.umeng.analytics.MobclickAgent;
 
 public class GalleryImageActivity extends BaseActivity implements OnGestureListener, OnTouchListener {
 	

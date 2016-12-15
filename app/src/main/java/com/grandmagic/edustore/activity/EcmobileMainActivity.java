@@ -42,7 +42,6 @@ import com.grandmagic.grandMagicManager.GrandMagicManager;
 import com.insthub.ecmobile.EcmobilePush;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.protocol.FILTER;
-import com.umeng.analytics.MobclickAgent;
 
 public class EcmobileMainActivity extends FragmentActivity
 {
@@ -166,9 +165,7 @@ public class EcmobileMainActivity extends FragmentActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if(GrandMagicManager.getUmengKey(this)!=null){
-            MobclickAgent.onResume(this, GrandMagicManager.getUmengKey(this), "");
-        }
+
 
     }
 
@@ -222,9 +219,7 @@ public class EcmobileMainActivity extends FragmentActivity
     @Override
     protected void onPause() {
         super.onPause();
-        if(GrandMagicManager.getUmengKey(this)!=null){
-            MobclickAgent.onPause(this);
-        }
+
     }
 
 

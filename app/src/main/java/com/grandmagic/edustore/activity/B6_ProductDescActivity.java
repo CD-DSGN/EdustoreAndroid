@@ -16,7 +16,6 @@ package com.grandmagic.edustore.activity;
 import android.content.res.Resources;
 import com.grandmagic.BeeFramework.activity.BaseActivity;
 import com.grandmagic.edustore.protocol.ApiInterface;
-import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 

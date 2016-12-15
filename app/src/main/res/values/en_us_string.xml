@@ -436,4 +436,5 @@
     <string name="teacher_name">name of teacher</string>  
     <string name="presell">presell</string>
     <string name="presell_shipping_time">shipping time of presell</string>
+    <string name="all_goods_category">all goods and category</string>
 </resources>

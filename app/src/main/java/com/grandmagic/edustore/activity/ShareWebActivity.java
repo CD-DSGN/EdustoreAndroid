@@ -26,7 +26,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.umeng.analytics.MobclickAgent;
 
 public class ShareWebActivity extends Activity {
 

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import com.grandmagic.edustore.activity.AlixPayActivity;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.ORDER_INFO;
-import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -290,14 +289,12 @@ public class C0_ShoppingCartFragment extends BaseFragment implements BusinessRes
     public void onResume() {
          
         super.onResume();
-        MobclickAgent.onPageStart("ShopCart");
     }
 
     @Override
     public void onPause() {
          
         super.onPause();
-        MobclickAgent.onPageEnd("ShopCart");
     }
 
 

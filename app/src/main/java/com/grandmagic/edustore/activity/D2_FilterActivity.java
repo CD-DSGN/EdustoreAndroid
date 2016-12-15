@@ -34,7 +34,6 @@ import com.grandmagic.edustore.model.AdvanceSearchModel;
 import com.grandmagic.edustore.model.GoodDetailDraft;
 import com.grandmagic.edustore.model.ProtocolConst;
 import com.grandmagic.edustore.protocol.*;
-import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 

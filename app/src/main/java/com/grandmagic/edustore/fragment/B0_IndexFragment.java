@@ -66,7 +66,6 @@ import com.insthub.ecmobile.EcmobileManager;
 import com.insthub.ecmobile.EcmobileManager.RegisterApp;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -320,7 +319,6 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
 		
 		ConfigModel configModel = new ConfigModel(getActivity());
         configModel.getConfig();
-        MobclickAgent.onPageStart("Home");
 
         //zhangmengqi begin
         bannerView.startImageCycle();
@@ -519,7 +517,6 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("Home");
         //zhangmengqi begin
         bannerView.pushImageCycle();
         //zhangmengqi end

@@ -13,7 +13,6 @@ import com.grandmagic.edustore.adapter.D0_CategoryAdapter;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.CATEGORY;
 import com.grandmagic.edustore.protocol.FILTER;
-import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -130,12 +129,10 @@ public class D0_AllCategoryActivity extends BaseActivity implements BusinessResp
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("Search");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("Search");
     }
 }

@@ -23,7 +23,6 @@ import android.content.res.Resources;
 import com.grandmagic.edustore.EcmobileApp;
 import com.grandmagic.edustore.protocol.*;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 

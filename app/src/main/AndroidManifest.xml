@@ -47,6 +47,14 @@
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="4" />
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="584fcf95e88bad491f0005a1" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng" >
+        </meta-data>
 
         <activity android:name=".activity.EcmobileMainActivity"
             android:screenOrientation="portrait" 

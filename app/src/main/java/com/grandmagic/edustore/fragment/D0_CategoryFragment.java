@@ -33,7 +33,6 @@ import com.grandmagic.edustore.adapter.D0_CategoryAdapter;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.CATEGORY;
 import com.grandmagic.edustore.protocol.FILTER;
-import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import android.content.res.Resources;
 import org.json.JSONObject;
@@ -316,13 +315,11 @@ public class D0_CategoryFragment extends BaseFragment implements OnClickListener
     public void onResume() {
         super.onResume();
         input.setText("");
-        MobclickAgent.onPageStart("Search");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("Search");
     }
     private SpeechListener listener = new SpeechListener()
     {

@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import android.content.res.Resources;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.grandMagicManager.GrandMagicManager;
-import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -244,18 +243,12 @@ public class C0_ShoppingCartActivity extends BaseActivity  implements BusinessRe
     public void onResume() {        
         super.onResume();
 
-        if(GrandMagicManager.getUmengKey(this)!=null){
-            MobclickAgent.onPageStart("ShopCart");
-            MobclickAgent.onResume(this, GrandMagicManager.getUmengKey(this),"");
-        }
+
     }
 
     @Override
     public void onPause() {        
         super.onPause();
-        if(GrandMagicManager.getUmengKey(this)!=null){
-            MobclickAgent.onPageEnd("ShopCart");
-            MobclickAgent.onPause(this);
-        }
+
     }
 }

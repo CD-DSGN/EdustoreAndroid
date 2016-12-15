@@ -20,7 +20,6 @@ import com.grandmagic.BeeFramework.activity.BaseActivity;
 import com.grandmagic.grandMagicManager.GrandMagicManager;
 
 import com.grandmagic.edustore.protocol.ApiInterface;
-import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -132,10 +131,7 @@ public class F0_AddressListActivity extends BaseActivity implements BusinessResp
 	protected void onResume() {		
 		super.onResume();
 		addressModel.getAddressList();
-        if(GrandMagicManager.getUmengKey(this)!=null){
-            MobclickAgent.onPageStart("AddressManage");
-            MobclickAgent.onResume(this, GrandMagicManager.getUmengKey(this),"");
-        }
+
 	}
 
 	@Override
@@ -166,9 +162,6 @@ public class F0_AddressListActivity extends BaseActivity implements BusinessResp
     @Override
     public void onPause() {
         super.onPause();
-        if(GrandMagicManager.getUmengKey(this)!=null){
-            MobclickAgent.onPageEnd("AddressManage");
-            MobclickAgent.onPause(this);
-        }
+
     }
 }

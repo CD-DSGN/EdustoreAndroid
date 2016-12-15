@@ -19,7 +19,6 @@ import android.widget.ImageView;
 
 import com.grandmagic.BeeFramework.activity.BaseActivity;
 import com.grandmagic.edustore.R;
-import com.umeng.analytics.MobclickAgent;
 
 public class AppOutActivity extends BaseActivity {
 

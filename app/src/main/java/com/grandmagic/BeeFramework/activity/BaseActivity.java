@@ -40,6 +40,8 @@ import android.os.Message;
 import com.grandmagic.BeeFramework.model.ActivityManagerModel;
 import com.grandmagic.BeeFramework.model.BusinessMessage;
 import com.grandmagic.edustore.R;
+import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONException;
 
 @SuppressLint("NewApi")
@@ -84,12 +86,16 @@ public class BaseActivity extends Activity implements Handler.Callback
         super.onResume();
 
         ActivityManagerModel.addForegroundActivity(this);
+        //友盟session统计
+        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         ActivityManagerModel.removeForegroundActivity(this);
+        //友盟session统计
+        MobclickAgent.onPause(this);
     }
 
     @Override

@@ -61,7 +61,6 @@ import com.grandmagic.edustore.model.UserImgModel;
 import com.grandmagic.edustore.model.UserInfoModel;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.USER;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -139,7 +138,7 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		 
-		
+
 		view = inflater.inflate(R.layout.e0_profile, null);
 		
 		mContext = getActivity();
@@ -280,7 +279,6 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
 			camera.setVisibility(View.GONE);
 		}
 		isRefresh = false;
-        MobclickAgent.onPageStart("Profile");
 	}
 	
 	// set User 信息
@@ -597,7 +595,6 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
     public void onPause() {
          
         super.onPause();
-        MobclickAgent.onPageEnd("Profile");
     }
 	/*begin,added by chenggaoyuan*/
 	protected void showChoosePicDialog() {

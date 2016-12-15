@@ -55,6 +55,7 @@ import com.grandmagic.BeeFramework.activity.DebugCancelDialogActivity;
 import com.grandmagic.BeeFramework.activity.DebugTabActivity;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.protocol.SESSION;
+import com.umeng.analytics.MobclickAgent;
 
 public class BeeFrameworkApp extends Application implements OnClickListener{
     private static BeeFrameworkApp instance;
@@ -83,8 +84,13 @@ public class BeeFrameworkApp extends Application implements OnClickListener{
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + BeeFrameworkConst.LOG_DIR_PATH;
         File storePath = new File(path);
         storePath.mkdirs();
-        Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(
-                path, null));
+        //自己捕捉没有什么意义，交给友盟去捕捉
+//        Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(
+//                path, null));
+        MobclickAgent.setCatchUncaughtExceptions(true);
+        //设置为普通场景
+        MobclickAgent.setScenarioType(getApplicationContext(), MobclickAgent.EScenarioType.E_UM_NORMAL);
+
     }
     
     void initConfig() {

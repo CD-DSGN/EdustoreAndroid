@@ -13,7 +13,6 @@ package com.grandmagic.edustore.activity;
 //  Powered by BeeFramework
 //
 
-import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 

@@ -30,7 +30,6 @@ import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.adapter.D0_CategoryAdapter;
 import com.grandmagic.edustore.protocol.CATEGORY;
 import com.grandmagic.edustore.protocol.FILTER;
-import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -110,18 +109,12 @@ public class D1_CategoryActivity extends BaseActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if(GrandMagicManager.getUmengKey(this)!=null){
-            MobclickAgent.onPageStart("CategoryList");
-            MobclickAgent.onResume(this, GrandMagicManager.getUmengKey(this),"");
-        }
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if(GrandMagicManager.getUmengKey(this)!=null){
-            MobclickAgent.onPageEnd("CategoryList");
-            MobclickAgent.onPause(this);
-        }
+
     }
 }

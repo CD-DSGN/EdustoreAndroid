@@ -21,7 +21,6 @@ import com.grandmagic.edustore.adapter.C6_RedEnvelopeAdapter;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.BONUS;
 import com.grandmagic.edustore.protocol.flowcheckOrderResponse;
-import com.umeng.analytics.MobclickAgent;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

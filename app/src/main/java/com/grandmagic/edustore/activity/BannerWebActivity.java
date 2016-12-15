@@ -28,7 +28,6 @@ import android.widget.TextView;
 
 import com.grandmagic.BeeFramework.activity.BaseActivity;
 import com.grandmagic.edustore.R;
-import com.umeng.analytics.MobclickAgent;
 
 public class BannerWebActivity extends BaseActivity {
 

@@ -49,7 +49,6 @@ import com.grandmagic.grandMagicManager.GrandMagicManager;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
-import com.umeng.analytics.MobclickAgent;
 import com.unionpay.UPPayAssistEx;
 import com.unionpay.uppay.PayActivity;
 
@@ -378,18 +377,12 @@ public class E4_HistoryActivity extends BaseActivity implements BusinessResponse
     @Override
     public void onResume() {
         super.onResume();
-        if(GrandMagicManager.getUmengKey(this)!=null){
-            MobclickAgent.onPageStart(getIntent().getStringExtra("flag"));
-            MobclickAgent.onResume(this, GrandMagicManager.getUmengKey(this),"");
-        }
+
 }
     @Override
     public void onPause() {
         super.onPause();
-        if (GrandMagicManager.getUmengKey(this) != null) {
-            MobclickAgent.onPageEnd(getIntent().getStringExtra("flag"));
-            MobclickAgent.onPause(this);
-        }
+
     }
 
     @Override

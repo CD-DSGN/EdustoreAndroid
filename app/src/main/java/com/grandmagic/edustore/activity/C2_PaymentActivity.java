@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import android.content.res.Resources;
 import com.grandmagic.BeeFramework.activity.BaseActivity;
 import com.grandmagic.edustore.protocol.flowcheckOrderResponse;
-import com.umeng.analytics.MobclickAgent;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

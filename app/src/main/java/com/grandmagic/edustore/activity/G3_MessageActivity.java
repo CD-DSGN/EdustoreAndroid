@@ -40,7 +40,6 @@ import com.grandmagic.edustore.model.MsgModel.OnMessageListResponse;
 import com.grandmagic.edustore.model.ProtocolConst;
 import com.grandmagic.edustore.protocol.FILTER;
 import com.grandmagic.edustore.protocol.MESSAGE;
-import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 

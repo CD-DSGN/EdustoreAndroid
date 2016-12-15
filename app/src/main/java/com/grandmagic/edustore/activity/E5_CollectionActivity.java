@@ -20,7 +20,6 @@ import com.grandmagic.BeeFramework.activity.BaseActivity;
 import com.grandmagic.grandMagicManager.GrandMagicManager;
 
 import com.grandmagic.edustore.protocol.ApiInterface;
-import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -187,17 +186,11 @@ public class E5_CollectionActivity extends BaseActivity implements BusinessRespo
     @Override
     public void onResume() {
         super.onResume();
-        if(GrandMagicManager.getUmengKey(this)!=null){
-            MobclickAgent.onPageStart("Collect");
-            MobclickAgent.onResume(this, GrandMagicManager.getUmengKey(this),"");
-        }
+
     }
     @Override
     public void onPause() {
         super.onPause();
-        if(GrandMagicManager.getUmengKey(this)!=null){
-            MobclickAgent.onPageEnd("Collect");
-            MobclickAgent.onPause(this);
-        }
+
     }
 }

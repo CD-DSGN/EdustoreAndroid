@@ -26,7 +26,6 @@ import com.grandmagic.grandMagicManager.GrandMagicManager;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.FILTER;
 import com.grandmagic.edustore.protocol.PAGINATED;
-import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -546,10 +545,7 @@ public class B1_ProductListActivity extends BaseActivity implements BusinessResp
 	@Override
 	protected void onResume() {		
 		super.onResume();
-        if(GrandMagicManager.getUmengKey(this)!=null){
-            MobclickAgent.onResume(this, GrandMagicManager.getUmengKey(this), "");
-            MobclickAgent.onPageStart("FilterPage");
-        }
+
 		if(ShoppingCartModel.getInstance().goods_num == 0) {
 			good_list_shopping_cart_num_bg.setVisibility(View.GONE);
         } else {
@@ -568,10 +564,7 @@ public class B1_ProductListActivity extends BaseActivity implements BusinessResp
     @Override
     protected void onPause() {
         super.onPause();
-        if(GrandMagicManager.getUmengKey(this)!=null){
-            MobclickAgent.onPageEnd("FilterPage");
-            MobclickAgent.onPause(this);
-        }
+
 
     }
 }

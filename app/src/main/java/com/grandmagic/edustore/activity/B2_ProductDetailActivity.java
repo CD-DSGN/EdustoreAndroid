@@ -32,7 +32,6 @@ import com.grandmagic.BeeFramework.Utils.TimeUtil;
 import com.grandmagic.grandMagicManager.GrandMagicManager;
 
 import com.grandmagic.edustore.protocol.ApiInterface;
-import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -661,10 +660,7 @@ public class B2_ProductDetailActivity extends BaseActivity implements BusinessRe
         if(isFresh){
             dataModel.fetchGoodDetail(Integer.parseInt(dataModel.goodId));
         }
-        if(GrandMagicManager.getUmengKey(this)!=null){
-            MobclickAgent.onPageStart("GoodDetail");
-            MobclickAgent.onResume(this, GrandMagicManager.getUmengKey(this),"");
-        }
+
 
     }
 
@@ -785,9 +781,6 @@ public class B2_ProductDetailActivity extends BaseActivity implements BusinessRe
     @Override
     protected void onPause() {
         super.onPause();
-        if(GrandMagicManager.getUmengKey(this)!=null){
-            MobclickAgent.onPageEnd("GoodDetail");
-            MobclickAgent.onPause(this);
-        }
+
     }
 }
