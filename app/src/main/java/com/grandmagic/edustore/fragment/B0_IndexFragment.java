@@ -32,6 +32,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
+import com.bigkoo.convenientbanner.holder.Holder;
+import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.external.androidquery.callback.AjaxStatus;
 import com.external.maxwin.view.XListView;
 import com.external.viewpagerindicator.PageIndicator;
@@ -71,35 +75,29 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
+import static android.R.attr.data;
 
 
+public class B0_IndexFragment extends BaseFragment implements BusinessResponse, XListView.IXListViewListener, RegisterApp, OnMessageContResponse {
 
-public class B0_IndexFragment extends BaseFragment implements BusinessResponse,XListView.IXListViewListener, RegisterApp, OnMessageContResponse
-{
-    private ViewPager bannerViewPager;
-    private PageIndicator mIndicator;
     private MyListView mListView;
     private B0_IndexAdapter listAdapter;
 
-    private ArrayList<View> bannerListView;
-    private Bee_PageAdapter bannerPageAdapter;
-    CircleFrameLayout bannerView;
-
-    private View mTouchTarget;
     private ShoppingCartModel shoppingCartModel;
 
-	private HomeModel dataModel ;
+    private HomeModel dataModel;
     private MsgModel msgModel;
 
-	private ImageView back;
-	private TextView title;
+    private ImageView back;
+    private TextView title;
     //private LinearLayout title_right_button;
     private TextView headUnreadTextView;
-	
+
     private SharedPreferences shared;
-	private SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editor;
     protected ImageLoader imageLoader = ImageLoader.getInstance();
 
     private LinearLayout b0_index_banner_and_button;
@@ -111,6 +109,9 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
     private EditText input;
     private ImageView search_search;
 
+    private ConvenientBanner mConvenientBanner;
+    private ArrayList<String> images = new ArrayList<String>();
+    String imageType;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,29 +119,29 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
 
     }
 
-	@Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         imageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
-        View mainView = inflater.inflate(R.layout.b0_index,null);
+        View mainView = inflater.inflate(R.layout.b0_index, null);
 
         input = (EditText) mainView.findViewById(R.id.search_input);
         search_search = (ImageView) mainView.findViewById(R.id.search_search);
+
+        shared = getActivity().getSharedPreferences("userInfo", 0);
+        editor = shared.edit();
+        imageType = shared.getString("imageType", "mind"); //一开始读一次数据
 
         input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-                if (actionId == EditorInfo.IME_ACTION_SEARCH)
-                {
-                    try
-                    {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    try {
                         searchByKeyWord();
                         return true;
 
-                    }
-                    catch (JSONException e)
-                    {
+                    } catch (JSONException e) {
 
                     }
                 }
@@ -151,30 +152,23 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
         search_search.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                try
-                {
+                try {
                     searchByKeyWord();
 
-                }
-                catch (JSONException e)
-                {
+                } catch (JSONException e) {
 
                 }
             }
         });
 
 
-        if (null == MsgModel.getInstance())
-        {
+        if (null == MsgModel.getInstance()) {
             msgModel = new MsgModel(getActivity());
-        }
-        else
-        {
+        } else {
             msgModel = MsgModel.getInstance();
         }
 
-        if (null == dataModel)
-        {
+        if (null == dataModel) {
             dataModel = new HomeModel(getActivity());
             dataModel.fetchHotSelling();
             dataModel.fetchCategoryGoods();
@@ -183,19 +177,17 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
 
         //msgModel.addResponseListener(this);
         //msgModel.getUnreadMessageCount();
-        
-        
-        if (null == ConfigModel.getInstance())
-        {
+
+
+        if (null == ConfigModel.getInstance()) {
             ConfigModel configModel = new ConfigModel(getActivity());
             configModel.getConfig();
         }
 
         dataModel.addResponseListener(this);
 
-        //bannerView = (CircleFrameLayout)LayoutInflater.from(getActivity()).inflate(R.layout.b0_index_banner, null);
         b0_index_banner_and_button = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.b0_index_banner_and_button, null);
-        headUnreadTextView = (TextView)b0_index_banner_and_button.findViewById(R.id.head_unread_num);
+        headUnreadTextView = (TextView) b0_index_banner_and_button.findViewById(R.id.head_unread_num);
 
         all_category_btn = (ImageView) b0_index_banner_and_button.findViewById(R.id.all_category);
         all_category_btn.setOnClickListener(new OnClickListener() {
@@ -244,46 +236,28 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
             }
         });
 
+        mConvenientBanner = (ConvenientBanner) b0_index_banner_and_button.findViewById(R.id.index_banner);
 
-        bannerView = (CircleFrameLayout)b0_index_banner_and_button.findViewById(R.id.index_banner);
-        bannerViewPager = (ViewPager) bannerView.findViewById(R.id.banner_viewpager);
-        
-        LayoutParams params1 = bannerViewPager.getLayoutParams();
-		params1.width = getDisplayMetricsWidth();
-		params1.height = (int) (params1.width*1.0/484*200);
-		
-		bannerViewPager.setLayoutParams(params1);
+        LayoutParams params1 = mConvenientBanner.getLayoutParams();
+        params1.width = getDisplayMetricsWidth();
+        params1.height = (int) (params1.width * 1.0 / 484 * 200);
 
-        bannerListView = new ArrayList<View>();
+        mConvenientBanner.setLayoutParams(params1);
 
-        
-        bannerPageAdapter = new Bee_PageAdapter(bannerListView);
-
-        bannerViewPager.setAdapter(bannerPageAdapter);
-//        bannerViewPager.setCurrentItem(0);
-
-        mIndicator = (PageIndicator)bannerView.findViewById(R.id.indicator);
-        mIndicator.setViewPager(bannerViewPager);
-
-        bannerView.setPageIndicator(mIndicator);
-        bannerView.setViewPager(bannerViewPager);
-
-        mListView = (MyListView)mainView.findViewById(R.id.home_listview);
+        mListView = (MyListView) mainView.findViewById(R.id.home_listview);
         mListView.addHeaderView(b0_index_banner_and_button);
-        mListView.bannerView = bannerView;
 
         mListView.setPullLoadEnable(false);
         mListView.setPullRefreshEnable(true);
-        mListView.setXListViewListener(this,0);
+        mListView.setXListViewListener(this, 0);
         mListView.setRefreshTime();
 
         homeSetAdapter();
 
-		ShoppingCartModel shoppingCartModel = new ShoppingCartModel(getActivity());
-		shoppingCartModel.addResponseListener(this);
-		shoppingCartModel.homeCartList();
+        ShoppingCartModel shoppingCartModel = new ShoppingCartModel(getActivity());
+        shoppingCartModel.addResponseListener(this);
+        shoppingCartModel.homeCartList();
 
-//        bannerViewPager.startImageCycle();
         return mainView;
     }
 
@@ -291,7 +265,7 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
         Intent intent = new Intent(getActivity(), B1_ProductListActivity.class);
         FILTER filter = new FILTER();
         filter.keywords = input.getText().toString().toString();
-        intent.putExtra(B1_ProductListActivity.FILTER,filter.toJson().toString());
+        intent.putExtra(B1_ProductListActivity.FILTER, filter.toJson().toString());
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.push_right_in,
                 R.anim.push_right_out);
@@ -299,76 +273,73 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
 
 
     public boolean isActive = false;
+
     @Override
     public void onResume() {
         super.onResume();
-       
+
         if (!isActive) {
             isActive = true;
-//            EcmobileManager.registerApp(this);
-//    		EcmobileManager.startWork(getActivity(), ECMobileAppConst.AppId, ECMobileAppConst.AppKey);
+            //            EcmobileManager.registerApp(this);
+            //    		EcmobileManager.startWork(getActivity(), ECMobileAppConst.AppId, ECMobileAppConst.AppKey);
 
-//            GrandMagicManager.registerApp(this);
+            //            GrandMagicManager.registerApp(this);
             GrandMagicManager.startWork(getActivity(), ECMobileAppConst.AppId, ECMobileAppConst.AppKey);
         }
-        
+
         msgModel.getMessageCont();
         msgModel.messageContCallBack(this);
-        
+
         LoginModel loginModel = new LoginModel(getActivity());
-		
-		ConfigModel configModel = new ConfigModel(getActivity());
+
+        ConfigModel configModel = new ConfigModel(getActivity());
         configModel.getConfig();
 
         //zhangmengqi begin
-        bannerView.startImageCycle();
+        //        bannerView.startImageCycle();
+        mConvenientBanner.startTurning(5000);
+
         //zhangmengqi end
     }
 
     public void homeSetAdapter() {
-    	if(dataModel.homeDataCache() != null) {
-          if (null == listAdapter)
-          {
-              listAdapter = new B0_IndexAdapter(getActivity(), dataModel);
-
-          }
-          mListView.setAdapter(listAdapter);
-          addBannerView();
-    	}
-    	
-    	
-    }
-
-    public void OnMessageResponse(String url, JSONObject jo, AjaxStatus status)
-    {
-        if (url.endsWith(ApiInterface.HOME_DATA))
-        {
-            mListView.stopRefresh();
-            mListView.setRefreshTime();
-
-            if (null == listAdapter)
-            {
+        if (dataModel.homeDataCache() != null) {
+            if (null == listAdapter) {
                 listAdapter = new B0_IndexAdapter(getActivity(), dataModel);
+
             }
             mListView.setAdapter(listAdapter);
             addBannerView();
         }
-        else if (url.endsWith(ApiInterface.HOME_CATEGORY))
-        {
+
+
+    }
+
+    public void OnMessageResponse(String url, JSONObject jo, AjaxStatus status) {
+        shared = getActivity().getSharedPreferences("userInfo", 0);
+        editor = shared.edit();
+        imageType = shared.getString("imageType", "mind");
+        if (url.endsWith(ApiInterface.HOME_DATA)) {
             mListView.stopRefresh();
             mListView.setRefreshTime();
 
-            if (null == listAdapter)
-            {
+            if (null == listAdapter) {
                 listAdapter = new B0_IndexAdapter(getActivity(), dataModel);
             }
             mListView.setAdapter(listAdapter);
             addBannerView();
-        } 
-        else if (url.endsWith(ApiInterface.CART_LIST))
-        {
-        	TabsFragment.setShoppingcartNum();
-		}
+        } else if (url.endsWith(ApiInterface.HOME_CATEGORY)) {
+            mListView.stopRefresh();
+            mListView.setRefreshTime();
+
+            if (null == listAdapter) {
+                listAdapter = new B0_IndexAdapter(getActivity(), dataModel);
+            }
+            mListView.setAdapter(listAdapter);
+            //            addBannerView();
+        } else if (url.endsWith(ApiInterface.CART_LIST)) {
+            TabsFragment.setShoppingcartNum();
+        }
     }
 
     @Override
@@ -377,14 +348,13 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
     }
 
     @Override
-    public void onDestroy() {    
-    	super.onDestroy();
-    	dataModel.removeResponseListener(this);
-        bannerView.pushImageCycle();
+    public void onDestroy() {
+        super.onDestroy();
+        dataModel.removeResponseListener(this);
+
     }
 
-    public void onRefresh(int id)
-    {
+    public void onRefresh(int id) {
 
         dataModel.fetchHotSelling();
         dataModel.fetchCategoryGoods();
@@ -396,143 +366,75 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public void addBannerView()
-    {
-        bannerListView.clear();
-        for (int i = 0; i < dataModel.playersList.size(); i++)
-        {
-            PLAYER player = dataModel.playersList.get(i);
-            ImageView  viewOne =  (ImageView)LayoutInflater.from(getActivity()).inflate(R.layout.b0_index_banner_cell,null);
-
-            shared = getActivity().getSharedPreferences("userInfo", 0); 
-    		editor = shared.edit();
-    		String imageType = shared.getString("imageType", "mind");
-    		
-    		if(imageType.equals("high")) {
-                imageLoader.displayImage(player.photo.thumb,viewOne, EcmobileApp.options);
-    		} else if(imageType.equals("low")) {
-                imageLoader.displayImage(player.photo.small,viewOne, EcmobileApp.options);
-    		} else {
-    			String netType = shared.getString("netType", "wifi");
-    			if(netType.equals("wifi")) {
-                    imageLoader.displayImage(player.photo.thumb,viewOne, EcmobileApp.options);
-    			} else {
-                    imageLoader.displayImage(player.photo.small,viewOne, EcmobileApp.options);
-    			}
-    		}
-            
-            try
-            {
-                viewOne.setTag(player.toJson().toString());
-            }
-            catch (JSONException e)
-            {
-
-            }
-
-            bannerListView.add(viewOne);
-
-            viewOne.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-
-                    String playerJSONString = (String) v.getTag();
-
-                    try {
-                        JSONObject jsonObject = new JSONObject(playerJSONString);
-                        PLAYER player1 = new PLAYER();
-                         player1.fromJson(jsonObject);
-                        if (null == player1.action)
-                        {
-                            if (null != player1.url) {
-                                Intent intent = new Intent(getActivity(), BannerWebActivity.class);
-                                intent.putExtra("url", player1.url);
-                                startActivity(intent);
-                                getActivity().overridePendingTransition(R.anim.push_right_in,
-                                        R.anim.push_right_out);
-                            }
-                        }
-                        else
-                        {
-                            if (player1.action.equals("goods"))
-                            {
-                                Intent intent = new Intent(getActivity(), B2_ProductDetailActivity.class);
-                                intent.putExtra("good_id", player1.action_id+"");
-                                getActivity().startActivity(intent);
-                                getActivity().overridePendingTransition(R.anim.push_right_in,
-                                        R.anim.push_right_out);
-                            }
-                            else if (player1.action.equals("category"))
-                            {
-                                Intent intent = new Intent(getActivity(), B1_ProductListActivity.class);
-                                FILTER filter = new FILTER();
-                                filter.category_id = String.valueOf(player1.action_id);
-                                intent.putExtra(B1_ProductListActivity.FILTER,filter.toJson().toString());
-                                startActivity(intent);
-                                getActivity().overridePendingTransition(R.anim.push_right_in,
-                                        R.anim.push_right_out);
-                            }
-                            else if (null != player1.url)
-                            {
-                                Intent intent = new Intent(getActivity(), BannerWebActivity.class);
-                                intent.putExtra("url", player1.url);
-                                startActivity(intent);
-                                getActivity().overridePendingTransition(R.anim.push_right_in,
-                                        R.anim.push_right_out);
-                            }
-                        }
-
-                    } catch (JSONException e) {
-
-                    }
-
+    public void addBannerView() {
+        images.clear();
+        PLAYER player;
+        for (int i = 0; i < dataModel.playersList.size(); i++) {
+            player = dataModel.playersList.get(i);
+            if (imageType.equals("high")) {
+                images.add(player.photo.small);
+            } else if (imageType.equals("low")) {
+                images.add(player.photo.thumb);
+            } else {
+                String netType = shared.getString("netType", "wifi");
+                if (netType.equals("wifi")) {
+                    images.add(player.photo.small);
+                } else {
+                    images.add(player.photo.thumb);
                 }
-            });
+            }
 
         }
-
-        mIndicator.notifyDataSetChanged();
-        mIndicator.setCurrentItem(0);
-        bannerPageAdapter.mListViews = bannerListView;
-        bannerViewPager.setAdapter(bannerPageAdapter);
-        bannerView.startImageCycle();
+        mConvenientBanner.setPages(
+                new CBViewHolderCreator<NetworkImageHolderView>() {
+                    @Override
+                    public NetworkImageHolderView createHolder() {
+                        return new NetworkImageHolderView();
+                    }
+                }, images)
+                //设置两个点图片作为翻页指示器，不设置则没有指示器，可以根据自己需求自行配合自己的指示器,不需要圆点指示器可用不设
+                .setPageIndicator(new int[]{R.drawable.ic_page_indicator, R.drawable.ic_page_indicator_focused})
+                //设置指示器的方向
+                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
+                .setOnItemClickListener(new BannerOnItemClickListener());
+        mConvenientBanner.notifyDataSetChanged();
 
     }
-    
-	//获取屏幕宽度
-	public int getDisplayMetricsWidth() {
-		int i = getActivity().getWindowManager().getDefaultDisplay().getWidth();
-		int j = getActivity().getWindowManager().getDefaultDisplay().getHeight();
-		return Math.min(i, j);
-	}
+
+    //获取屏幕宽度
+
+    public int getDisplayMetricsWidth() {
+        int i = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+        int j = getActivity().getWindowManager().getDefaultDisplay().getHeight();
+        return Math.min(i, j);
+    }
 
 
-	@Override
-	public void onRegisterResponse(boolean success) {
-		 
-	}
+    @Override
+    public void onRegisterResponse(boolean success) {
+
+    }
 
 
     @Override
     public void onPause() {
         super.onPause();
         //zhangmengqi begin
-        bannerView.pushImageCycle();
+        mConvenientBanner.stopTurning();
         //zhangmengqi end
 
     }
-    
+
     @Override
     public void onStop() {
-    	 
-    	super.onStop();
-    	if (!isAppOnForeground()) {
+
+        super.onStop();
+        if (!isAppOnForeground()) {
             //app 进入后台
             isActive = false;
         }
     }
-    
+
     /**
      * 程序是否在前台运行
      *
@@ -547,7 +449,7 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
 
         List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
         if (appProcesses == null) {
-        	return false;
+            return false;
         }
         for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
             // The name of the process that this object is associated with.
@@ -560,19 +462,89 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse,X
         return false;
     }
 
-    
-	@Override
-	public void onMessageContResponse(JSONObject response) {
-		 
-		if (msgModel.unreadCount > 0)
-        {
+
+    @Override
+    public void onMessageContResponse(JSONObject response) {
+
+        if (msgModel.unreadCount > 0) {
             headUnreadTextView.setVisibility(View.VISIBLE);
-            headUnreadTextView.setText(""+msgModel.unreadCount);
-        }
-         else
-        {
+            headUnreadTextView.setText("" + msgModel.unreadCount);
+        } else {
             headUnreadTextView.setVisibility(View.GONE);
         }
-	}
+    }
 
+    public class NetworkImageHolderView implements Holder<String> {
+        private ImageView imageView;
+
+        @Override
+        public View createView(Context context) {
+            //你可以通过layout文件来创建，也可以像我一样用代码创建，不一定是Image，任何控件都可以进行翻页
+            imageView = (ImageView) LayoutInflater.from(getActivity()).inflate(R.layout.b0_index_banner_cell, null);
+            return imageView;
+        }
+
+        @Override
+        public void UpdateUI(Context context, int position, String data) {
+            if (imageType.equals("high")) {
+                imageLoader.displayImage(data, imageView, EcmobileApp.options);
+            } else if (imageType.equals("low")) {
+                imageLoader.displayImage(data, imageView, EcmobileApp.options);
+            } else {
+                String netType = shared.getString("netType", "wifi");
+                if (netType.equals("wifi")) {
+                    imageLoader.displayImage(data, imageView, EcmobileApp.options);
+                } else {
+                    imageLoader.displayImage(data, imageView, EcmobileApp.options);
+                }
+            }
+        }
+    }
+
+
+    private class BannerOnItemClickListener implements OnItemClickListener {
+        @Override
+        public void onItemClick(int position) {
+            if (dataModel.playersList.size() > 0) {
+                PLAYER player = dataModel.playersList.get(position);
+                try {
+                    if (null == player.action) {
+                        if (null != player.url) {
+                            Intent intent = new Intent(getActivity(), BannerWebActivity.class);
+                            intent.putExtra("url", player.url);
+                            startActivity(intent);
+                            getActivity().overridePendingTransition(R.anim.push_right_in,
+                                    R.anim.push_right_out);
+                        }
+                    } else {
+                        if (player.action.equals("goods")) {
+                            Intent intent = new Intent(getActivity(), B2_ProductDetailActivity.class);
+                            intent.putExtra("good_id", player.action_id + "");
+                            getActivity().startActivity(intent);
+                            getActivity().overridePendingTransition(R.anim.push_right_in,
+                                    R.anim.push_right_out);
+                        } else if (player.action.equals("category")) {
+                            Intent intent = new Intent(getActivity(), B1_ProductListActivity.class);
+                            FILTER filter = new FILTER();
+                            filter.category_id = String.valueOf(player.action_id);
+                            intent.putExtra(B1_ProductListActivity.FILTER, filter.toJson().toString());
+                            startActivity(intent);
+                            getActivity().overridePendingTransition(R.anim.push_right_in,
+                                    R.anim.push_right_out);
+                        } else if (null != player.url) {
+                            Intent intent = new Intent(getActivity(), BannerWebActivity.class);
+                            intent.putExtra("url", player.url);
+                            startActivity(intent);
+                            getActivity().overridePendingTransition(R.anim.push_right_in,
+                                    R.anim.push_right_out);
+                        }
+                    }
+
+                } catch (JSONException e) {
+
+                }
+
+            }
+        }
+    }
 }
