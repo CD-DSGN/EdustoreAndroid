@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.external.androidquery.callback.AjaxStatus;
 import com.grandmagic.BeeFramework.activity.BaseActivity;
@@ -22,6 +23,9 @@ import com.grandmagic.edustore.protocol.ApiInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by chenggaoyuan on 2016/8/22.
@@ -42,7 +46,15 @@ public class A1_01_SignupInputPhoneNumActivity extends BaseActivity implements B
 
     private boolean is_teacher;
 
+    private View dividor;
+
+    private LinearLayout ll_invitation_code;
+
     ActivityStackManager mActivityStackManager;
+
+    private String invitation_code_str; //邀请码字符串
+
+    private EditText et_invitation_code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +64,19 @@ public class A1_01_SignupInputPhoneNumActivity extends BaseActivity implements B
         Intent mIntent = this.getIntent();
         is_teacher = mIntent.getBooleanExtra("is_teacher",false);
 
+        dividor = findViewById(R.id.view_dividor);
 
+        ll_invitation_code = (LinearLayout) findViewById(R.id.ll_invitation_code);
+
+        et_invitation_code = (EditText) findViewById(R.id.et_invitation_code);
+
+        if (is_teacher) {
+            //显示邀请码项
+            showOrHideInvitationCode(true);
+        }else{
+            //隐藏注册码项
+            showOrHideInvitationCode(false);
+        }
 
         Log.d("chenggaoyuan", String.valueOf(is_teacher));
         resource = getBaseContext().getResources();
@@ -74,20 +98,43 @@ public class A1_01_SignupInputPhoneNumActivity extends BaseActivity implements B
             @Override
             public void onClick(View v) {
                 mobilePhone = EditTextPhoneNum.getText().toString();
-                if(judgePhoneNums(mobilePhone) == true){
-                //将手机号发送到服务器校验
-                    mRegisterPNCModel.sendPhoneNumToServer(mobilePhone);
-                }else{
+                if(!judgePhoneNums(mobilePhone)){
                     String pnff = resource.getString(R.string.phone_number_format_false);
-                    ToastView toast = new ToastView(A1_01_SignupInputPhoneNumActivity.this, pnff);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    showToast(pnff);
                 }
+
+                invitation_code_str = et_invitation_code.getText().toString();
+                if (!TextUtils.isEmpty(invitation_code_str)) {
+                    //将小写全部替换为大写
+                    invitation_code_str = invitation_code_str.toUpperCase();
+                    //判断字符串是否包含非法字符
+                    if (invitationCodeContainsInvalidChars(invitation_code_str)) {
+                        showToast(getResources().getString(R.string.invalid_invitation_code));
+                    }
+                }
+
+                mRegisterPNCModel.sendPhoneNumToServer(mobilePhone);
+
             }
         });
 
         mActivityStackManager = ActivityStackManager.getInstance();
         mActivityStackManager.pushOneActivity(this);
+    }
+
+    private void showToast(String pnff) {
+        ToastView toast = new ToastView(A1_01_SignupInputPhoneNumActivity.this, pnff);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+    }
+
+    private void showOrHideInvitationCode(boolean b) {
+        if (b) {
+            dividor.setVisibility(View.VISIBLE);
+            ll_invitation_code.setVisibility(View.VISIBLE);
+        }else{
+            dividor.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -162,6 +209,7 @@ public class A1_01_SignupInputPhoneNumActivity extends BaseActivity implements B
                 mobilePhone = EditTextPhoneNum.getText().toString();
                 mIntent.putExtra("phonenumber",mobilePhone);
                 mIntent.putExtra("is_teacher",is_teacher);
+                mIntent.putExtra("invitation_code", invitation_code_str);
                 startActivity(mIntent);
             }
         }
@@ -171,5 +219,13 @@ public class A1_01_SignupInputPhoneNumActivity extends BaseActivity implements B
     protected void onDestroy() {
         super.onDestroy();
         mActivityStackManager.popOneActivity(this);
+    }
+
+
+    //本地检查邀请码是否包含非法字符
+    private boolean invitationCodeContainsInvalidChars(String str) {
+        Pattern pattern = Pattern.compile("[0-9a-z]*");
+        Matcher matcher = pattern.matcher(str);
+        return !(matcher.matches());
     }
 }

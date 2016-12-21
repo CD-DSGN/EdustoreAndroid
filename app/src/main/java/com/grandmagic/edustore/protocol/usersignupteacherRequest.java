@@ -47,25 +47,26 @@ public class usersignupteacherRequest extends Model
      @Column(name = "district")
      public String district;
 
-     public void  fromJson(JSONObject jsonObject)  throws JSONException
-     {
-          if(null == jsonObject){
-            return ;
-           }
+     @Column(name = "invite_code")
+     public String invite_code;
+
+     public void fromJson(JSONObject jsonObject) throws JSONException {
+
+          if (null == jsonObject) {
+               return;
+          }
 
           JSONArray subItemArray;
 
           subItemArray = jsonObject.optJSONArray("field");
-          if(null != subItemArray)
-           {
-              for(int i = 0;i < subItemArray.length();i++)
-               {
-                  JSONObject subItemObject = subItemArray.getJSONObject(i);
-                  FIELD subItem = new FIELD();
-                  subItem.fromJson(subItemObject);
-                  this.field.add(subItem);
+          if (null != subItemArray) {
+               for (int i = 0; i < subItemArray.length(); i++) {
+                    JSONObject subItemObject = subItemArray.getJSONObject(i);
+                    FIELD subItem = new FIELD();
+                    subItem.fromJson(subItemObject);
+                    this.field.add(subItem);
                }
-           }
+          }
 
 
           this.name = jsonObject.optString("name");
@@ -80,8 +81,9 @@ public class usersignupteacherRequest extends Model
           this.province = jsonObject.optString("province");
           this.city = jsonObject.optString("city");
           this.district = jsonObject.optString("district");
+          this.invite_code = jsonObject.optString("invite_code");
 
-          return ;
+          return;
      }
 
      public JSONObject  toJson() throws JSONException 
@@ -99,6 +101,7 @@ public class usersignupteacherRequest extends Model
           localItemObject.put("province", province);
           localItemObject.put("city", city);
           localItemObject.put("district", district);
+          localItemObject.put("invite_code", invite_code);
 
           return localItemObject;
      }

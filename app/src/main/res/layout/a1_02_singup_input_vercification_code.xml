@@ -84,8 +84,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/get_verification_code"
+                    android:textColor="#ffffff"
                     android:layout_gravity="center"
-                    android:background="@color/default_line_indicator_selected_color"/>
+                    android:background="@color/default_register_button_color"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -98,7 +99,7 @@
             android:layout_margin="5dp"
             android:textSize="20dp"
             android:textColor="#ffffff"
-            android:background="@color/default_line_indicator_selected_color"/>
+            android:background="@color/default_register_button_color"/>
 
     </LinearLayout>
 

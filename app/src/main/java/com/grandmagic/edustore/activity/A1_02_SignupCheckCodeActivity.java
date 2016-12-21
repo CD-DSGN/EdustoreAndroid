@@ -64,6 +64,8 @@ public class A1_02_SignupCheckCodeActivity extends BaseActivity implements Busin
 
     ActivityStackManager mActivityStackManager;
 
+    private String invitation_code;
+
     Handler obHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -92,9 +94,7 @@ public class A1_02_SignupCheckCodeActivity extends BaseActivity implements Busin
         Intent mIntent = this.getIntent();
         phoneNumber = mIntent.getStringExtra("phonenumber");
         is_teacher = mIntent.getBooleanExtra("is_teacher",false);
-
-
-
+        invitation_code = mIntent.getStringExtra("invitation_code");
 
         backB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +136,9 @@ public class A1_02_SignupCheckCodeActivity extends BaseActivity implements Busin
                         }else if(is_teacher==true){
                             Intent mIntent = new Intent(A1_02_SignupCheckCodeActivity.this, A1_SignupActivity_teacher.class);
                             mIntent.putExtra("phonenumber",phoneNumber);
+                            if (invitation_code != null) {
+                                mIntent.putExtra("invitation_code", invitation_code);
+                            }
                             startActivity(mIntent);
                         }
                     }else{
@@ -167,7 +170,7 @@ public class A1_02_SignupCheckCodeActivity extends BaseActivity implements Busin
         @Override
         public void onTick(long millisUntilFinished) {
 
-            reSendSms.setBackgroundColor(resource.getColor(R.color.default_line_indicator_unselected_color));
+            reSendSms.setBackgroundColor(resource.getColor(R.color.default_register_button_color));
             reSendSms.setClickable(false);
             reSendSms.setText(millisUntilFinished / 1000 + sr);
         }
@@ -177,7 +180,7 @@ public class A1_02_SignupCheckCodeActivity extends BaseActivity implements Busin
 
             reSendSms.setText(gvca);
             reSendSms.setClickable(true);
-            reSendSms.setBackgroundColor(resource.getColor(R.color.default_line_indicator_selected_color));
+            reSendSms.setBackgroundColor(resource.getColor(R.color.default_register_button_color));
 
         }
     }

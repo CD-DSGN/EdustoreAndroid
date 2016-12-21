@@ -112,6 +112,7 @@
 <string name="register_regist">注册</string>
 <string name="register_email">邮箱</string>
 <string name="register_confirm">确认密码</string>
+<string name="register_code">请输入邀请码（选填）</string>
 <string name="search_input">请输入搜索关键字</string>
 <string name="setting_picture">图片显示</string>
 <string name="setting_smartmode">智能模式</string>
@@ -437,4 +438,8 @@
     <string name="teacher_name">教师姓名</string>
     <string name="presell">预售</string>
     <string name="presell_shipping_time">预售时间</string>
+    <string name="invalid_invitation_code">邀请码包含非法字符，请确认后重新填写</string>
+    <string name="invitation_code">邀请码</string>
+    <string name="invitation_code_invalid">邀请码无效，请重新填写</string>
+    <string name="select_payment">选择该种支付方式支付</string>
 </resources>

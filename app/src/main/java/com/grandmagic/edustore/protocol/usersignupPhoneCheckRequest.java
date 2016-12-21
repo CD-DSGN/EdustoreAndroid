@@ -16,12 +16,16 @@ public class usersignupPhoneCheckRequest extends Model {
     @Column(name = "phonenum")
     public String phonenum;
 
+    @Column(name = "invitation_code")
+    public String invitation_code;
+
     public void fromJson(JSONObject jsonObject) throws JSONException
     {
         if(null==jsonObject){
             return;
         }
         this.phonenum = jsonObject.optString("phonenum");
+        this.invitation_code = jsonObject.optString("invitate_code");
         return;
     }
 
@@ -29,6 +33,7 @@ public class usersignupPhoneCheckRequest extends Model {
     {
         JSONObject localItemObject = new JSONObject();
         localItemObject.put("phonenum",phonenum);
+        localItemObject.put("invitate_code", invitation_code);
         return localItemObject;
     }
 }

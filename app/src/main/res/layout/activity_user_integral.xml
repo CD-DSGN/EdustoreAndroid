@@ -93,22 +93,52 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_user_invitation_code"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/body_cont"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:text="@string/invitation_code"
+            android:textColor="#000000"
+            android:textSize="16dp"/>
+
+        <TextView
+            android:id="@+id/tv_user_invitation_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="#a3a3a3"
+            android:textSize="16dp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/shopping_cart_body_bg_02"
+        android:background="@drawable/shopping_cart_body_bg_03"
         android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="60dp">
+        android:paddingTop="40dp"
+        android:paddingBottom="40dp"
+        android:layout_marginTop="10dp">
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:layout_marginLeft="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -124,13 +154,15 @@
                 android:layout_alignParentRight="true"
                 android:textColor="#ff0000"
                 android:textSize="12dp"
+                android:layout_marginRight="10dp"
                 />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:layout_marginLeft="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -145,14 +177,16 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:textColor="#ff0000"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:layout_marginRight="10dp"/>
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -168,7 +202,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="2dp">
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -183,7 +218,6 @@
 
 
     </LinearLayout>
-
 
 
 </LinearLayout>

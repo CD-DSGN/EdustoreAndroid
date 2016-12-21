@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -34,6 +35,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import static u.aly.av.S;
 
 public class C2_PaymentAdapter extends BaseAdapter {
 	
@@ -66,24 +69,42 @@ public class C2_PaymentAdapter extends BaseAdapter {
 
 	
 	@Override
-	public View getView(final int position, View convertView, ViewGroup parent) {		
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		System.out.println("getView");
 		final ViewHolder holder;
 		if(convertView == null) {
 			holder = new ViewHolder();
 			convertView = inflater.inflate(R.layout.c2_payment_cell, null);
 			holder.name = (TextView) convertView.findViewById(R.id.payment_item_name);
+			holder.pay_logo = (ImageView) convertView.findViewById(R.id.iv_pay_logo);
+			holder.pay_spec = (TextView) convertView.findViewById(R.id.tv_pay_spec);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
 		holder.name.setText(list.get(position).pay_name);
+		if (list.get(position).pay_name.equals("支付宝")) {
+			holder.pay_logo.setImageResource(R.drawable.zhifubao);
+			holder.pay_logo.setVisibility(View.VISIBLE);
+			holder.pay_spec.setText("支持支付宝支付的用户使用");
+
+		} else if (list.get(position).pay_name.equals("微信支付")) {
+
+			holder.pay_logo.setImageResource(R.drawable.weixin);
+			holder.pay_logo.setVisibility(View.VISIBLE);
+			holder.pay_spec.setText("亿万用户的选择，更快更安全");
+		} else {
+			holder.pay_logo.setVisibility(View.GONE);
+		}
 		
 		return convertView;
 	}
 	
 	class ViewHolder {
 		private TextView name;
+		private ImageView pay_logo;
+		private TextView pay_spec; //支付方式的说明
 	}
 
 }

@@ -24,6 +24,7 @@ public class ErrorCodeConst
     public final static int PhoneNumberExist = 12; //手机号已经存在,added by chenggaoyuan
     public final static int UnexistInformation = 13;//不存在的信息
     public final static int BuyFailed = 14;//购买失败
+    public final static int InvalidInvitation_CODE = 15;//邀请码有误
 
     public final static int InvalidSession = 100;//session 不合理
     public final static int InvalidParameter = 101;//错误的参数提交

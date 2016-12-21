@@ -437,4 +437,9 @@
     <string name="presell">presell</string>
     <string name="presell_shipping_time">shipping time of presell</string>
     <string name="all_goods_category">all goods and category</string>
+    <string name="register_code">invitation code(optional)</string>
+    <string name="invalid_invitation_code">invitation code is invalid，please fill in after confirm</string>
+    <string name="invitation_code">invitation code</string>
+    <string name="invitation_code_invalid">invitation code is not exist</string>
+    <string name="select_payment">select this way to pay</string>
 </resources>

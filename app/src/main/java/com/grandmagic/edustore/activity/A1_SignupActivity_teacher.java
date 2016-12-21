@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -46,6 +47,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class A1_SignupActivity_teacher extends BaseActivity implements View.OnClickListener, BusinessResponse {
     private ImageView back;
@@ -63,6 +66,8 @@ public class A1_SignupActivity_teacher extends BaseActivity implements View.OnCl
     private String course_str; //课程
     private String real_name_str; //真实姓名
     private String course_id;
+    private String invitation_code_str; //邀请码字符串
+
 
     private HashMap<String, String> course_id_name = new HashMap<String, String>();
 
@@ -92,6 +97,8 @@ public class A1_SignupActivity_teacher extends BaseActivity implements View.OnCl
     private String city_id;
     private String county_id;
 
+    private EditText et_invitation_code;
+
     private ActivityStackManager mActivityStackManager;
 
     @Override
@@ -116,6 +123,7 @@ public class A1_SignupActivity_teacher extends BaseActivity implements View.OnCl
         Intent intent = getIntent();
         //name = intent.getStringExtra("username");
         mobile_phone = intent.getStringExtra("phonenumber");
+        invitation_code_str = intent.getStringExtra("invitation_code");
     }
 
     private void initListener() {
@@ -229,7 +237,7 @@ public class A1_SignupActivity_teacher extends BaseActivity implements View.OnCl
     public void signup() {
         CloseKeyBoard(); //关闭键盘
         register_model_teacher.signup(name, passwordStr, mobile_phone, course_id, real_name_str,
-                school_str, country_id, province_id, city_id, county_id);
+                school_str, country_id, province_id, city_id, county_id, invitation_code_str);
     }
 
 

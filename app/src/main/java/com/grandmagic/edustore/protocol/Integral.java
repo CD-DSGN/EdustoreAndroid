@@ -34,6 +34,9 @@ public class Integral extends Model {
     @Column(name = "points_from_subscription")
     public String points_from_subscription;
 
+    @Column(name = "invitation_code")
+    public String invitation_code;
+
     public void fromJson(JSONObject jsonObject) throws JSONException {
         if (null == jsonObject) {
             return;
@@ -47,6 +50,7 @@ public class Integral extends Model {
         this.recommanded_teacher_num = jsonObject.optString("recommanded_teacher_num");
         this.points_from_affiliate = jsonObject.optString("points_from_affiliate");
         this.points_from_subscription = jsonObject.optString("points_from_subscription");
+        this.invitation_code = jsonObject.optString("invitation_code");
         return;
     }
 
@@ -60,6 +64,7 @@ public class Integral extends Model {
         localItemObject.put("recommanded_teacher_num", recommanded_teacher_num); //added by zhangmengqi
         localItemObject.put("points_from_affiliate", points_from_affiliate); //added by zhangmengqi
         localItemObject.put("points_from_subscription", points_from_subscription); //added by zhangmengqi
+        localItemObject.put("invitation_code", invitation_code); //added by zhangmengqi
         return localItemObject;
     }
 

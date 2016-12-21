@@ -216,6 +216,7 @@
                     android:layout_height="0.1dp"
                     android:background="#c4c4c4" />
 
+
                 <EditText
                     android:id="@+id/et_signup_teacher_step_two_password1"
                     android:layout_width="fill_parent"
@@ -253,6 +254,8 @@
                     android:maxLength="20"
                     android:textSize="16dp" />
 
+
+
             </LinearLayout>
 
             <Button
@@ -263,7 +266,7 @@
                 android:layout_margin="5dp"
                 android:textSize="20dp"
                 android:textColor="#ffffff"
-                android:background="@color/default_line_indicator_selected_color"/>
+                android:background="@color/default_register_button_color"/>
 
             <LinearLayout
                 android:id="@+id/register_body_teacher"

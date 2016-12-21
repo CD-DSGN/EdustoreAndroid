@@ -92,7 +92,7 @@ public class RegisterModel_teacher extends BaseModel {
     }
 
     public void signup(String name, String password, String mobile_phone, String course,
-                       String teacher_real_name, String school, String country, String province, String city, String district) {
+                       String teacher_real_name, String school, String country, String province, String city, String district, String invite_code) {
         usersignupteacherRequest request = new usersignupteacherRequest( );
 
         BeeCallback<JSONObject> cb = new BeeCallback<JSONObject>() {
@@ -137,6 +137,7 @@ public class RegisterModel_teacher extends BaseModel {
         request.province = province;
         request.city = city;
         request.district = district;
+        request.invite_code = invite_code;
 
         Map<String, String> params = new HashMap<String, String>();
         try {

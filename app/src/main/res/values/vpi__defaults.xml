@@ -29,6 +29,7 @@
     <dimen name="default_line_indicator_stroke_width">1dp</dimen>
     <color name="default_line_indicator_selected_color">#33b5e5</color>
     <color name="default_line_indicator_unselected_color">#FFBBBBBB</color>
+    <color name="default_register_button_color">#FFFD6825</color>
     <bool name="default_line_indicator_centered">true</bool>
 
     <dimen name="default_title_indicator_clip_padding">4dp</dimen>

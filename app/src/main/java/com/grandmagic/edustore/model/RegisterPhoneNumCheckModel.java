@@ -61,9 +61,7 @@ public class RegisterPhoneNumCheckModel extends BaseModel {
                             //手机号符合规则处理逻辑
                             Resources resource = mContext.getResources();
                             String verification_code_sended = resource.getString(R.string.verification_code_sended);
-                            ToastView toast = new ToastView(mContext, verification_code_sended);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
+                            showToast(verification_code_sended);
                             String code = mVerificationCode.veri_code;
                             editor.putString("code", code);
                             editor.commit();
@@ -72,9 +70,11 @@ public class RegisterPhoneNumCheckModel extends BaseModel {
                             //手机号码已经被注册
                             Resources resource = mContext.getResources();
                             String phone_number_exists = resource.getString(R.string.phone_number_exists);
-                            ToastView toast = new ToastView(mContext, phone_number_exists);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
+                            showToast(phone_number_exists);
+                        } else if (responseStatus.error_code == ErrorCodeConst.InvalidInvitation_CODE) {
+                            Resources resource = mContext.getResources();
+                            String phone_number_exists = resource.getString(R.string.invitation_code_invalid);
+                            showToast(phone_number_exists);
                         }
                         //使A1_SignupInputPhoneNumActivity中的回调函数OnMessageResponse发生作用
                         RegisterPhoneNumCheckModel.this.OnMessageResponse(url, jo, status);
@@ -97,6 +97,12 @@ public class RegisterPhoneNumCheckModel extends BaseModel {
         //aq.progress(pd.mDialog).ajax(cb);
         aq.ajax(cb);
 
+    }
+
+    private void showToast(String msg) {
+        ToastView toast = new ToastView(mContext, msg);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
 }

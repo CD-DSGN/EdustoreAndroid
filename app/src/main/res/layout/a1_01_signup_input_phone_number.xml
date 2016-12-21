@@ -45,7 +45,7 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="96dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/body_cont"
                 android:gravity="center_vertical"
@@ -99,16 +99,51 @@
                         android:maxLength="11"
                         android:textSize="16dp" />
                 </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.1dp"
+                    android:background="#c4c4c4"
+                    android:id="@+id/view_dividor"
+                    android:visibility="gone"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:orientation="horizontal"
+                    android:id="@+id/ll_invitation_code"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center"
+                        android:text="@string/invitation_code"
+                        android:textSize="16dp"
+                        android:paddingLeft="10dp"/>
+                    <EditText
+                        android:id="@+id/et_invitation_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#ffffff"
+                        android:gravity="center_vertical"
+                        android:hint="@string/register_code"
+                        android:singleLine="true"
+                        android:textColor="#000000"
+                        android:maxLength="11"
+                        android:textSize="16dp" />
+                </LinearLayout>
+
+
             </LinearLayout>
             <Button
                 android:id="@+id/get_verification_code"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="@string/get_verification_code"
+                android:text="@string/next_step"
                 android:layout_margin="10dp"
                 android:textSize="20dp"
                 android:textColor="#ffffff"
-                android:background="@color/default_line_indicator_selected_color"/>
+                android:background="@color/default_register_button_color"/>
         </LinearLayout>
 
 

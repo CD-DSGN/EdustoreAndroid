@@ -54,7 +54,7 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
-                android:textColor="#e0c0c0"
+                android:textColor="#666666"
                 android:textIsSelectable="true"
                 android:textSize="12dp"
                 />

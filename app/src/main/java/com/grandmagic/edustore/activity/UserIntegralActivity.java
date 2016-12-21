@@ -30,6 +30,7 @@ public class UserIntegralActivity extends BaseActivity implements View.OnClickLi
     private TextView tv_teacher_num;
     private TextView tv_points_from_affiliate;
     private TextView tv_points_from_subscription;
+    private TextView tv_invitation_code;
 
 
     private TeacherInfoModel teacherInfoModel;
@@ -60,6 +61,7 @@ public class UserIntegralActivity extends BaseActivity implements View.OnClickLi
         tv_teacher_num = (TextView) findViewById(R.id.tv_user_integral_teacher_num);
         tv_points_from_affiliate = (TextView) findViewById(R.id.tv_user_integral_teacher_recommand);
         tv_points_from_subscription = (TextView) findViewById(R.id.tv_user_integral_student_buy);
+        tv_invitation_code = (TextView) findViewById(R.id.tv_user_invitation_code);
 
     }
 
@@ -93,6 +95,8 @@ public class UserIntegralActivity extends BaseActivity implements View.OnClickLi
 
         tv_points_from_affiliate.setText(integral.points_from_affiliate);
         tv_points_from_subscription.setText(integral.points_from_subscription);
+
+        tv_invitation_code.setText(integral.invitation_code);
     }
 
     @Override
