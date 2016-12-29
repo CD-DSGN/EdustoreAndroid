@@ -34,6 +34,7 @@ import com.grandmagic.BeeFramework.model.BusinessResponse;
 import com.grandmagic.BeeFramework.view.MyDialog;
 import com.grandmagic.edustore.ECMobileAppConst;
 import com.grandmagic.edustore.R;
+import com.grandmagic.edustore.fragment.B0_IndexFragment;
 import com.grandmagic.edustore.model.ConfigModel;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.SESSION;
@@ -291,7 +292,8 @@ public class G0_SettingActivity extends BaseActivity implements OnClickListener,
 					mDialog.dismiss();
 					editor.putString("uid", "");
 		            editor.putString("sid", "");
-		            editor.commit();
+					B0_IndexFragment.login_is_teacher = -1;
+					editor.commit();
 		            SESSION.getInstance().uid = shared.getString("uid", "");
 		            SESSION.getInstance().sid = shared.getString("sid", "");
 		           

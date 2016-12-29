@@ -22,6 +22,7 @@ import com.grandmagic.BeeFramework.view.MyProgressDialog;
 import com.grandmagic.BeeFramework.view.ToastView;
 import com.grandmagic.edustore.ErrorCodeConst;
 import com.grandmagic.edustore.R;
+import com.grandmagic.edustore.fragment.B0_IndexFragment;
 import com.grandmagic.edustore.protocol.*;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -115,6 +116,7 @@ public class RegisterModel extends BaseModel {
                             user.save();
                             editor.putString("uid", session.uid);
                             editor.putString("sid", session.sid);
+                            B0_IndexFragment.login_is_teacher = 0;
                             editor.commit();
                             RegisterModel.this.OnMessageResponse(url, jo, status);
                         }

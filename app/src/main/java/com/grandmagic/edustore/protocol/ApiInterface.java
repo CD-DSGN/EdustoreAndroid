@@ -32,6 +32,7 @@ public class ApiInterface
      /*end added by chenggaoyuan*/
      public static final String GOODS_DESC  ="/goods/desc";
      public static final String USER_INFO  ="/user/info";
+     public static final String SIMPLE_USER_INFO  ="/user/simple_userinfo";
      public static final String USER_SUBSCRIPTION  ="/user/subscription";
      public static final String ADDRESS_DELETE  ="/address/delete";
      public static final String USER_SIGNUPFIELDS  ="/user/signupFields";

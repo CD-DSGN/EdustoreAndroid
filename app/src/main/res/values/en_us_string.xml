@@ -442,4 +442,6 @@
     <string name="invitation_code">invitation code</string>
     <string name="invitation_code_invalid">invitation code is not exist</string>
     <string name="select_payment">select this way to pay</string>
+
+    <string name="service_not_avalaible">service is not avalaible, please try later</string>
 </resources>

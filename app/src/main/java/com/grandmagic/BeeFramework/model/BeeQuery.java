@@ -21,6 +21,7 @@ public class BeeQuery<T> extends AQuery {
 	public static int environment() 
 	{
 		return ENVIROMENT_DEVELOPMENT;
+//      return ENVIRONMENT_PRODUCTION;
 	}
 	
 	public static String serviceUrl()
@@ -28,7 +29,8 @@ public class BeeQuery<T> extends AQuery {
 		
 		if (ENVIRONMENT_PRODUCTION == BeeQuery.environment()) 
 		{
-			return ECMobileAppConst.SERVER_PRODUCTION;
+			return ECMobileAppConst.SERVER_DEVELOPMENT;
+//			return ENVIRONMENT_PRODUCTION;
 		}
 		else 
 		{

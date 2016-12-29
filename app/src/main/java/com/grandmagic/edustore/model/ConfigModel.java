@@ -17,7 +17,10 @@ package com.grandmagic.edustore.model;
 import android.content.Context;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
+
 import com.external.androidquery.callback.AjaxStatus;
 import com.grandmagic.BeeFramework.model.BaseModel;
 import com.grandmagic.BeeFramework.model.BeeCallback;
@@ -32,6 +35,9 @@ import java.util.Map;
 
 public class ConfigModel extends BaseModel {
     public CONFIG config;
+
+    private SharedPreferences shared;
+    private SharedPreferences.Editor editor;
 
     private static ConfigModel instance;
 
@@ -69,6 +75,12 @@ public class ConfigModel extends BaseModel {
                                 Intent intent = new Intent(mContext, AppOutActivity.class);
                                 intent.putExtra("flag", 1);
                                 mContext.startActivity(intent);
+                            }
+
+                            if (!TextUtils.isEmpty(config.service_phone)) {
+                                shared = mContext.getSharedPreferences("userInfo", 0);
+                                editor = shared.edit();
+                                editor.putString("service_phone", config.service_phone);
                             }
 
                         }

@@ -442,4 +442,5 @@
     <string name="invitation_code">邀请码</string>
     <string name="invitation_code_invalid">邀请码无效，请重新填写</string>
     <string name="select_payment">选择该种支付方式支付</string>
+    <string name="service_not_avalaible">该服务暂不可用，请稍后再试</string>
 </resources>

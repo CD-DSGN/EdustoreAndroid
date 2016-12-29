@@ -509,14 +509,14 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
 		 case R.id.ll_profile_subscription:
 			 intent = new Intent(getActivity(), SubscriptionActivity.class);
 			 startActivity(intent);
-			 getActivity().overridePendingTransition(R.anim.push_buttom_in,R.anim.push_buttom_out);
+			 getActivity().overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
 			 break;
 
 
 		case R.id.ll_profile_query_points:
 			intent = new Intent(getActivity(), UserIntegralActivity.class);
 			startActivity(intent);
-			getActivity().overridePendingTransition(R.anim.push_buttom_in,R.anim.push_buttom_out);
+			getActivity().overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
 			break;
 
 		//zhangmengqi end

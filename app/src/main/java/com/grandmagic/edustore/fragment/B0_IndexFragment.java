@@ -18,8 +18,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,9 +31,11 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
@@ -41,14 +46,17 @@ import com.external.maxwin.view.XListView;
 import com.external.viewpagerindicator.PageIndicator;
 import com.grandmagic.BeeFramework.fragment.BaseFragment;
 import com.grandmagic.BeeFramework.model.BusinessResponse;
+import com.grandmagic.BeeFramework.view.MyDialog;
 import com.grandmagic.BeeFramework.view.MyListView;
 import com.grandmagic.edustore.ECMobileAppConst;
 import com.grandmagic.edustore.EcmobileApp;
 import com.grandmagic.edustore.R;
+import com.grandmagic.edustore.activity.A0_SigninActivity;
 import com.grandmagic.edustore.activity.B1_ProductListActivity;
 import com.grandmagic.edustore.activity.B2_ProductDetailActivity;
 import com.grandmagic.edustore.activity.BannerWebActivity;
 import com.grandmagic.edustore.activity.D0_AllCategoryActivity;
+import com.grandmagic.edustore.activity.G0_SettingActivity;
 import com.grandmagic.edustore.activity.G3_MessageActivity;
 import com.grandmagic.edustore.activity.SubscriptionActivity;
 import com.grandmagic.edustore.activity.UserIntegralActivity;
@@ -62,10 +70,14 @@ import com.grandmagic.edustore.model.MsgModel;
 import com.grandmagic.edustore.model.MsgModel.OnMessageContResponse;
 
 import com.grandmagic.edustore.model.ShoppingCartModel;
+import com.grandmagic.edustore.model.SimpleUserInfoModel;
+import com.grandmagic.edustore.model.UserInfoModel;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.FILTER;
 import com.grandmagic.edustore.protocol.PLAYER;
+import com.grandmagic.edustore.protocol.USER;
 import com.grandmagic.grandMagicManager.GrandMagicManager;
+import com.iflytek.cloud.resource.Resource;
 import com.insthub.ecmobile.EcmobileManager;
 import com.insthub.ecmobile.EcmobileManager.RegisterApp;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -79,6 +91,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static android.R.attr.data;
+import static u.aly.av.G;
+import static u.aly.av.T;
+import static u.aly.av.U;
 
 
 public class B0_IndexFragment extends BaseFragment implements BusinessResponse, XListView.IXListViewListener, RegisterApp, OnMessageContResponse {
@@ -105,6 +120,10 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
     private ImageView check_points_btn;
     private ImageView connect_teacher_btn;
     private ImageView notification_btn;
+    private ImageView call_btn;
+
+    private FrameLayout fl_connect_teacher;
+    private FrameLayout fl_point;
 
     private EditText input;
     private ImageView search_search;
@@ -113,14 +132,29 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
     private ArrayList<String> images = new ArrayList<String>();
     String imageType;
 
+    private MyDialog mDialog;
+
+    //zhangmengqi begin
+    public static  int login_is_teacher = -1; //未登录状态为-1, 0表示学生，1表示教师
+
+    private SimpleUserInfoModel mSimpleUserInfoModel;
+
+    private String tel_num;
+
+    //zhangmengqi end
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        shared = getActivity().getSharedPreferences("userInfo", 0);
+        editor = shared.edit();
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+
         imageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
         View mainView = inflater.inflate(R.layout.b0_index, null);
 
@@ -201,25 +235,40 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
             }
         });
 
+        fl_connect_teacher = (FrameLayout) b0_index_banner_and_button.findViewById(R.id.fl_connect_teacher);
+        fl_point = (FrameLayout) b0_index_banner_and_button.findViewById(R.id.fl_points);
+
         connect_teacher_btn = (ImageView) b0_index_banner_and_button.findViewById(R.id.connect_teacher);
         connect_teacher_btn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SubscriptionActivity.class);
-                startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.push_right_in,
-                        R.anim.push_right_out);
+                //先判断是否登录
+                if (login_is_teacher < 0) {
+                    startLoginActivity();
+
+                } else if (login_is_teacher == 0) {
+                    Intent intent = new Intent(getActivity(), SubscriptionActivity.class);
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.push_right_in,
+                            R.anim.push_right_out);
+
+                }
             }
         });
+
 
         check_points_btn = (ImageView) b0_index_banner_and_button.findViewById(R.id.check_integral);
         check_points_btn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), UserIntegralActivity.class);
-                startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.push_right_in,
-                        R.anim.push_right_out);
+                if (login_is_teacher == 1) {
+                    Intent intent = new Intent(getActivity(), UserIntegralActivity.class);
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.push_right_in,
+                            R.anim.push_right_out);
+                } else if(login_is_teacher < 0){
+                    startLoginActivity();
+                }
 
             }
         });
@@ -235,6 +284,16 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
                         R.anim.push_right_out);
             }
         });
+
+        call_btn = (ImageView) b0_index_banner_and_button.findViewById(R.id.iv_call);
+        call_btn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                call_client_service();
+            }
+        });
+
+
 
         mConvenientBanner = (ConvenientBanner) b0_index_banner_and_button.findViewById(R.id.index_banner);
 
@@ -252,6 +311,14 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
         mListView.setXListViewListener(this, 0);
         mListView.setRefreshTime();
 
+        mSimpleUserInfoModel = new SimpleUserInfoModel(getActivity());
+        String uid = shared.getString("uid", "");
+        if (uid.equals("")) {
+            login_is_teacher = -1;
+        }else{
+            mSimpleUserInfoModel.getSimpleUserInfo();
+        }
+        mSimpleUserInfoModel.addResponseListener(this);
         homeSetAdapter();
 
         ShoppingCartModel shoppingCartModel = new ShoppingCartModel(getActivity());
@@ -259,6 +326,43 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
         shoppingCartModel.homeCartList();
 
         return mainView;
+    }
+
+    private void startLoginActivity() {
+        Intent intent = new Intent(getActivity(), A0_SigninActivity.class);
+        startActivity(intent);
+    }
+
+    private void call_client_service() {
+        Resources resource = (Resources) getActivity().getResources();
+        String call=resource.getString(R.string.call_or_not);
+        tel_num = ConfigModel.getInstance().config.service_phone;
+        if (TextUtils.isEmpty(tel_num)) {
+            if (shared != null) {
+                tel_num = shared.getString("service_phone", "");
+            }
+        }
+        if (!TextUtils.isEmpty(tel_num)) {
+            mDialog = new MyDialog(getActivity(), call, ConfigModel.getInstance().config.service_phone);
+            mDialog.show();
+            mDialog.positive.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tel_num));
+                    startActivity(intent);
+                }
+            });
+            mDialog.negative.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+                }
+            });
+        }else{
+            String service_not_available = resource.getString(R.string.service_not_avalaible);
+            Toast.makeText(getActivity(), service_not_available, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void searchByKeyWord() throws JSONException {
@@ -295,11 +399,23 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
         ConfigModel configModel = new ConfigModel(getActivity());
         configModel.getConfig();
 
+
+        changeVisibility();
         //zhangmengqi begin
         //        bannerView.startImageCycle();
         mConvenientBanner.startTurning(5000);
 
         //zhangmengqi end
+    }
+
+    private void changeVisibility() {
+        if (login_is_teacher == 1) {
+            fl_connect_teacher.setVisibility(View.GONE);
+            fl_point.setVisibility(View.VISIBLE);
+        }else {
+            fl_connect_teacher.setVisibility(View.VISIBLE);
+            fl_point.setVisibility(View.GONE);
+        }
     }
 
     public void homeSetAdapter() {
@@ -316,8 +432,7 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
     }
 
     public void OnMessageResponse(String url, JSONObject jo, AjaxStatus status) {
-        shared = getActivity().getSharedPreferences("userInfo", 0);
-        editor = shared.edit();
+
         imageType = shared.getString("imageType", "mind");
         if (url.endsWith(ApiInterface.HOME_DATA)) {
             mListView.stopRefresh();
@@ -339,6 +454,9 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
             //            addBannerView();
         } else if (url.endsWith(ApiInterface.CART_LIST)) {
             TabsFragment.setShoppingcartNum();
+        } else if (url.endsWith(ApiInterface.SIMPLE_USER_INFO)) {
+            login_is_teacher = mSimpleUserInfoModel.is_teacher;
+            changeVisibility();
         }
     }
 

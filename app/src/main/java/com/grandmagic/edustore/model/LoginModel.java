@@ -22,6 +22,7 @@ import com.grandmagic.BeeFramework.BeeFrameworkConst;
 import com.grandmagic.BeeFramework.view.MyProgressDialog;
 import com.grandmagic.edustore.ErrorCodeConst;
 import com.grandmagic.edustore.R;
+import com.grandmagic.edustore.fragment.B0_IndexFragment;
 import com.grandmagic.edustore.protocol.*;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,6 +74,14 @@ public class LoginModel extends BaseModel {
                             editor.putString("uid", session.uid);
                             editor.putString("sid", session.sid);
                             editor.putString("email",user.email);
+
+                            if (user.is_teacher != null) {
+                                if (user.is_teacher.equals("1")) {
+                                    B0_IndexFragment.login_is_teacher = 1;
+                                }else if (user.is_teacher.equals("0")) {
+                                    B0_IndexFragment.login_is_teacher = 0;
+                                }
+                            }
                             editor.commit();
                         }
                         LoginModel.this.OnMessageResponse(url, jo, status);

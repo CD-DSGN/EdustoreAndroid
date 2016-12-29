@@ -25,7 +25,8 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_weight="0.25"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/fl_connect_teacher">
         <ImageView
             android:id="@+id/connect_teacher"
             android:layout_width="50dp"
@@ -39,7 +40,9 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_weight="0.25"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/fl_points"
+        android:visibility="gone">
         <ImageView
             android:id="@+id/check_integral"
             android:layout_width="50dp"
@@ -75,6 +78,21 @@
             android:textColor="#ffffff"
             android:textSize="10dp"
             />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_weight="0.25"
+        android:layout_height="wrap_content"
+        android:id="@+id/fl_call">
+        <ImageView
+            android:id="@+id/iv_call"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/service_call"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center"/>
     </FrameLayout>
 
 </LinearLayout>

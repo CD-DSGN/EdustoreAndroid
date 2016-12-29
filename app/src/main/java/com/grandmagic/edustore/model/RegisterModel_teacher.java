@@ -22,6 +22,7 @@ import com.grandmagic.BeeFramework.model.BeeCallback;
 import com.grandmagic.BeeFramework.view.MyProgressDialog;
 import com.grandmagic.edustore.ErrorCodeConst;
 import com.grandmagic.edustore.R;
+import com.grandmagic.edustore.fragment.B0_IndexFragment;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.SESSION;
 import com.grandmagic.edustore.protocol.SIGNUPCOURSES;
@@ -114,6 +115,7 @@ public class RegisterModel_teacher extends BaseModel {
                             user.save();
                             editor.putString("uid", session.uid);
                             editor.putString("sid", session.sid);
+                            B0_IndexFragment.login_is_teacher = 1;
                             editor.commit();
                             RegisterModel_teacher.this.OnMessageResponse(url, jo, status);
                         }
