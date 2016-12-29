@@ -14,8 +14,8 @@ import com.external.viewpagerindicator.PageIndicator;
  * Created by zhangmengqi on 2016/11/8.
  */
 public class CircleFrameLayout extends FrameLayout {
-    private ViewPager mViewPager;
-    private PageIndicator mPageIndicator;
+    public ViewPager mViewPager;
+    public PageIndicator mPageIndicator;
     public static final int DELAY_MILLIS = 3000;
     public int mImageIndex = 0;
 

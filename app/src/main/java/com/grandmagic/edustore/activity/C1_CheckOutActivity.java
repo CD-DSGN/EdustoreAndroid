@@ -52,8 +52,8 @@ import com.grandmagic.grandMagicManager.GrandMagicManager;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
-import com.unionpay.UPPayAssistEx;
-import com.unionpay.uppay.PayActivity;
+//import com.unionpay.UPPayAssistEx;
+//import com.unionpay.uppay.PayActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -598,8 +598,8 @@ public class C1_CheckOutActivity extends BaseActivity implements OnClickListener
 
             if (upop_tn != null && !"".equals(upop_tn)) {
                 //银联sdk支付
-                UPPayAssistEx.startPayByJAR(C1_CheckOutActivity.this, PayActivity.class, null, null,
-                        upop_tn, UPPay_mMode);
+//                UPPayAssistEx.startPayByJAR(C1_CheckOutActivity.this, PayActivity.class, null, null,
+//                        upop_tn, UPPay_mMode);
             } else if (pay_wap != null && !"".equals(pay_wap)) {
                 //wap支付
                 Intent intent = new Intent(this, PayWebActivity.class);

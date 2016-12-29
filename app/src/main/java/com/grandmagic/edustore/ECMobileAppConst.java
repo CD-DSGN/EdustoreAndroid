@@ -27,12 +27,12 @@ public class ECMobileAppConst {
     public static final String WAP_PAY_CALLBCK_PRODUCTION = "http://60.205.92.85/ecmobile/payment/app_callback.php?";
     public static final String WEIXIN_PAY_REQUEST_URL = "http://60.205.92.85/ecmobile/payment/wxpay/beforepay.php";
 
-//    public static final String SERVER_PRODUCTION = "http://e672a7c.ngrok.natapp.cn/ecmobile/?url=";
+//    public static final String SERVER_PRODUCTION = "http://zhangmengqicom.s1.natapp.cc/ecmobile/?url=";
 //
-//    public static final String SERVER_DEVELOPMENT = "http://e672a7c.ngrok.natapp.cn/ecmobile/?url=";
+//    public static final String SERVER_DEVELOPMENT = "http://zhangmengqicom.s1.natapp.cc/ecmobile/?url=";
 //
-//    public static final String WAP_PAY_CALLBCK_DEVELOPMENT = "http://e672a7c.ngrok.natapp.cn/ecmobile/payment/app_callback.php?";
-//    public static final String WAP_PAY_CALLBCK_PRODUCTION = "http://e672a7c.ngrok.natapp.cn/ecmobile/payment/app_callback.php?";
-//    public static final String WEIXIN_PAY_REQUEST_URL = "http://e672a7c.ngrok.natapp.cn/ecmobile/payment/wxpay/beforepay.php";
+//    public static final String WAP_PAY_CALLBCK_DEVELOPMENT = "http://zhangmengqicom.s1.natapp.cc/ecmobile/payment/app_callback.php?";
+//    public static final String WAP_PAY_CALLBCK_PRODUCTION = "http://zhangmengqicom.s1.natapp.cc/ecmobile/payment/app_callback.php?";
+//    public static final String WEIXIN_PAY_REQUEST_URL = "http://zhangmengqicom.s1.natapp.cc/ecmobile/payment/wxpay/beforepay.php";
 
 }

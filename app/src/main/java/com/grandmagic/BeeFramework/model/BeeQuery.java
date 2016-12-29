@@ -20,17 +20,15 @@ public class BeeQuery<T> extends AQuery {
 	
 	public static int environment() 
 	{
-		return ENVIROMENT_DEVELOPMENT;
-//      return ENVIRONMENT_PRODUCTION;
+		return ENVIRONMENT_PRODUCTION;
+//		return ENVIROMENT_DEVELOPMENT;
 	}
 	
 	public static String serviceUrl()
 	{
 		
-		if (ENVIRONMENT_PRODUCTION == BeeQuery.environment()) 
-		{
-			return ECMobileAppConst.SERVER_DEVELOPMENT;
-//			return ENVIRONMENT_PRODUCTION;
+		if (ENVIRONMENT_PRODUCTION == BeeQuery.environment()) {
+			return ECMobileAppConst.SERVER_PRODUCTION;
 		}
 		else 
 		{

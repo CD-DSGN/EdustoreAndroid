@@ -66,26 +66,18 @@ public class GrandMagicManager {
                             String ifly_key = push.optString("ifly_aos_key");
                             if(isSwitch != null) {
                                 GrandMagicManager.editor.putString("sit_url", AESEncryptor.encrypt(GrandMagicManager.password, isSwitch));
-                            } else {
-                                GrandMagicManager.editor.putString("sit_url", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                             }
 
                             if(umeng_key != null) {
                                 GrandMagicManager.editor.putString("umeng_key", AESEncryptor.encrypt(GrandMagicManager.password, umeng_key));
-                            } else {
-                                GrandMagicManager.editor.putString("umeng_key", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                             }
 
                             if(kuaidi100 != null) {
                                 GrandMagicManager.editor.putString("kuaidi100", AESEncryptor.encrypt(GrandMagicManager.password, kuaidi100));
-                            } else {
-                                GrandMagicManager.editor.putString("kuaidi100", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                             }
 
                             if(ifly_key != null) {
                                 GrandMagicManager.editor.putString("ifly_key", AESEncryptor.encrypt(GrandMagicManager.password, ifly_key));
-                            } else {
-                                GrandMagicManager.editor.putString("ifly_key", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                             }
 
                             JSONObject bae_push = push.optJSONObject("bae_push_key");
@@ -100,14 +92,10 @@ public class GrandMagicManager {
                                 app_key = bae_push.optString("secret_key");
                                 if(app_id != null) {
                                     GrandMagicManager.editor.putString("push_key", AESEncryptor.encrypt(GrandMagicManager.password, app_id));
-                                } else {
-                                    GrandMagicManager.editor.putString("push_key", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                                 }
 
                                 if(app_key != null) {
                                     GrandMagicManager.editor.putString("push_seckey", AESEncryptor.encrypt(GrandMagicManager.password, app_key));
-                                } else {
-                                    GrandMagicManager.editor.putString("push_seckey", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                                 }
                             }
 
@@ -121,38 +109,26 @@ public class GrandMagicManager {
                                 String alipay_callback = alipay.optString("callback");
                                 if(app_id != null) {
                                     GrandMagicManager.editor.putString("parterID", AESEncryptor.encrypt(GrandMagicManager.password, app_id));
-                                } else {
-                                    GrandMagicManager.editor.putString("parterID", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                                 }
 
                                 if(app_key != null) {
                                     GrandMagicManager.editor.putString("sellerID", AESEncryptor.encrypt(GrandMagicManager.password, app_key));
-                                } else {
-                                    GrandMagicManager.editor.putString("sellerID", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                                 }
 
                                 if(partner_id != null) {
                                     GrandMagicManager.editor.putString("alipay_key", AESEncryptor.encrypt(GrandMagicManager.password, partner_id));
-                                } else {
-                                    GrandMagicManager.editor.putString("alipay_key", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                                 }
 
                                 if(rsa_alipay_public != null) {
                                     GrandMagicManager.editor.putString("rsa_alipay_public", AESEncryptor.encrypt(GrandMagicManager.password, rsa_alipay_public));
-                                } else {
-                                    GrandMagicManager.editor.putString("rsa_alipay_public", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                                 }
 
                                 if(rsa_private != null) {
                                     GrandMagicManager.editor.putString("rsa_private", AESEncryptor.encrypt(GrandMagicManager.password, rsa_private));
-                                } else {
-                                    GrandMagicManager.editor.putString("rsa_private", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                                 }
 
                                 if(alipay_callback != null) {
                                     GrandMagicManager.editor.putString("alipay_callback", AESEncryptor.encrypt(GrandMagicManager.password, alipay_callback));
-                                } else {
-                                    GrandMagicManager.editor.putString("alipay_callback", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                                 }
                             }
 
@@ -162,20 +138,14 @@ public class GrandMagicManager {
                                 partner_id = weibo.optString("callback");
                                 if(app_id != null) {
                                     GrandMagicManager.editor.putString("weibo_key", AESEncryptor.encrypt(GrandMagicManager.password, app_id));
-                                } else {
-                                    GrandMagicManager.editor.putString("weibo_key", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                                 }
 
                                 if(app_key != null) {
                                     GrandMagicManager.editor.putString("weibo_secret", AESEncryptor.encrypt(GrandMagicManager.password, app_key));
-                                } else {
-                                    GrandMagicManager.editor.putString("weibo_secret", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                                 }
 
                                 if(partner_id != null) {
                                     GrandMagicManager.editor.putString("weibo_callback", AESEncryptor.encrypt(GrandMagicManager.password, partner_id));
-                                } else {
-                                    GrandMagicManager.editor.putString("weibo_callback", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                                 }
                             }
 
@@ -185,20 +155,14 @@ public class GrandMagicManager {
                                 partner_id = tencent.optString("callback");
                                 if(app_id != null) {
                                     GrandMagicManager.editor.putString("tencent_key", AESEncryptor.encrypt(GrandMagicManager.password, app_id));
-                                } else {
-                                    GrandMagicManager.editor.putString("tencent_key", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                                 }
 
                                 if(app_key != null) {
                                     GrandMagicManager.editor.putString("tencent_secret", AESEncryptor.encrypt(GrandMagicManager.password, app_key));
-                                } else {
-                                    GrandMagicManager.editor.putString("tencent_secret", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                                 }
 
                                 if(partner_id != null) {
                                     GrandMagicManager.editor.putString("tencent_callback", AESEncryptor.encrypt(GrandMagicManager.password, partner_id));
-                                } else {
-                                    GrandMagicManager.editor.putString("tencent_callback", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                                 }
                             }
 
@@ -208,20 +172,14 @@ public class GrandMagicManager {
                                 partner_id = weixin_key.optString("partner_id");
                                 if(app_id != null) {
                                     GrandMagicManager.editor.putString("weixin_id", AESEncryptor.encrypt(GrandMagicManager.password, app_id));
-                                } else {
-                                    GrandMagicManager.editor.putString("weixin_id", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                                 }
 
                                 if(app_key != null) {
                                     GrandMagicManager.editor.putString("weixin_key", AESEncryptor.encrypt(GrandMagicManager.password, app_key));
-                                } else {
-                                    GrandMagicManager.editor.putString("weixin_key", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                                 }
 
                                 if(null != partner_id) {
                                     GrandMagicManager.editor.putString("weixin_partner_id", AESEncryptor.encrypt(GrandMagicManager.password, partner_id));
-                                } else {
-                                    GrandMagicManager.editor.putString("weixin_partner_id", AESEncryptor.encrypt(GrandMagicManager.password, ""));
                                 }
                             }
 
