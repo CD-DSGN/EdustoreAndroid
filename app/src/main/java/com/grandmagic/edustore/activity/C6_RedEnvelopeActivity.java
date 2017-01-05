@@ -11,7 +11,7 @@ package com.grandmagic.edustore.activity;
 //     \/___/
 //
 //  Powered by BeeFramework
-//
+//结算 -红包
 
 import android.content.res.Resources;
 import android.widget.AdapterView;

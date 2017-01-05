@@ -11,7 +11,7 @@ package com.grandmagic.edustore.activity;
 //     \/___/
 //
 //  Powered by BeeFramework
-//
+// 结算 -发票抬头
 
 import java.util.ArrayList;
 

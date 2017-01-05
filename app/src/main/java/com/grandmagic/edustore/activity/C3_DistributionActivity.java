@@ -11,7 +11,7 @@ package com.grandmagic.edustore.activity;
 //     \/___/
 //
 //  Powered by BeeFramework
-//
+// 结算 配送方式
 
 import java.util.ArrayList;
 

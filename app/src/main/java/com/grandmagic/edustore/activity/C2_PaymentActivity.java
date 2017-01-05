@@ -11,12 +11,15 @@ package com.grandmagic.edustore.activity;
 //     \/___/
 //
 //  Powered by BeeFramework
-//
+// 结算 -支付方式
 
 import java.util.ArrayList;
 
 import android.content.res.Resources;
+
+import com.external.androidquery.util.IRequest;
 import com.grandmagic.BeeFramework.activity.BaseActivity;
+import com.grandmagic.edustore.model.PaymentListModel;
 import com.grandmagic.edustore.protocol.flowcheckOrderResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +51,8 @@ public class C2_PaymentActivity extends BaseActivity {
 	private C2_PaymentAdapter paymentAdapter;
 	
 	private ArrayList<PAYMENT> list = new ArrayList<PAYMENT>();
-	
+	private ArrayList<PAYMENT> payments;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
@@ -56,13 +60,12 @@ public class C2_PaymentActivity extends BaseActivity {
 		
 		Intent intent = getIntent();
 		String s = intent.getStringExtra("payment");
-
         if (null != s)
         {
             try{
                 flowcheckOrderResponse response = new flowcheckOrderResponse();
                 response.fromJson(new JSONObject(s));
-                ArrayList<PAYMENT> payments=response.data.payment_list;
+				payments = response.data.payment_list;
                 if (null != payments && payments.size() > 0) {
                     list.clear();
                     list.addAll(payments);
@@ -71,7 +74,18 @@ public class C2_PaymentActivity extends BaseActivity {
             } catch (JSONException e) {                
                 e.printStackTrace();
             }
-        }
+        }else {
+//			读取支付方式
+			PaymentListModel paymentListModel=new PaymentListModel(this);
+			paymentListModel.getPaymentList(new IRequest<ArrayList<PAYMENT>>() {
+				@Override
+				public void request(ArrayList<PAYMENT> result) {
+					payments=result;
+					list.addAll(payments);
+					paymentAdapter.notifyDataSetChanged();
+				}
+			});
+		}
 
 		
 		title = (TextView) findViewById(R.id.top_view_text);

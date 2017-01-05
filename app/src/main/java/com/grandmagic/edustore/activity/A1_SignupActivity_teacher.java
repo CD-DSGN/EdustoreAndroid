@@ -12,7 +12,7 @@ package com.grandmagic.edustore.activity;
 //     \/___/
 //
 //  Powered by BeeFramework
-//
+//注册 -教师注册
 
 import android.app.Activity;
 import android.content.Context;

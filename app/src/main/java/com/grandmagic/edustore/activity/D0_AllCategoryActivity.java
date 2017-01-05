@@ -1,7 +1,7 @@
 package com.grandmagic.edustore.activity;
 
 /**
- * Created by chenggaoyuan on 2016/11/21.
+ * Created by chenggaoyuan on 2016/11/21. 全部商品分类
  */
 
 import android.content.res.Resources;

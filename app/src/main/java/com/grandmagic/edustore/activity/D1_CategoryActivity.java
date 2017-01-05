@@ -11,7 +11,7 @@ package com.grandmagic.edustore.activity;
 //     \/___/
 //
 //  Powered by BeeFramework
-//
+// 全部商品的某项
 
 import android.content.Intent;
 import android.os.Build;

@@ -12,7 +12,7 @@ package com.grandmagic.edustore.activity;
 //     \/___/
 //
 //  Powered by BeeFramework
-//
+//注册 -学生注册
 
 import java.util.ArrayList;
 import java.util.HashMap;

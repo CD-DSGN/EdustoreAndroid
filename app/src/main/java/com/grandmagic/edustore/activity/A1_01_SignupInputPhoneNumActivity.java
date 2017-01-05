@@ -28,7 +28,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by chenggaoyuan on 2016/8/22.
+ * Created by chenggaoyuan on 2016/8/22. 注册时候输入手机号
  */
 public class A1_01_SignupInputPhoneNumActivity extends BaseActivity implements BusinessResponse{
 

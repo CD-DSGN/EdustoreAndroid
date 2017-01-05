@@ -32,7 +32,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by chenggaoyuan on 2016/8/25.
+ * Created by chenggaoyuan on 2016/8/25. 注册时提交验证码
  */
 public class A1_02_SignupCheckCodeActivity extends BaseActivity implements BusinessResponse {
 

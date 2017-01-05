@@ -12,7 +12,7 @@ package com.grandmagic.edustore.activity;
 //     \/___/
 //
 //  Powered by BeeFramework
-//
+//注册
 
 import org.json.JSONException;
 import org.json.JSONObject;
