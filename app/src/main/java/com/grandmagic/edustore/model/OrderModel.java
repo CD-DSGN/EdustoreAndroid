@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.external.androidquery.util.IRequest;
 import com.grandmagic.BeeFramework.view.MyProgressDialog;
+import com.grandmagic.BeeFramework.view.ToastView;
 import com.grandmagic.grandMagicManager.GrandMagicManager;
 
 import com.grandmagic.edustore.R;
@@ -29,6 +31,7 @@ import org.json.JSONObject;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.util.Log;
 
 import com.external.androidquery.callback.AjaxStatus;
 import com.grandmagic.BeeFramework.model.BaseModel;
@@ -349,6 +352,37 @@ public class OrderModel extends BaseModel {
         }
 
         cb.url(ApiInterface.ORDER_EXPRESS).type(JSONObject.class).params(params);
+        MyProgressDialog pd = new MyProgressDialog(mContext, mContext.getResources().getString(R.string.hold_on));
+        aq.progress(pd.mDialog).ajax(cb);
+    }
+
+    public void updatePaymentOfOrder(ORDER_INFO order_info, final IRequest<Boolean> iRequest) {
+        BeeCallback<JSONObject> cb = new BeeCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject jo, AjaxStatus status) {
+                OrderModel.this.callback(url, jo, status);
+                int reStatus=0;
+                try {
+                    reStatus = jo.optJSONObject("data").optInt("update_success");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }finally {
+                    if (reStatus!=1) new ToastView(mContext, R.string.error_8).show();
+                }
+                iRequest.request(reStatus == 1);
+            }
+        };
+        Map<String, String> params = new HashMap<>();
+        JSONObject requestjson = new JSONObject();
+        try {
+            requestjson.put("session", SESSION.getInstance().toJson());
+            requestjson.put("pay_code", order_info.pay_code);
+            requestjson.put("order_sn", order_info.order_sn);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        params.put("json", requestjson.toString());
+        cb.url(ApiInterface.UPDATE_PAYMENT_ORDER).type(JSONObject.class).params(params);
         MyProgressDialog pd = new MyProgressDialog(mContext, mContext.getResources().getString(R.string.hold_on));
         aq.progress(pd.mDialog).ajax(cb);
     }

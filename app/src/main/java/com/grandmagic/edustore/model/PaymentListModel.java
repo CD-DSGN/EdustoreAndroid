@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by dangxiaohui on 2017/1/5.
+ * Created by lps on 2017/1/5.
  */
 
 public class PaymentListModel extends BaseModel {

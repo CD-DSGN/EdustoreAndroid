@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.external.androidquery.callback.AjaxStatus;
+import com.external.androidquery.util.IRequest;
 import com.external.maxwin.view.XListView;
 import com.external.maxwin.view.XListView.IXListViewListener;
 import com.grandmagic.BeeFramework.activity.BaseActivity;
@@ -475,36 +476,50 @@ public class E4_HistoryActivity extends BaseActivity implements BusinessResponse
             } catch (JSONException e) {
 
             }
-            if (GrandMagicManager.getAlipayCallback(getApplicationContext()) != null
-                    && GrandMagicManager.getAlipayParterId(getApplicationContext()) != null
-                    && GrandMagicManager.getAlipaySellerId(getApplicationContext()) != null
-                    && GrandMagicManager.getRsaAlipayPublic(getApplicationContext()) != null) {
-                if (0 == order_info.pay_code.compareTo("alipay")) {
-//                            showAlipayDialog();
-                    Intent intent = new Intent(E4_HistoryActivity.this, AlixPayActivity.class);
-                    intent.putExtra(AlixPayActivity.ORDER_INFO, order_info);
-                    startActivityForResult(intent, REQUEST_ALIPAY);
-                } else if (0 == order_info.pay_code.compareTo("upop")) {
-                    orderModel.orderPay(order_info.order_id);
-                } else if (0 == order_info.pay_code.compareTo("tenpay")) {
-                    orderModel.orderPay(order_info.order_id);
-                } else if (0 == order_info.pay_code.compareTo("wxpay")) {
-                    if (!(mWeixinAPI.isWXAppInstalled() && mWeixinAPI.isWXAppSupportAPI())) {
-                        Resources resource = (Resources) getBaseContext().getResources();
-                        String install_wechat = resource.getString(R.string.install_wechat);
-                        ToastView toast = new ToastView(E4_HistoryActivity.this, install_wechat);
-                        String use = resource.getString(R.string.use);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-                        return;
-                    }
-                    mShoppingCartModel.wxpayWXBeforePay(order_info.order_id);
-                } else {
-                    orderModel.orderPay(order_info.order_id);
+//            更新订单信息
+            orderModel.updatePaymentOfOrder(order_info, new IRequest<Boolean>() {
+                @Override
+                public void request(Boolean b) {
+                    if (b) requestPay();
                 }
+            });
+
+        }
+    }
+
+    /**
+     * 拉起支付
+     */
+    private void requestPay() {
+        if (GrandMagicManager.getAlipayCallback(getApplicationContext()) != null
+                && GrandMagicManager.getAlipayParterId(getApplicationContext()) != null
+                && GrandMagicManager.getAlipaySellerId(getApplicationContext()) != null
+                && GrandMagicManager.getRsaAlipayPublic(getApplicationContext()) != null) {
+            if (0 == order_info.pay_code.compareTo("alipay")) {
+//                            showAlipayDialog();
+                Intent intent = new Intent(E4_HistoryActivity.this, AlixPayActivity.class);
+                intent.putExtra(AlixPayActivity.ORDER_INFO, order_info);
+                startActivityForResult(intent, REQUEST_ALIPAY);
+            } else if (0 == order_info.pay_code.compareTo("upop")) {
+                orderModel.orderPay(order_info.order_id);
+            } else if (0 == order_info.pay_code.compareTo("tenpay")) {
+                orderModel.orderPay(order_info.order_id);
+            } else if (0 == order_info.pay_code.compareTo("wxpay")) {
+                if (!(mWeixinAPI.isWXAppInstalled() && mWeixinAPI.isWXAppSupportAPI())) {
+                    Resources resource = (Resources) getBaseContext().getResources();
+                    String install_wechat = resource.getString(R.string.install_wechat);
+                    ToastView toast = new ToastView(E4_HistoryActivity.this, install_wechat);
+                    String use = resource.getString(R.string.use);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    return;
+                }
+                mShoppingCartModel.wxpayWXBeforePay(order_info.order_id);
             } else {
                 orderModel.orderPay(order_info.order_id);
             }
+        } else {
+            orderModel.orderPay(order_info.order_id);
         }
     }
 
