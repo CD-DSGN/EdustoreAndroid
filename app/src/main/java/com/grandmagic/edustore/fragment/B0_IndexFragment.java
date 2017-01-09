@@ -147,8 +147,6 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         shared = getActivity().getSharedPreferences("userInfo", 0);
-        editor = shared.edit();
-
     }
 
     @Override
@@ -162,7 +160,6 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
         search_search = (ImageView) mainView.findViewById(R.id.search_search);
 
         shared = getActivity().getSharedPreferences("userInfo", 0);
-        editor = shared.edit();
         imageType = shared.getString("imageType", "mind"); //一开始读一次数据
 
         input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
