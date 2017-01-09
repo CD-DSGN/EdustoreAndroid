@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -27,9 +28,12 @@ import com.grandmagic.edustore.model.RegisterPhoneNumCheckModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static u.aly.av.T;
 
 /**
  * Created by chenggaoyuan on 2016/8/25. 注册时提交验证码
@@ -198,17 +202,33 @@ public class A1_02_SignupCheckCodeActivity extends BaseActivity implements Busin
         public void onChange(boolean selfChange) {
             // TODO Auto-generated method stub
             StringBuilder sb = new StringBuilder();
-            Cursor cursor = getContentResolver().query(
-                    Uri.parse("content://sms/inbox"), null, null, null, null);
-            //这里不要使用while循环.我们只需要获取当前发送过来的短信数据就可以了.
-            cursor.moveToNext();
-            sb.append("body=" + cursor.getString(cursor.getColumnIndex("body"))); //获取短信内容的实体数据.
-            //Pattern pattern = Pattern.compile("[^0-9]"); //正则表达式.
-            //Matcher matcher = pattern.matcher(sb.toString());
-            //CodeText = matcher.replaceAll("");
-            CodeText=getVeriCodeFromSms(sb,6);
-            mEditTextVeriCode.setText(CodeText); //将输入验证码的控件内容进行改变.
-            cursor.close(); //关闭游标指针.
+            Cursor cursor = null;
+
+            try {
+                cursor = getContentResolver().query(
+                        Uri.parse("content://sms/inbox"), null, null, null, null);
+                //这里不要使用while循环.我们只需要获取当前发送过来的短信数据就可以了.
+                if (cursor != null) {
+                    cursor.moveToNext();
+                    int columnIndex = cursor.getColumnIndex("body");
+                    if (columnIndex >= 0) {
+                        sb.append("body=" + cursor.getString(columnIndex)); //获取短信内容的实体数据.
+                        //Pattern pattern = Pattern.compile("[^0-9]"); //正则表达式.
+                        //Matcher matcher = pattern.matcher(sb.toString());
+                        //CodeText = matcher.replaceAll("");
+                        CodeText=getVeriCodeFromSms(sb,4);
+                        if (!TextUtils.isEmpty(CodeText)) {
+                            mEditTextVeriCode.setText(CodeText); //将输入验证码的控件内容进行改变.
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (cursor != null) {
+                    cursor.close(); //关闭游标指针.
+                }
+            }
             super.onChange(selfChange);
         }
     }
