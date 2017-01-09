@@ -30,7 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by chenggaoyuan on 2016/10/21.
+ * Created by chenggaoyuan on 2016/10/21. 汇师圈对应的fragment
  */
 public class Z0_InteractionFragment extends BaseFragment implements View.OnClickListener, XListView.IXListViewListener {
     private View view;
@@ -191,6 +191,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
                 not_publish.setVisibility(View.VISIBLE);
                 not_login.setVisibility(View.GONE);
                 commentsListView.setVisibility(View.GONE);
+
             }else if(1 == teacherCommentsModel.follow_or_not){
                 not_publish.setVisibility(View.GONE);
                 not_login.setVisibility(View.GONE);
