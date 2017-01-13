@@ -49,7 +49,7 @@ public class F2_EditAddressActivity extends BaseActivity implements BusinessResp
 	private AddressModel addressModel;
 	private EditText name;
 	private EditText tel;
-	private EditText email;
+
 	private EditText zipCode;
 	private LinearLayout area;
 	private TextView address;
@@ -95,7 +95,6 @@ public class F2_EditAddressActivity extends BaseActivity implements BusinessResp
 		
 		name = (EditText) findViewById(R.id.address_manage2_name);
 		tel = (EditText) findViewById(R.id.address_manage2_telNum);
-		email = (EditText) findViewById(R.id.address_manage2_email);
 		zipCode = (EditText) findViewById(R.id.address_manage2_zipCode);
 		area = (LinearLayout) findViewById(R.id.address_manage2_area);
 		address = (TextView) findViewById(R.id.address_manage2_address);
@@ -135,14 +134,14 @@ public class F2_EditAddressActivity extends BaseActivity implements BusinessResp
 				
 				String consignee = name.getText().toString();
 				String telNum = tel.getText().toString();
-				String mail = email.getText().toString();
+
 				String zipcode = zipCode.getText().toString();
 				String address = detail.getText().toString();
 
                 Resources resource = (Resources) getBaseContext().getResources();
                 String name=resource.getString(R.string.add_name);
                 String tel=resource.getString(R.string.add_tel);
-                String email=resource.getString(R.string.add_email);
+
                 String cor=resource.getString(R.string.add_correct_email);
                 String addr=resource.getString(R.string.add_address );
                 String con=resource.getString(R.string.confirm_address);
@@ -155,15 +154,7 @@ public class F2_EditAddressActivity extends BaseActivity implements BusinessResp
 					Toast toast = Toast.makeText(F2_EditAddressActivity.this, tel, 0);
 			        toast.setGravity(Gravity.CENTER, 0, 0);
 			        toast.show();
-				} else if("".equals(mail)) {
-					Toast toast = Toast.makeText(F2_EditAddressActivity.this, email, 0);
-			        toast.setGravity(Gravity.CENTER, 0, 0);
-			        toast.show();
-				} else if(!ReflectionUtils.isEmail(mail)) {
-					Toast toast = Toast.makeText(F2_EditAddressActivity.this, cor, 0);
-			        toast.setGravity(Gravity.CENTER, 0, 0);
-			        toast.show();
-				} else if("".equals(address)) {
+				}  else if("".equals(address)) {
 					Toast toast = Toast.makeText(F2_EditAddressActivity.this, addr, 0);
 			        toast.setGravity(Gravity.CENTER, 0, 0);
 			        toast.show();
@@ -172,7 +163,7 @@ public class F2_EditAddressActivity extends BaseActivity implements BusinessResp
 			        toast.setGravity(Gravity.CENTER, 0, 0);
 			        toast.show();
 				} else {
-					addressModel.addressUpdate(address_id, consignee, telNum, mail, "", zipcode, address, country_id, province_id, city_id, county_id);
+					addressModel.addressUpdate(address_id, consignee, telNum, "", zipcode, address, country_id, province_id, city_id, county_id);
 				}
 				
 			}
@@ -183,7 +174,6 @@ public class F2_EditAddressActivity extends BaseActivity implements BusinessResp
 	public void setAddressInfo() {		
 		name.setText(addressModel.address.consignee);
 		tel.setText(addressModel.address.tel);
-		email.setText(addressModel.address.email);
 		zipCode.setText(addressModel.address.zipcode);
 		detail.setText(addressModel.address.address);
 		

@@ -50,7 +50,7 @@ public class F1_NewAddressActivity extends BaseActivity implements BusinessRespo
 	private ImageView back;
 	private EditText name;
 	private EditText tel;
-	private EditText email;
+
 	private EditText zipCode;
 	private LinearLayout area;
 	private TextView address;
@@ -86,8 +86,6 @@ public class F1_NewAddressActivity extends BaseActivity implements BusinessRespo
 		
 		name = (EditText) findViewById(R.id.add_address_name);
 		tel = (EditText) findViewById(R.id.add_address_telNum);
-		email = (EditText) findViewById(R.id.add_address_email);
-        email.setText(shared.getString("email",""));
 		zipCode = (EditText) findViewById(R.id.add_address_zipCode);
 		area = (LinearLayout) findViewById(R.id.add_address_area);
 		address = (TextView) findViewById(R.id.add_address_address);
@@ -111,14 +109,14 @@ public class F1_NewAddressActivity extends BaseActivity implements BusinessRespo
 			public void onClick(View v) {
 				String consignee = name.getText().toString();
 				String telNum = tel.getText().toString();
-				String mail = email.getText().toString();
+
 				String zipcode = zipCode.getText().toString();
 				String address = detail.getText().toString();
 
                 Resources resource = (Resources) getBaseContext().getResources();
                 String nameText=resource.getString(R.string.add_name);
                 String addtel=resource.getString(R.string.add_tel);
-                String emailText=resource.getString(R.string.add_email);
+
                 String cor=resource.getString(R.string.add_correct_email );
                 String adda=resource.getString(R.string.add_address);
                 String con=resource.getString(R.string.confirm_address);
@@ -133,16 +131,6 @@ public class F1_NewAddressActivity extends BaseActivity implements BusinessRespo
 			        toast.setGravity(Gravity.CENTER, 0, 0);
 			        toast.show();
                     tel.requestFocus();
-				} else if("".equals(mail)) {
-					ToastView toast = new ToastView(F1_NewAddressActivity.this, emailText);
-			        toast.setGravity(Gravity.CENTER, 0, 0);
-			        toast.show();
-                    email.requestFocus();
-				} else if(!ReflectionUtils.isEmail(mail)) {
-					ToastView toast = new ToastView(F1_NewAddressActivity.this, cor);
-			        toast.setGravity(Gravity.CENTER, 0, 0);
-			        toast.show();
-                    email.requestFocus();
 				} else if("".equals(address)) {
 					ToastView toast = new ToastView(F1_NewAddressActivity.this, adda);
 			        toast.setGravity(Gravity.CENTER, 0, 0);
@@ -158,7 +146,7 @@ public class F1_NewAddressActivity extends BaseActivity implements BusinessRespo
 				} else {
 					addressModel = new AddressModel(F1_NewAddressActivity.this);
 					addressModel.addResponseListener(F1_NewAddressActivity.this);
-					addressModel.addAddress(consignee, telNum, mail, "", zipcode, address, country_id, province_id, city_id, county_id);
+					addressModel.addAddress(consignee, telNum, "", zipcode, address, country_id, province_id, city_id, county_id);
 				
 				}
 				

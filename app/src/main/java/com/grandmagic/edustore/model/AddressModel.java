@@ -88,7 +88,7 @@ public class AddressModel extends BaseModel {
     }
 
     // 添加地址
-    public void addAddress(String consignee, String tel, String email, String mobile, String zipcode, String address, String country, String province, String city, String district) {
+    public void addAddress(String consignee, String tel, String mobile, String zipcode, String address, String country, String province, String city, String district) {
        addressaddRequest request=new addressaddRequest();
         BeeCallback<JSONObject> cb = new BeeCallback<JSONObject>() {
 
@@ -116,7 +116,6 @@ public class AddressModel extends BaseModel {
         ADDRESS add = new ADDRESS();
         add.consignee = consignee;
         add.tel = tel;
-        add.email = email;
         add.mobile = mobile;
         add.zipcode = zipcode;
         add.address = address;
@@ -321,7 +320,7 @@ public class AddressModel extends BaseModel {
     }
 
     // 修改地址
-    public void addressUpdate(String address_id, String consignee, String tel, String email, String mobile, String zipcode, String address, String country, String province, String city, String district) {
+    public void addressUpdate(String address_id, String consignee, String tel, String mobile, String zipcode, String address, String country, String province, String city, String district) {
        addressupdateRequest request=new addressupdateRequest();
         BeeCallback<JSONObject> cb = new BeeCallback<JSONObject>() {
 
@@ -347,7 +346,6 @@ public class AddressModel extends BaseModel {
         ADDRESS add = new ADDRESS();
         add.consignee = consignee;
         add.tel = tel;
-        add.email = email;
         add.mobile = mobile;
         add.zipcode = zipcode;
         add.address = address;
