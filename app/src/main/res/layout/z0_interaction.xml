@@ -54,7 +54,7 @@
         android:fadingEdge="none"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="false"
-        android:dividerHeight="1px"
+
         android:scrollbars="none"
         android:visibility="gone" >
     </com.external.maxwin.view.XListView>
