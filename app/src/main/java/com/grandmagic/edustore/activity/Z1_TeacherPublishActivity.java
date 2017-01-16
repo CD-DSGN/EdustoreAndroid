@@ -37,11 +37,13 @@ import java.util.List;
  */
 public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickListener, BusinessResponse, AddImgAdapter.ImgListener {
     public static final int IMG_SELECT = 2;
+    public static final int IMG_DELETE = 1;
     private ImageView publish_back;
     private EditText publish_content;
     private Button teacher_publish;
     private TeacherPublishModel teacherPublishModel;
     private GridView gridView;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +130,10 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
 
     @Override
     public void deleteimg(int position) {
-// TODO: 2017/1/16 删除选择的图
+        Intent intent = new Intent(Z1_TeacherPublishActivity.this, DeleteSelectedImgAct.class);
+        this.position = position;
+        intent.putExtra(DeleteSelectedImgAct.IMAGE_PATH,gridList.get(this.position));
+        startActivityForResult(intent,IMG_DELETE);
     }
 
     @Override
@@ -141,6 +146,10 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
                 return;
             }
             gridList.addAll(path);
+            adapter.setGridList(gridList);
+        }
+        if (RESULT_OK==resultCode&&requestCode==IMG_DELETE){
+            gridList.remove(position);
             adapter.setGridList(gridList);
         }
     }

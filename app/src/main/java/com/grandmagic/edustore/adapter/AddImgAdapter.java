@@ -58,8 +58,7 @@ public class AddImgAdapter extends BaseAdapter {
 //        设置宽高
         viewholder.imageView.getLayoutParams().width= ScreenUtils.getScreenSize(context).x/4;
         viewholder.imageView.getLayoutParams().height= ScreenUtils.getScreenSize(context).x/4;
-          boolean flag= (position != getCount() - 1);//显示图片还是加号
-        if (flag) {
+        if (getCount()>1&&getCount()-1!=position) {
             ImageLoader.getInstance().displayImage("file://" + gridList.get(position), viewholder.imageView);
         } else {
             viewholder.imageView.setImageResource(R.drawable.select_img);
