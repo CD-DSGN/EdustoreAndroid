@@ -47,7 +47,7 @@
             android:layout_gravity="center_vertical|right"
             android:layout_marginRight="10dp"
             android:padding="5dp"
-            android:src="@drawable/item_info_header_share_icon"
+            android:src="@drawable/nav_trash"
             android:visibility="visible" />
 
         <LinearLayout

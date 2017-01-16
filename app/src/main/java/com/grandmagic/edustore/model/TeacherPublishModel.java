@@ -2,6 +2,7 @@ package com.grandmagic.edustore.model;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.Gravity;
 
 import com.external.androidquery.callback.AjaxStatus;
@@ -21,7 +22,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,7 +36,7 @@ public class TeacherPublishModel extends BaseModel{
         super(context);
     }
 
-    public void publish_teacher_message(String content){
+    public void publish_teacher_message(String content, List<String> imagelist){
         teacherpublishRequest request = new teacherpublishRequest();
         BeeCallback<JSONObject> cb = new BeeCallback<JSONObject>(){
 
@@ -63,7 +66,7 @@ public class TeacherPublishModel extends BaseModel{
         SESSION session = SESSION.getInstance();
         request.session = session;
         request.publishContent = content;
-
+        request.image=imagelist;
         Map<String, String> params = new HashMap<String, String>();
         try {
             params.put("json", request.toJson().toString());
@@ -72,7 +75,7 @@ public class TeacherPublishModel extends BaseModel{
             // TODO: handle exception
 
         }
-
+        Log.e("push", "publish_teacher_message: "+params.get("json").toString() );
         cb.url(ApiInterface.TEACHER_PUBLISH).type(JSONObject.class).params(params);
         MyProgressDialog pd = new MyProgressDialog(mContext,mContext.getResources().getString(R.string.hold_on));
         aq.progress(pd.mDialog).ajax(cb);

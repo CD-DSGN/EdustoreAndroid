@@ -70,10 +70,12 @@
             android:background="#cccccc" />
 
         <GridView
+            android:horizontalSpacing="5dp"
             android:id="@+id/grid_img"
+            android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:numColumns="4"/>
+            android:numColumns="3"/>
 
 
         <Button

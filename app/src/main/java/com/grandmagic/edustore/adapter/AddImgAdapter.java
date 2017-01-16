@@ -46,26 +46,24 @@ public class AddImgAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        Viewholder viewholder = null;
-        if (convertView == null) {
-            viewholder=new Viewholder();
+       ImageView imageView;
+
             convertView = LayoutInflater.from(context).inflate(R.layout.item_add_img, null);
-            viewholder.imageView = (ImageView) convertView.findViewById(R.id.img_teacherpush);
-            convertView.setTag(viewholder);
-        } else {
-            viewholder = (Viewholder) convertView.getTag();
-        }
+            imageView = (ImageView) convertView.findViewById(R.id.img_teacherpush);
+
+
 //        设置宽高
-        viewholder.imageView.getLayoutParams().width= ScreenUtils.getScreenSize(context).x/4;
-        viewholder.imageView.getLayoutParams().height= ScreenUtils.getScreenSize(context).x/4;
+       imageView.getLayoutParams().width= ScreenUtils.getScreenSize(context).x/3;
+        imageView.getLayoutParams().height= ScreenUtils.getScreenSize(context).x/3;
+     imageView.setImageResource(R.drawable.default_image);
         if (getCount()>1&&getCount()-1!=position) {
-            ImageLoader.getInstance().displayImage("file://" + gridList.get(position), viewholder.imageView);
+            ImageLoader.getInstance().displayImage("file://" + gridList.get(position), imageView);
         } else {
-            viewholder.imageView.setImageResource(R.drawable.select_img);
-            if (getCount()>3)viewholder.imageView.setVisibility(View.GONE);
+            imageView.setImageResource(R.drawable.select_img);
+            if (getCount()>3)imageView.setVisibility(View.GONE);
         }
 
-        viewholder.imageView.setOnClickListener(new View.OnClickListener() {
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean flag= (position != getCount() - 1);
@@ -80,12 +78,8 @@ public class AddImgAdapter extends BaseAdapter {
                 }
             }
         });
+//        因为只允许3张图片。没必要用VIewholder
         return convertView;
-    }
-
-    class Viewholder {
-        ImageView imageView;
-
     }
 public interface  ImgListener{
     void addimg();
