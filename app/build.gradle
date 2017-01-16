@@ -31,7 +31,9 @@ dependencies {
 
 //    compile "com.android.support:support-v4:+"
     compile 'com.umeng.analytics:analytics:latest.integration'
-    compile ('com.bigkoo:convenientbanner:2.0.5'){
+    compile('com.bigkoo:convenientbanner:2.0.5') {
         exclude module: 'support-v4'
     }
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.tencent.bugly:crashreport:2.2.0'
 }

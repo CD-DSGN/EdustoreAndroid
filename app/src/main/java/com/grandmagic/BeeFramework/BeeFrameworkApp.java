@@ -87,7 +87,7 @@ public class BeeFrameworkApp extends Application implements OnClickListener{
         //自己捕捉没有什么意义，交给友盟去捕捉
 //        Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(
 //                path, null));
-        MobclickAgent.setCatchUncaughtExceptions(true);
+        MobclickAgent.setCatchUncaughtExceptions(false);
         //设置为普通场景
         MobclickAgent.setScenarioType(getApplicationContext(), MobclickAgent.EScenarioType.E_UM_NORMAL);
 

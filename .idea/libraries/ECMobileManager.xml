@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ECMobileManager">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/libs/ECMobileManager.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
