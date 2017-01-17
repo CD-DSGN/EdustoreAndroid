@@ -110,6 +110,7 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                     publish_content.requestFocus();
+                    return;
                 }
                 teacherPublishModel = new TeacherPublishModel(this);
                 teacherPublishModel.addResponseListener(this);
@@ -120,6 +121,7 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
                     upFilelist.add(s);
                 }
                 teacherPublishModel.publish_teacher_message(content, upFilelist);
+                teacher_publish.setEnabled(false);//发布时候防止再次点击
         }
 
     }
@@ -132,7 +134,9 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
 
     @Override
     public void OnMessageResponse(String url, JSONObject jo, AjaxStatus status) throws JSONException {
+        teacher_publish.setEnabled(true);
         if (url.endsWith(ApiInterface.TEACHER_PUBLISH)) {
+            setResult(RESULT_OK);
             finish();
         }
     }

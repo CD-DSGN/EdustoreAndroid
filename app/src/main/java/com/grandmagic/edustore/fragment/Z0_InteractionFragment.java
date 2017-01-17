@@ -1,5 +1,6 @@
 package com.grandmagic.edustore.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +34,7 @@ import org.json.JSONObject;
  * Created by chenggaoyuan on 2016/10/21. 汇师圈对应的fragment
  */
 public class Z0_InteractionFragment extends BaseFragment implements View.OnClickListener, XListView.IXListViewListener {
+    private static final int REQUESTCODE_PUBLISH = 1;
     private View view;
 
     protected Context mContext;
@@ -130,6 +132,14 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==REQUESTCODE_PUBLISH&&resultCode== Activity.RESULT_OK){
+        onRefresh(-1);
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
     }
@@ -147,7 +157,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
         switch(v.getId()) {
             case R.id.teacher_publish:
                 intent = new Intent(getActivity(), Z1_TeacherPublishActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,REQUESTCODE_PUBLISH);
                 getActivity().overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                 break;
             default:

@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.grandmagic.BeeFramework.Utils.ScreenUtils;
 import com.grandmagic.BeeFramework.adapter.BeeBaseAdapter;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.protocol.PHOTO;
@@ -68,7 +69,17 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         holder.publish_time.setText(stampToDate(publish_time_tmp));
         mImageLoader.displayImage(teacher_img_tmp, holder.teacherImg);
 //// TODO: 2017/1/17 添加 图片到列表
-
+        int x=1;
+        for (int i = 0; i < x; i++) {
+          float y=x>1?x/1.0f:1.5f;
+            ImageView imageView=new ImageView(mContext);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams((int)(ScreenUtils.getScreenSize(mContext).x / y )- 30,
+                    (int) (ScreenUtils.getScreenSize(mContext).x / y) - 30);
+            params.setMargins(15,0,15,0);
+            imageView.setLayoutParams(params);
+            imageView.setImageResource(R.drawable.default_image);
+            holder.imagelayout.addView(imageView);
+        }
 
         return cellView;
 

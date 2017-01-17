@@ -73,7 +73,16 @@ public class EcmobileMainActivity extends FragmentActivity
 		if(getIntent().getStringExtra(CUSTOM_CONTENT) != null) {
 			pushIntent(getIntent().getStringExtra(CUSTOM_CONTENT));
 		}
-	    
+
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(BeeQuery.environment() == BeeQuery.ENVIROMENT_DEVELOPMENT)
+        {
+            BeeFrameworkApp.getInstance().showBug(EcmobileMainActivity.this);
+        }
     }
 
     @Override
@@ -183,10 +192,7 @@ public class EcmobileMainActivity extends FragmentActivity
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 handler.sendEmptyMessageDelayed(0, 3000);
-                if(BeeQuery.environment() == BeeQuery.ENVIROMENT_DEVELOPMENT)
-                {
-                    BeeFrameworkApp.getInstance().showBug(this);
-                }
+
 
                 return true;
             } else {
