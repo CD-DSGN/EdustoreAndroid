@@ -599,9 +599,9 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
 	/*begin,added by chenggaoyuan*/
 	protected void showChoosePicDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle("设置头像");
-		String[] items = { "选择本地照片", "拍照" };
-		builder.setNegativeButton("取消", null);
+		builder.setTitle(R.string.select_img);
+		String[] items = {getResources().getString(R.string.from_album), getResources().getString(R.string.from_camera) };
+		builder.setNegativeButton(R.string.button_no, null);
 		builder.setItems(items, new DialogInterface.OnClickListener() {
 
 			@Override
