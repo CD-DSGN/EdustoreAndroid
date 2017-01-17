@@ -1,15 +1,23 @@
 package com.grandmagic.edustore.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +30,7 @@ import com.external.imageselector.MultiImageSelector;
 import com.external.imageselector.MultiImageSelectorActivity;
 import com.external.imageselector.utils.ScreenUtils;
 import com.grandmagic.BeeFramework.Utils.BitmapUtil;
+import com.grandmagic.BeeFramework.Utils.SpUtils;
 import com.grandmagic.BeeFramework.activity.BaseActivity;
 import com.grandmagic.BeeFramework.model.BusinessResponse;
 import com.grandmagic.BeeFramework.view.ToastView;
@@ -44,6 +53,7 @@ import java.util.List;
 public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickListener, BusinessResponse, AddImgAdapter.ImgListener {
     public static final int IMG_SELECT = 2;
     public static final int IMG_DELETE = 1;
+    private static final int TAKE_PICTURE = 3;
     private ImageView publish_back;
     private EditText publish_content;
     private Button teacher_publish;
@@ -135,8 +145,34 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
 
     @Override
     public void addimg() {
-        MultiImageSelector.create().count(3)
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("设置头像");
+        String[] items = { "选择本地照片", "拍照" };
+        builder.setNegativeButton("取消", null);
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0: // 选择本地照片
+                                MultiImageSelector.create().count(3)
                 .start(Z1_TeacherPublishActivity.this, IMG_SELECT);
+                        break;
+                    case 1: // 拍照
+                        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        //tempUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "image.jpg"));
+                        // 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
+                        //openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
+                        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment
+                                .getExternalStorageDirectory(),
+                                SpUtils.getUid(Z1_TeacherPublishActivity.this) + ".jpg")));
+                        startActivityForResult(openCameraIntent, TAKE_PICTURE);
+                        break;
+                }
+            }
+        });
+        builder.create().show();
+
     }
 
     @Override
@@ -157,12 +193,13 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
                 return;
             }
             gridList.addAll(path);
-            adapter.setGridList(gridList);
-
-        }
-        if (RESULT_OK == resultCode && requestCode == IMG_DELETE) {
+        } else if (RESULT_OK == resultCode && requestCode == IMG_DELETE) {
             gridList.remove(position);
-            adapter.setGridList(gridList);
+        }else if (RESULT_OK==resultCode&&TAKE_PICTURE==requestCode){
+            String filpath = Environment.getExternalStorageDirectory()
+                    + "/" + SpUtils.getUid(this) + ".jpg";
+            gridList.add(filpath);
         }
+        adapter.setGridList(gridList);
     }
 }
