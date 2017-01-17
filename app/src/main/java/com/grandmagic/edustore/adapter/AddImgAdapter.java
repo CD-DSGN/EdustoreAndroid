@@ -1,17 +1,14 @@
 package com.grandmagic.edustore.adapter;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.external.imageselector.utils.ScreenUtils;
+import com.grandmagic.BeeFramework.Utils.ScreenUtils;
 import com.grandmagic.edustore.R;
-import com.grandmagic.edustore.activity.Z1_TeacherPublishActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;

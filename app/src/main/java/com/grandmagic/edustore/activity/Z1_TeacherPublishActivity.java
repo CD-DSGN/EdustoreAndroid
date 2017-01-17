@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,10 +27,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.external.androidquery.callback.AjaxStatus;
-import com.external.imageselector.MultiImageSelector;
-import com.external.imageselector.MultiImageSelectorActivity;
-import com.external.imageselector.utils.ScreenUtils;
 import com.grandmagic.BeeFramework.Utils.BitmapUtil;
+import com.grandmagic.BeeFramework.Utils.ScreenUtils;
 import com.grandmagic.BeeFramework.Utils.SpUtils;
 import com.grandmagic.BeeFramework.activity.BaseActivity;
 import com.grandmagic.BeeFramework.model.BusinessResponse;
@@ -39,6 +38,9 @@ import com.grandmagic.edustore.adapter.AddImgAdapter;
 import com.grandmagic.edustore.fragment.Base64Coder;
 import com.grandmagic.edustore.model.TeacherPublishModel;
 import com.grandmagic.edustore.protocol.ApiInterface;
+import com.yuyh.library.imgsel.ImageLoader;
+import com.yuyh.library.imgsel.ImgSelActivity;
+import com.yuyh.library.imgsel.ImgSelConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -154,8 +156,7 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0: // 选择本地照片
-                                MultiImageSelector.create().count(3)
-                .start(Z1_TeacherPublishActivity.this, IMG_SELECT);
+             selectImgLocal();
                         break;
                     case 1: // 拍照
                         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -174,6 +175,47 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
 
     }
 
+    private void selectImgLocal() {
+        // 自定义图片加载器
+         ImageLoader loader = new ImageLoader() {
+            @Override
+            public void displayImage(Context context, String path, ImageView imageView) {
+                com.nostra13.universalimageloader.core.ImageLoader.getInstance()
+                        .displayImage("file://"+path,imageView);
+
+            }
+        };
+// 自由配置选项
+        ImgSelConfig config = new ImgSelConfig.Builder(this, loader)
+                // 是否多选
+                .multiSelect(true)
+                // “确定”按钮背景色
+                .btnBgColor(Color.GRAY)
+                // “确定”按钮文字颜色
+                .btnTextColor(Color.BLUE)
+                // 使用沉浸式状态栏
+                .statusBarColor(Color.parseColor("#3F51B5"))
+                // 返回图标ResId
+                .backResId(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_mtrl_am_alpha)
+                // 标题
+                .title("图片")
+                // 标题文字颜色
+                .titleColor(Color.WHITE)
+                // TitleBar背景色
+                .titleBgColor(Color.parseColor("#3F51B5"))
+                // 裁剪大小。needCrop为true的时候配置
+//                .cropSize(1, 1, 200, 200)
+                .needCrop(false)
+                // 第一个是否显示相机
+                .needCamera(false)
+                // 最大选择图片数量
+                .maxNum(3)
+                .build();
+
+// 跳转到图片选择器
+        ImgSelActivity.startActivity(this, config, IMG_SELECT);
+    }
+
     @Override
     public void deleteimg(int position) {
         Intent intent = new Intent(Z1_TeacherPublishActivity.this, DeleteSelectedImgAct.class);
@@ -186,7 +228,7 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (RESULT_OK == resultCode && data != null && requestCode == IMG_SELECT) {
-            List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+            List<String> path = data.getStringArrayListExtra(ImgSelActivity.INTENT_RESULT);
             if (gridList.size() + path.size() > 3) {
                 new ToastView(this, "最多只能选择三张").show();
                 return;

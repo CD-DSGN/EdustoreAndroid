@@ -1,4 +1,4 @@
-package com.external.imageselector.utils;
+package com.grandmagic.BeeFramework.Utils;
 
 import android.content.Context;
 import android.graphics.Point;

@@ -385,7 +385,6 @@
             </intent-filter>
         </service>
         <!-- push结束 -->
-        <activity android:name="com.external.imageselector.MultiImageSelectorActivity" />
         <activity android:name=".activity.DeleteSelectedImgAct"></activity>
     </application>
 
