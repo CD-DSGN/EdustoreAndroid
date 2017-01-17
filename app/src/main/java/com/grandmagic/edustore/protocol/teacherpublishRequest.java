@@ -36,11 +36,11 @@ public List<String> image;
             localItemObject.put("publishcontent", publishContent);
         }
         if (image!=null&&image.size()>0){
-            JSONArray jsonArray=new JSONArray();
+           JSONObject object=new JSONObject();
             for (int i = 0; i < image.size(); i++) {
-                jsonArray.put(image.get(i));
+                object.put(i+"",image.get(i));
             }
-            localItemObject.put("publish_images", jsonArray);
+            localItemObject.put("publish_images", object);
         }
         if (null != session) {
             localItemObject.put("session", session.toJson());

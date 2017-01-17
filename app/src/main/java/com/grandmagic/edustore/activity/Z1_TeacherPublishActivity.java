@@ -113,7 +113,7 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
                 teacherPublishModel.addResponseListener(this);
                 List<String> upFilelist = new ArrayList<>();
                 for (String string : gridList) {
-                    Bitmap bitmap = BitmapUtil.getBitmapFromFile(string, 200, 300);
+                    Bitmap bitmap = BitmapUtil.compressImage(BitmapUtil.getBitmapFromFile(string,500,500));//限制200k
                     String s = Base64Coder.encodeLines(BitmapUtil.getBytesFromBitmap(bitmap));
                     upFilelist.add(s);
                 }

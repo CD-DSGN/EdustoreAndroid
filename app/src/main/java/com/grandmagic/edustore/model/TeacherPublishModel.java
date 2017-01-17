@@ -62,7 +62,6 @@ public class TeacherPublishModel extends BaseModel{
                 }
             }
         };
-
         SESSION session = SESSION.getInstance();
         request.session = session;
         request.publishContent = content;
@@ -75,7 +74,6 @@ public class TeacherPublishModel extends BaseModel{
             // TODO: handle exception
 
         }
-        Log.e("push", "publish_teacher_message: "+params.get("json").toString() );
         cb.url(ApiInterface.TEACHER_PUBLISH).type(JSONObject.class).params(params);
         MyProgressDialog pd = new MyProgressDialog(mContext,mContext.getResources().getString(R.string.hold_on));
         aq.progress(pd.mDialog).ajax(cb);
