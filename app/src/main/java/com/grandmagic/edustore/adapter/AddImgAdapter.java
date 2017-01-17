@@ -1,5 +1,6 @@
 package com.grandmagic.edustore.adapter;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,13 +54,15 @@ public class AddImgAdapter extends BaseAdapter {
 
 
 //        设置宽高
-       imageView.getLayoutParams().width= ScreenUtils.getScreenSize(context).x/3;
-        imageView.getLayoutParams().height= ScreenUtils.getScreenSize(context).x/3;
+       imageView.getLayoutParams().width= ScreenUtils.getScreenSize(context).x/4;
+        imageView.getLayoutParams().height= ScreenUtils.getScreenSize(context).x/4;
      imageView.setImageResource(R.drawable.default_image);
         if (getCount()>1&&getCount()-1!=position) {
             ImageLoader.getInstance().displayImage("file://" + gridList.get(position), imageView);
         } else {
             imageView.setImageResource(R.drawable.select_img);
+            imageView.setScaleX(0.8f);
+            imageView.setScaleY(0.8f);
             if (getCount()>3)imageView.setVisibility(View.GONE);
         }
 

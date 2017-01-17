@@ -84,6 +84,8 @@
             android:layout_height="40dp"
             android:background="#FF6825"
             android:text="@string/teacher_publish_button"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
             android:textColor="#FFFFFF"
             android:textSize="20dp" />
     </LinearLayout>

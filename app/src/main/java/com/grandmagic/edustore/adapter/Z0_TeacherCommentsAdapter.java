@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.grandmagic.BeeFramework.adapter.BeeBaseAdapter;
@@ -36,6 +37,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         TextView teacher_name;
         TextView comments;
         TextView publish_time;
+        LinearLayout imagelayout;
     }
     @Override
     protected BeeCellHolder createCellHolder(View cellView) {
@@ -44,6 +46,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         cell.teacher_name = (TextView) cellView.findViewById(R.id.teacher_name);
         cell.comments = (TextView) cellView.findViewById(R.id.comments);
         cell.publish_time = (TextView) cellView.findViewById(R.id.publish_date);
+        cell.imagelayout= (LinearLayout) cellView.findViewById(R.id.imagelayout);
         return cell;
     }
     @Override
@@ -64,7 +67,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         holder.comments.setText(teacher_comments_tmp);
         holder.publish_time.setText(stampToDate(publish_time_tmp));
         mImageLoader.displayImage(teacher_img_tmp, holder.teacherImg);
-
+//// TODO: 2017/1/17 添加 图片到列表
 
 
         return cellView;

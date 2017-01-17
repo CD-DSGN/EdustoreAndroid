@@ -51,9 +51,9 @@ import java.util.List;
  * Created by chenggaoyuan on 2016/10/25.
  */
 public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickListener, BusinessResponse, AddImgAdapter.ImgListener {
-    public static final int IMG_SELECT = 2;
-    public static final int IMG_DELETE = 1;
-    private static final int TAKE_PICTURE = 3;
+    public static final int IMG_SELECT = 2;//选择相册
+    public static final int IMG_DELETE = 1;//删除已选择的图片
+    private static final int TAKE_PICTURE = 3;//调用相机拍照
     private ImageView publish_back;
     private EditText publish_content;
     private Button teacher_publish;
@@ -84,7 +84,7 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
 
     private void initgridview() {
         gridView = (GridView) findViewById(R.id.grid_img);
-        gridView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenSize(this).x / 3 + 50));
+        gridView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenSize(this).x / 4 + 10));
         gridList = new ArrayList<>();
         adapter = new AddImgAdapter(this, gridList);
         adapter.setImgListener(this);
