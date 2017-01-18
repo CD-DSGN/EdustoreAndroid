@@ -13,14 +13,9 @@ package com.grandmagic.edustore;
 //  Powered by BeeFramework
 //
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import com.grandmagic.BeeFramework.BeeFrameworkApp;
-import com.grandmagic.edustore.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.tencent.bugly.crashreport.CrashReport;
 
 public class EcmobileApp extends BeeFrameworkApp
 {
@@ -29,8 +24,6 @@ public class EcmobileApp extends BeeFrameworkApp
     @Override
     public void onCreate() {
         super.onCreate();
-
-        CrashReport.initCrashReport(getApplicationContext(), "9b41981d14", false);
         options = new DisplayImageOptions.Builder()
                 .showStubImage(R.drawable.default_image)			// 设置图片下载期间显示的图片
                 .showImageForEmptyUri(R.drawable.default_image)	// 设置图片Uri为空或是错误的时候显示的图片

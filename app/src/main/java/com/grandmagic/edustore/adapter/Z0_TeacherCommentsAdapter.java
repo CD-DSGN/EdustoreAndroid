@@ -1,6 +1,8 @@
 package com.grandmagic.edustore.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,12 +11,13 @@ import android.widget.TextView;
 
 import com.grandmagic.BeeFramework.Utils.ScreenUtils;
 import com.grandmagic.BeeFramework.adapter.BeeBaseAdapter;
+import com.grandmagic.edustore.EcmobileApp;
 import com.grandmagic.edustore.R;
-import com.grandmagic.edustore.protocol.PHOTO;
+import com.grandmagic.edustore.activity.BigImageViewAct;
 import com.grandmagic.edustore.protocol.TEACHERCOMMENTS;
-import com.grandmagic.edustore.view.CircularImage;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,13 +36,14 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         this.teacherCommentsArrayList = dataList;
     }
 
-    public class CommentsCellHolder extends BeeCellHolder{
+    public class CommentsCellHolder extends BeeCellHolder {
         ImageView teacherImg;
         TextView teacher_name;
         TextView comments;
         TextView publish_time;
         LinearLayout imagelayout;
     }
+
     @Override
     protected BeeCellHolder createCellHolder(View cellView) {
         CommentsCellHolder cell = new CommentsCellHolder();
@@ -47,9 +51,10 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         cell.teacher_name = (TextView) cellView.findViewById(R.id.teacher_name);
         cell.comments = (TextView) cellView.findViewById(R.id.comments);
         cell.publish_time = (TextView) cellView.findViewById(R.id.publish_date);
-        cell.imagelayout= (LinearLayout) cellView.findViewById(R.id.imagelayout);
+        cell.imagelayout = (LinearLayout) cellView.findViewById(R.id.imagelayout);
         return cell;
     }
+
     @Override
     public int getCount() {
         return super.getCount();
@@ -68,21 +73,65 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         holder.comments.setText(teacher_comments_tmp);
         holder.publish_time.setText(stampToDate(publish_time_tmp));
         mImageLoader.displayImage(teacher_img_tmp, holder.teacherImg);
-//// TODO: 2017/1/17 添加 图片到列表
-        int x=1;
-        for (int i = 0; i < x; i++) {
-          float y=x>1?x/1.0f:1.5f;
-            ImageView imageView=new ImageView(mContext);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams((int)(ScreenUtils.getScreenSize(mContext).x / y )- 30,
-                    (int) (ScreenUtils.getScreenSize(mContext).x / y) - 30);
-            params.setMargins(15,0,15,0);
-            imageView.setLayoutParams(params);
-            imageView.setImageResource(R.drawable.default_image);
-            holder.imagelayout.addView(imageView);
-        }
-
+        int size = teacherComments.photoArray.size();
+        initImageLayout(teacherComments, holder, size);
         return cellView;
 
+    }
+
+    /**
+     * 初始化装载图片的layout
+     *
+     * @param teacherComments json数据
+     * @param holder          holder
+     * @param size            图片数量
+     */
+    private void initImageLayout(final TEACHERCOMMENTS teacherComments, CommentsCellHolder holder, int size) {
+        holder.imagelayout.removeAllViews();
+        for (int i = 0; i < size; i++) {
+            int y = size > 1 ? 3 : 2;//根据图片数量平分屏幕
+            ImageView imageView = creatImageview(holder, size, y);
+            mImageLoader.displayImage(teacherComments.photoArray.get(i).img_thumb, imageView, EcmobileApp.options);
+            imageView.setTag(i);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, BigImageViewAct.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(BigImageViewAct.IMAGE_ARRAY, (Serializable) teacherComments.photoArray);
+                    intent.putExtras(bundle);
+                    intent.putExtra("position", (int) view.getTag());
+                    mContext.startActivity(intent);
+                }
+            });
+            holder.imagelayout.addView(imageView);
+        }
+    }
+
+    //动态创建imageview
+    private ImageView creatImageview(CommentsCellHolder holder, int size, float y) {
+        ImageView imageView = new ImageView(mContext);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) holder.imagelayout.getLayoutParams();
+        int leftMargin = layoutParams.leftMargin;
+        int rightMargin = layoutParams.rightMargin;
+        int spaceW = 20;
+        int imageW = (int) ((ScreenUtils.getScreenSize(mContext).x - leftMargin - rightMargin - size * spaceW) / y);
+        if (size > 1) {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(imageW,
+                    imageW);
+            params.setMargins(0, 0, spaceW, 0);
+            imageView.setLayoutParams(params);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        } else {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            imageView.setAdjustViewBounds(true);
+            imageView.setMaxWidth(imageW);
+            imageView.setLayoutParams(params);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        }
+
+        return imageView;
     }
 
     @Override
@@ -93,11 +142,11 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
     /*
     将时间戳转换为时间
      */
-    public static String stampToDate(String s){
+    public static String stampToDate(String s) {
         String res;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         long lt = new Long(s);
-        Date date = new Date(lt*1000);
+        Date date = new Date(lt * 1000);
         res = simpleDateFormat.format(date);
         return res;
     }

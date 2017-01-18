@@ -57,10 +57,17 @@
                     android:textSize="13sp" />
 
             </RelativeLayout>
-
             <TextView
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+                android:id="@+id/publish_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2015-12-31 12:30"
+                android:textColor="#8e8e8e"
+                android:textSize="9.5sp" />
+            <TextView
+
                 android:id="@+id/comments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,13 +76,7 @@
                 android:textColor="#505050"
                 android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/publish_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2015-12-31 12:30"
-                android:textColor="#8e8e8e"
-                android:textSize="9.5sp" />
+
 
         </LinearLayout>
     </LinearLayout>
@@ -84,7 +85,11 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="56dp"
+        android:layout_marginRight="20dp"
         android:id="@+id/imagelayout"
+        android:layout_marginBottom="10dp"
+        android:gravity="start"
         >
     </LinearLayout>
     <View

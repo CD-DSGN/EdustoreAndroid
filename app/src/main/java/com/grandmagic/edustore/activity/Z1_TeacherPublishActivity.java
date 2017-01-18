@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import com.grandmagic.edustore.adapter.AddImgAdapter;
 import com.grandmagic.edustore.fragment.Base64Coder;
 import com.grandmagic.edustore.model.TeacherPublishModel;
 import com.grandmagic.edustore.protocol.ApiInterface;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.yuyh.library.imgsel.ImageLoader;
 import com.yuyh.library.imgsel.ImgSelActivity;
 import com.yuyh.library.imgsel.ImgSelConfig;
@@ -116,7 +118,7 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
                 teacherPublishModel.addResponseListener(this);
                 List<String> upFilelist = new ArrayList<>();
                 for (String string : gridList) {
-                    Bitmap bitmap = BitmapUtil.compressImage(BitmapUtil.getBitmapFromFile(string,500,500));//限制200k
+                    Bitmap bitmap = BitmapUtil.compressImage(BitmapUtil.getBitmapFromFile(string,1080,1080));//限制200k
                     String s = Base64Coder.encodeLines(BitmapUtil.getBytesFromBitmap(bitmap));
                     upFilelist.add(s);
                 }
@@ -184,8 +186,18 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
          ImageLoader loader = new ImageLoader() {
             @Override
             public void displayImage(Context context, String path, ImageView imageView) {
+                DisplayImageOptions options = new DisplayImageOptions.Builder()
+                        .showStubImage(R.drawable.default_image)            // 设置图片下载期间显示的图片
+                        .showImageForEmptyUri(R.drawable.default_image)    // 设置图片Uri为空或是错误的时候显示的图片
+                        .showImageOnFail(R.drawable.default_image)        // 设置图片加载或解码过程中发生错误显示的图片
+                        .cacheInMemory(true)                        // 设置下载的图片是否缓存在内存中
+                        .cacheOnDisc(false)
+                        // 设置下载的图片是否缓存在SD卡中
+                        //.displayer(new RoundedBitmapDisplayer(20))	// 设置成圆角图片
+                        .bitmapConfig(Bitmap.Config.RGB_565)
+                        .build();
                 com.nostra13.universalimageloader.core.ImageLoader.getInstance()
-                        .displayImage("file://"+path,imageView);
+                        .displayImage("file://"+path,imageView,options);
 
             }
         };
