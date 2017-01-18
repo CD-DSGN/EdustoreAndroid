@@ -2,6 +2,7 @@ package com.grandmagic.edustore.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,11 @@ import com.grandmagic.edustore.EcmobileApp;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.activity.BigImageViewAct;
 import com.grandmagic.edustore.protocol.TEACHERCOMMENTS;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -89,9 +94,9 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
     private void initImageLayout(final TEACHERCOMMENTS teacherComments, CommentsCellHolder holder, int size) {
         holder.imagelayout.removeAllViews();
         for (int i = 0; i < size; i++) {
-            int y = size > 1 ? 3 : 2;//根据图片数量平分屏幕
+            float y = size > 1 ? 3 : 2;//根据图片数量平分屏幕
             ImageView imageView = creatImageview(holder, size, y);
-            mImageLoader.displayImage(teacherComments.photoArray.get(i).img_thumb, imageView, EcmobileApp.options);
+            mImageLoader.displayImage(teacherComments.photoArray.get(i).img, imageView, EcmobileApp.options);
             imageView.setTag(i);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -116,21 +121,19 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         int rightMargin = layoutParams.rightMargin;
         int spaceW = 20;
         int imageW = (int) ((ScreenUtils.getScreenSize(mContext).x - leftMargin - rightMargin - size * spaceW) / y);
+        LinearLayout.LayoutParams   params;
         if (size > 1) {
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(imageW,
+            params  = new LinearLayout.LayoutParams(imageW,
                     imageW);
-            params.setMargins(0, 0, spaceW, 0);
-            imageView.setLayoutParams(params);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else {
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            params = new LinearLayout.LayoutParams(imageW,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
             imageView.setAdjustViewBounds(true);
-            imageView.setMaxWidth(imageW);
-            imageView.setLayoutParams(params);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setMaxHeight(3*imageW);
         }
-
+        params.setMargins(0, 0, spaceW, 0);
+        imageView.setLayoutParams(params);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         return imageView;
     }
 
