@@ -43,6 +43,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.yuyh.library.imgsel.ImageLoader;
 import com.yuyh.library.imgsel.ImgSelActivity;
 import com.yuyh.library.imgsel.ImgSelConfig;
+import com.yuyh.library.imgsel.common.Constant;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -227,7 +228,6 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
                 // 最大选择图片数量
                 .maxNum(3)
                 .build();
-
 // 跳转到图片选择器
         ImgSelActivity.startActivity(this, config, IMG_SELECT);
     }
@@ -244,6 +244,8 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (RESULT_OK == resultCode && data != null && requestCode == IMG_SELECT) {
+            //        选完后，需要清理掉已选择list，不然再次进入会默认选中之前的
+            Constant.imageList.clear();
             List<String> path = data.getStringArrayListExtra(ImgSelActivity.INTENT_RESULT);
             if (gridList.size() + path.size() > 3) {
                 new ToastView(this, "最多只能选择三张").show();

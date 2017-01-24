@@ -56,10 +56,12 @@ public class AddImgAdapter extends BaseAdapter {
      imageView.setImageResource(R.drawable.default_image);
         if (getCount()>1&&getCount()-1!=position) {
             ImageLoader.getInstance().displayImage("file://" + gridList.get(position), imageView);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else {
             imageView.setImageResource(R.drawable.select_img);
             imageView.setScaleX(0.8f);
             imageView.setScaleY(0.8f);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             if (getCount()>3)imageView.setVisibility(View.GONE);
         }
 
