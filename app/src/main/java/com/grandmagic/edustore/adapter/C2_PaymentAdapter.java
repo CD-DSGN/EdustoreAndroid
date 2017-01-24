@@ -13,30 +13,19 @@ package com.grandmagic.edustore.adapter;
 //  Powered by BeeFramework
 //
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.grandmagic.edustore.R;
-import com.grandmagic.edustore.activity.F2_EditAddressActivity;
-import com.grandmagic.edustore.adapter.F0_AddressListAdapter.ViewHolder;
-import com.grandmagic.edustore.protocol.ADDRESS;
-import com.grandmagic.edustore.protocol.PAYMENT;
-
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import static u.aly.av.S;
+import com.grandmagic.edustore.R;
+import com.grandmagic.edustore.protocol.PAYMENT;
+
+import java.util.List;
+
 
 public class C2_PaymentAdapter extends BaseAdapter {
 	

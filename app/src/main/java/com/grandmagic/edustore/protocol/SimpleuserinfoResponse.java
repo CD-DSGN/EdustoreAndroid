@@ -9,8 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static android.R.attr.data;
-import static u.aly.av.U;
+
 
 @Table(name = "userinfoResponse")
 public class SimpleuserinfoResponse extends Model

@@ -90,11 +90,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import static android.R.attr.data;
-import static u.aly.av.G;
-import static u.aly.av.T;
-import static u.aly.av.U;
-
 
 public class B0_IndexFragment extends BaseFragment implements BusinessResponse, XListView.IXListViewListener, RegisterApp, OnMessageContResponse {
 

@@ -28,12 +28,10 @@ import com.grandmagic.edustore.model.RegisterPhoneNumCheckModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static u.aly.av.T;
 
 /**
  * Created by chenggaoyuan on 2016/8/25. 注册时提交验证码
