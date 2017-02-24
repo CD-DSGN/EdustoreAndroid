@@ -21,6 +21,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -96,7 +97,15 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         for (int i = 0; i < size; i++) {
             float y = size > 1 ? 3 : 2;//根据图片数量平分屏幕
             ImageView imageView = creatImageview(holder, size, y);
-            mImageLoader.displayImage(teacherComments.photoArray.get(i).img, imageView, EcmobileApp.options);
+            mImageLoader.displayImage(teacherComments.photoArray.get(i).img, imageView, EcmobileApp.options, new SimpleImageLoadingListener() {
+                @Override
+                public void onLoadingComplete(String mS, View mView, Bitmap mBitmap) {
+                    if (mView.getLayoutParams().height == LinearLayout.LayoutParams.WRAP_CONTENT) {//发现一张图的时候小图放大，高度WRAP_CONTENT的时候太矮
+                        float scale = mBitmap.getHeight() / mBitmap.getWidth();
+                        mView.setLayoutParams(new LinearLayout.LayoutParams(mView.getLayoutParams().width, (int) (scale * mView.getLayoutParams().width)));
+                    }
+                }
+            });
             imageView.setTag(i);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -121,15 +130,15 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         int rightMargin = layoutParams.rightMargin;
         int spaceW = 20;
         int imageW = (int) ((ScreenUtils.getScreenSize(mContext).x - leftMargin - rightMargin - size * spaceW) / y);
-        LinearLayout.LayoutParams   params;
+        LinearLayout.LayoutParams params;
         if (size > 1) {
-            params  = new LinearLayout.LayoutParams(imageW,
+            params = new LinearLayout.LayoutParams(imageW,
                     imageW);
         } else {
             params = new LinearLayout.LayoutParams(imageW,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             imageView.setAdjustViewBounds(true);
-            imageView.setMaxHeight(3*imageW);
+            imageView.setMaxHeight(3 * imageW);
         }
         params.setMargins(0, 0, spaceW, 0);
         imageView.setLayoutParams(params);
