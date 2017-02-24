@@ -10,7 +10,7 @@ package com.grandmagic.edustore;
 //     /\____/
 //     \/___/
 //
-//  Powered by BeeFramework
+//  Powered by BeeFramework 测试环境和正式环境的服务器地址
 //
 
 

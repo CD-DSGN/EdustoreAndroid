@@ -22,6 +22,7 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
     public String teacher_comments;
 
     public String publish_time;
+    public String publish_uid;
     public List<Img> photoArray   =new ArrayList<>();
 
     public void fromJson(JSONObject jsonObject) throws JSONException {
@@ -37,6 +38,7 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
         this.teacher_comments = publish_info.optString("news_content");
 
         this.publish_time = publish_info.optString("publish_time");
+        this.publish_uid = publish_info.optString("user_id");
 
         this.teacher_img_small = teacher_info.optString("avatar");
         JSONArray photo_Array = publish_info.optJSONArray("photo_array");
@@ -61,6 +63,7 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
         localObj_teacher_info.put("avatar", teacher_img_small);
         localObj_publish_info.put("news_content", teacher_comments);
         localObj_publish_info.put("publish_time", publish_time);
+        localObj_publish_info.put("publish_time", publish_uid);
 
         localItemObject.put("teacher_info", localObj_teacher_info);
         localItemObject.put("publish_info", localObj_publish_info);

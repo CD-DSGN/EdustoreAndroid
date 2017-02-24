@@ -2,6 +2,7 @@ package com.grandmagic.edustore.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -42,11 +43,18 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         this.teacherCommentsArrayList = dataList;
     }
 
+    public boolean isSelf(String publisherId) {
+        SharedPreferences mUserinfo = mContext.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        String mUid = mUserinfo.getString("uid", "");
+        return mUid.equals(publisherId);
+    }
+
     public class CommentsCellHolder extends BeeCellHolder {
         ImageView teacherImg;
         TextView teacher_name;
         TextView comments;
         TextView publish_time;
+        TextView delete;
         LinearLayout imagelayout;
     }
 
@@ -56,6 +64,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         cell.teacherImg = (ImageView) cellView.findViewById(R.id.teacher_img);
         cell.teacher_name = (TextView) cellView.findViewById(R.id.teacher_name);
         cell.comments = (TextView) cellView.findViewById(R.id.comments);
+        cell.delete = (TextView) cellView.findViewById(R.id.delete);
         cell.publish_time = (TextView) cellView.findViewById(R.id.publish_date);
         cell.imagelayout = (LinearLayout) cellView.findViewById(R.id.imagelayout);
         return cell;
@@ -81,6 +90,15 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         mImageLoader.displayImage(teacher_img_tmp, holder.teacherImg);
         int size = teacherComments.photoArray.size();
         initImageLayout(teacherComments, holder, size);
+        holder.delete.setVisibility(isSelf(teacherComments.publish_uid)?View.VISIBLE:View.GONE);
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View mView) {
+if (mDeleteListener!=null){
+    mDeleteListener.delete();
+}
+            }
+        });
         return cellView;
 
     }
@@ -161,5 +179,15 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         Date date = new Date(lt * 1000);
         res = simpleDateFormat.format(date);
         return res;
+    }
+
+    DeleteListener mDeleteListener;
+
+    public void setDeleteListener(DeleteListener mDeleteListener) {
+        this.mDeleteListener = mDeleteListener;
+    }
+
+    public interface DeleteListener{
+        void delete();
     }
 }

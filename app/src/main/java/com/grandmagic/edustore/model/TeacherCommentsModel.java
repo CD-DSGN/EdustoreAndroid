@@ -150,4 +150,10 @@ public class TeacherCommentsModel extends BaseModel{
 
     }
 
+    /**
+     * 教师删除动态
+     */
+    public void delete() {
+// TODO: 2017/2/24 删除某条动态
+    }
 }
