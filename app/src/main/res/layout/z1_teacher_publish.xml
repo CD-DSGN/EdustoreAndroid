@@ -52,6 +52,8 @@
                     android:gravity="center_vertical"
                     android:orientation="vertical" >
                 </LinearLayout>-->
+
+        <!--android:maxLines="5" 取消5行限制-->
         <EditText
             android:id="@+id/teacher_publish_content"
             android:layout_width="match_parent"
@@ -59,8 +61,8 @@
             android:gravity="top|left"
             android:background="@null"
             android:hint="@string/teacher_publish_hint"
-            android:maxLength="100"
-            android:maxLines="5"
+            android:maxLength="500"
+
             android:textColor="#000000"
             android:textSize="15dp" />
 
