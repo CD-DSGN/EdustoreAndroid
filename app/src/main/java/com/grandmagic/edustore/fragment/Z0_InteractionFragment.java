@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.external.androidquery.callback.AjaxStatus;
@@ -27,7 +26,6 @@ import com.grandmagic.edustore.model.UserInfoModel;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.PAGINATED;
 import com.grandmagic.edustore.protocol.USER;
-import com.tencent.weibo.sdk.android.api.util.Util;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -216,22 +214,31 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
             } else {
                 publish.setVisibility(View.VISIBLE);
             }
+        }else if (url.endsWith(ApiInterface.DELETE_ONE_COMMENT)){
+            commentsListView.stopLoadMore();
+            commentsListView.stopRefresh();
+            commentsListView.setRefreshTime();
+            setContent();
         }
     }
 
-    /**
-     * 删除发表的动态
-     */
+
     Dialog mDialog;//询问是否删除的弹窗
 
+    /**
+     * 删除动态
+     * @param mTeacher_uid uid
+     * @param mPublish_time_tmp time
+     * @param mPosition position
+     */
     @Override
-    public void delete() {
+    public void delete(final String mTeacher_uid, final String mPublish_time_tmp, final int mPosition) {
         View mView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_delete, null);
         mView.findViewById(R.id.cancle).setOnClickListener(this);
         mView.findViewById(R.id.sure).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mView) {
-                teacherCommentsModel.delete();
+                teacherCommentsModel.delete(mTeacher_uid,mPublish_time_tmp,mPosition);
                 if (mDialog != null && mDialog.isShowing()) {
                     mDialog.dismiss();
                 }

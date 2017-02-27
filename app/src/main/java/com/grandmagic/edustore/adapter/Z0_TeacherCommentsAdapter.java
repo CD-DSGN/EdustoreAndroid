@@ -76,12 +76,13 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
     }
 
     @Override
-    protected View bindData(int position, View cellView, ViewGroup parent, BeeCellHolder h) {
+    protected View bindData(final int position, View cellView, ViewGroup parent, BeeCellHolder h) {
         TEACHERCOMMENTS teacherComments = teacherCommentsArrayList.get(position);
         String teacher_name_tmp = teacherComments.teacher_name;
         String teacher_comments_tmp = teacherComments.teacher_comments;
-        String publish_time_tmp = teacherComments.publish_time;
+        final String publish_time_tmp = teacherComments.publish_time;
         String teacher_img_tmp = teacherComments.teacher_img_small;
+        final String teacher_uid = teacherComments.publish_uid;
 
         CommentsCellHolder holder = (CommentsCellHolder) h;
         holder.teacher_name.setText(teacher_name_tmp);
@@ -95,7 +96,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
             @Override
             public void onClick(View mView) {
 if (mDeleteListener!=null){
-    mDeleteListener.delete();
+    mDeleteListener.delete(teacher_uid,publish_time_tmp,position);
 }
             }
         });
@@ -188,6 +189,6 @@ if (mDeleteListener!=null){
     }
 
     public interface DeleteListener{
-        void delete();
+        void delete(String mTeacher_uid, String mPublish_time_tmp, int mPosition);
     }
 }

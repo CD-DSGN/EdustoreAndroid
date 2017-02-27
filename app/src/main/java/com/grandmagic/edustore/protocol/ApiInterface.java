@@ -60,4 +60,5 @@ public class ApiInterface
      public static final String FETCH_COMMENTS ="/user/comments_list";
      public static final String PAYMENT_LIST ="/payment_list";
      public static final String UPDATE_PAYMENT_ORDER ="/flow/update_payment_of_order";
+     public static final String DELETE_ONE_COMMENT ="/interaction/delete_one_comment";//删除汇师圈动态
 }
