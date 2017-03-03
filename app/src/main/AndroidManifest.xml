@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.grandmagic.edustore"
-    android:versionCode="2"
-    android:versionName="1.1.0">
+          package="com.grandmagic.edustore"
+          android:versionCode="2"
+          android:versionName="1.1.0">
 
     <uses-sdk
         android:minSdkVersion="10"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="17"/>
 
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
 
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
-    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER"/>
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".EcmobileApp"
@@ -45,255 +45,255 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="AA_DB_NAME"
-            android:value="ecmobile.db" />
+            android:value="ecmobile.db"/>
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="4" />
+            android:value="4"/>
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="584fcf95e88bad491f0005a1" />
+            android:value="584fcf95e88bad491f0005a1"/>
 
         <activity
             android:name=".activity.EcmobileMainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
         <activity
             android:name="com.grandmagic.BeeFramework.activity.StartActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.Z1_TeacherPublishActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".activity.D0_AllCategoryActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".activity.A0_SigninActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.A1_SignupActivity_student"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".activity.A1_01_SignupInputPhoneNumActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".activity.A1_02_SignupCheckCodeActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".activity.A1_SignupActivity_teacher"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".activity.B1_ProductListActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".activity.B2_ProductDetailActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".activity.B3_ProductPhotoActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.B4_ProductParamActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.B5_ProductCommentActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.B6_ProductDescActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.C0_ShoppingCartActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.C1_CheckOutActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ContentOverlay" />
+            android:theme="@style/ContentOverlay"/>
         <activity
             android:name=".activity.C2_PaymentActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.C3_DistributionActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.C4_InvoiceActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".activity.C5_BonusActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.C6_RedEnvelopeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.D1_CategoryActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".activity.D2_FilterActivity" />
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity android:name=".activity.D2_FilterActivity"/>
         <activity
             android:name=".activity.E4_HistoryActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.E5_CollectionActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.E6_ShippingStatusActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.F0_AddressListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.F1_NewAddressActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".activity.F2_EditAddressActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".activity.F3_RegionPickActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/dialog" />
+            android:theme="@style/dialog"/>
         <activity
             android:name=".activity.SelectCourseActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/dialog" />
+            android:theme="@style/dialog"/>
         <activity
             android:name=".activity.G0_SettingActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.G1_HelpActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.G2_InfoActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.G3_MessageActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.GalleryImageActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.AppOutActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AppExpiredAcitivty"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.ShareActivity"
             android:screenOrientation="portrait"
             android:theme="@style/dialog">
             <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.PayWebActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.HelpWebActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.BannerWebActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.ShareWebActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.SpecificationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/dialog" />
+            android:theme="@style/dialog"/>
         <activity
             android:name="com.grandmagic.BeeFramework.activity.FullScreenPhotoActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.grandmagic.BeeFramework.activity.WebViewActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.ShareTencentActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.grandmagic.BeeFramework.activity.ActivityLifeCycleActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.grandmagic.BeeFramework.activity.MemoryMessageActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.grandmagic.BeeFramework.activity.DebugMessageListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.grandmagic.BeeFramework.activity.CrashLogActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.grandmagic.BeeFramework.activity.CrashLogDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.grandmagic.BeeFramework.activity.DebugCancelDialogActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/dialog" />
+            android:theme="@style/dialog"/>
         <activity
             android:name="com.grandmagic.BeeFramework.activity.DebugDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.grandmagic.BeeFramework.activity.DebugTabActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.grandmagic.BeeFramework.activity.FloatViewSettingActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.AlixPayActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@android:style/Theme.Dialog"/>
         <activity
             android:name=".activity.OtherPayWebActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <service android:name="com.grandmagic.BeeFramework.service.MemoryService">
             <intent-filter android:priority="1000">
-                <action android:name="com.insthub.BeeFramework.service.MemoryService" />
+                <action android:name="com.insthub.BeeFramework.service.MemoryService"/>
             </intent-filter>
         </service>
         <service android:name="com.grandmagic.BeeFramework.service.NetworkStateService">
             <intent-filter android:priority="1000">
-                <action android:name="com.BeeFramework.NetworkStateService" />
+                <action android:name="com.BeeFramework.NetworkStateService"/>
             </intent-filter>
         </service>
 
         <activity
             android:name="com.tencent.weibo.sdk.android.component.PublishActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name="com.tencent.weibo.sdk.android.component.GeneralInterfaceActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name="com.tencent.weibo.sdk.android.component.ConversationActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name="com.tencent.weibo.sdk.android.component.FriendActivity"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name="com.tencent.weibo.sdk.android.component.Authorize" />
-        <activity android:name="com.tencent.weibo.sdk.android.component.GeneralDataShowActivity" />
-        <activity android:name="com.tencent.weibo.sdk.android.component.ReAddActivity" />
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name="com.tencent.weibo.sdk.android.component.Authorize"/>
+        <activity android:name="com.tencent.weibo.sdk.android.component.GeneralDataShowActivity"/>
+        <activity android:name="com.tencent.weibo.sdk.android.component.ReAddActivity"/>
 
         <!-- alipay sdk begin -->
         <activity
@@ -301,12 +301,12 @@
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name="com.alipay.sdk.app.H5AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind" />
+            android:screenOrientation="behind"/>
         <!-- alipay sdk end -->
 
         <activity
@@ -315,7 +315,7 @@
             android:excludeFromRecents="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.UPPay" />
+            android:theme="@style/Theme.UPPay"/>
         <activity
             android:name="com.unionpay.uppay.PayActivityEx"
             android:configChanges="orientation|keyboardHidden"
@@ -323,25 +323,25 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.UPPay"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".activity.SubscriptionActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.SearchSubscriptionTeacher"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activity.UserIntegralActivity" />
-        <activity android:name=".activity.CopyRightActivity" />
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.UserIntegralActivity"/>
+        <activity android:name=".activity.CopyRightActivity"/>
 
         <!-- push service client -->
         <receiver android:name="com.grandmagic.BeeFramework.service.PushMessageReceiver">
             <intent-filter>
 
                 <!-- 接收push消息 -->
-                <action android:name="com.baidu.android.pushservice.action.MESSAGE" />
+                <action android:name="com.baidu.android.pushservice.action.MESSAGE"/>
                 <!-- 接收bind,unbind,fetch,delete等反馈消息 -->
-                <action android:name="com.baidu.android.pushservice.action.RECEIVE" />
-                <action android:name="com.baidu.android.pushservice.action.notification.CLICK" />
+                <action android:name="com.baidu.android.pushservice.action.RECEIVE"/>
+                <action android:name="com.baidu.android.pushservice.action.notification.CLICK"/>
             </intent-filter>
         </receiver>
 
@@ -351,28 +351,28 @@
             android:name="com.baidu.android.pushservice.PushServiceReceiver"
             android:process=":bdservice_v1">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="com.baidu.android.pushservice.action.notification.SHOW" />
-                <action android:name="com.baidu.android.pushservice.action.media.CLICK" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="com.baidu.android.pushservice.action.notification.SHOW"/>
+                <action android:name="com.baidu.android.pushservice.action.media.CLICK"/>
                 <!-- 以下四项为可选的action声明，可大大提高service存活率和消息到达速度 -->
-                <action android:name="android.intent.action.MEDIA_MOUNTED" />
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+                <action android:name="android.intent.action.MEDIA_MOUNTED"/>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
             </intent-filter>
         </receiver>
         <receiver
             android:name="com.baidu.android.pushservice.RegistrationReceiver"
             android:process=":bdservice_v1">
             <intent-filter>
-                <action android:name="com.baidu.android.pushservice.action.METHOD" />
-                <action android:name="com.baidu.android.pushservice.action.BIND_SYNC" />
+                <action android:name="com.baidu.android.pushservice.action.METHOD"/>
+                <action android:name="com.baidu.android.pushservice.action.BIND_SYNC"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
 
-                <data android:scheme="package" />
+                <data android:scheme="package"/>
             </intent-filter>
         </receiver>
 
@@ -381,12 +381,14 @@
             android:exported="true"
             android:process=":bdservice_v1">
             <intent-filter>
-                <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE" />
+                <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE"/>
             </intent-filter>
         </service>
         <!-- push结束 -->
-        <activity android:name=".activity.DeleteSelectedImgAct" />
-        <activity android:name=".activity.BigImageViewAct"></activity>
+        <activity android:name=".activity.DeleteSelectedImgAct"/>
+        <activity android:name=".activity.BigImageViewAct"/>
+        <activity android:name=".activity.ApplyReturnGoodsActivity">
+        </activity>
     </application>
 
 </manifest>

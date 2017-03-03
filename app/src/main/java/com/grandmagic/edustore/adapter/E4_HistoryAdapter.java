@@ -34,6 +34,7 @@ import android.widget.*;
 import com.grandmagic.BeeFramework.view.WebImageView;
 import com.grandmagic.edustore.EcmobileApp;
 import com.grandmagic.edustore.R;
+import com.grandmagic.edustore.activity.ApplyReturnGoodsActivity;
 import com.grandmagic.edustore.activity.E6_ShippingStatusActivity;
 import com.grandmagic.edustore.protocol.GOODORDER;
 import com.grandmagic.edustore.protocol.ORDER_GOODS_LIST;
@@ -112,7 +113,7 @@ public class E4_HistoryAdapter extends BaseAdapter {
 			holder.check = (Button) convertView.findViewById(R.id.trade_item_check);
 			holder.ok = (Button) convertView.findViewById(R.id.trade_item_ok);
 			
-			ArrayList<ORDER_GOODS_LIST> goods_list = list.get(position).goods_list;
+			final ArrayList<ORDER_GOODS_LIST> goods_list = list.get(position).goods_list;
 			
 			for(int i=0;i<goods_list.size();i++) {
 				View view = LayoutInflater.from(context).inflate(R.layout.trade_body, null);
@@ -120,6 +121,7 @@ public class E4_HistoryAdapter extends BaseAdapter {
 				TextView text = (TextView) view.findViewById(R.id.trade_body_text);
 				TextView total = (TextView) view.findViewById(R.id.trade_body_total);
 				TextView num = (TextView) view.findViewById(R.id.trade_body_num);
+				Button refund=(Button)view.findViewById(R.id.refund);
 				holder.body.addView(view);
 				
 				shared = context.getSharedPreferences("userInfo", 0); 
@@ -142,7 +144,19 @@ public class E4_HistoryAdapter extends BaseAdapter {
 				text.setText(goods_list.get(i).name);
 				total.setText(goods_list.get(i).subtotal);
 				num.setText("X "+goods_list.get(i).goods_number);
-				
+				final int finalI = i;
+				refund.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View mView) {
+						Intent mIntent = new Intent(context, ApplyReturnGoodsActivity.class);
+						mIntent.putExtra(ApplyReturnGoodsActivity.GOODS_IMG,goods_list.get(finalI).img.thumb);
+						mIntent.putExtra(ApplyReturnGoodsActivity.GOODS_ID,goods_list.get(finalI).goods_id);
+						mIntent.putExtra(ApplyReturnGoodsActivity.GOODS_NAME,goods_list.get(finalI).name);
+						mIntent.putExtra(ApplyReturnGoodsActivity.GOODS_TOTAL,goods_list.get(finalI).subtotal);
+						mIntent.putExtra(ApplyReturnGoodsActivity.GOODS_NUM,goods_list.get(finalI).goods_number);
+						context.startActivity(mIntent);
+					}
+				});
 			}
 
 		final GOODORDER order = list.get(position);
