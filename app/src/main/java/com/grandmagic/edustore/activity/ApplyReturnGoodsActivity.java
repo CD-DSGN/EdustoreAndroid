@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.external.androidquery.util.IRequest;
 import com.grandmagic.BeeFramework.activity.BaseActivity;
@@ -158,10 +159,15 @@ public class ApplyReturnGoodsActivity extends BaseActivity implements View.OnCli
      * \退货申请
      */
     private void returnGoods() {
+        if (mET_apply.getText().toString().trim().equals("")) {
+            Toast.makeText(this, "请填写退货说明再提交", Toast.LENGTH_SHORT).show();
+            return;
+        }
         mModel.Retuan_Goods(goodsid, param_reson, mET_apply.getText().toString(), new IRequest<addressaddResponse>() {
             @Override
             public void request(addressaddResponse mJSONObject) {
                 if (mJSONObject.status.succeed == ErrorCodeConst.ResponseSucceed) {
+                    setResult(RESULT_OK);
                     finish();
                 }
             }
