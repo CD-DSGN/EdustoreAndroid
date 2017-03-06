@@ -14,12 +14,19 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.external.androidquery.util.IRequest;
 import com.grandmagic.BeeFramework.activity.BaseActivity;
+import com.grandmagic.edustore.ErrorCodeConst;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.adapter.SpinnerAdapter;
+import com.grandmagic.edustore.model.ApplyReturnGoodsModel;
 import com.grandmagic.edustore.protocol.REGIONS;
+import com.grandmagic.edustore.protocol.ReasonResponse;
+import com.grandmagic.edustore.protocol.addressaddResponse;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sina.weibo.sdk.api.share.Base;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,7 +54,21 @@ public class ApplyReturnGoodsActivity extends BaseActivity implements View.OnCli
         setContentView(R.layout.activity_apply_return_goods);
         initdata();
         initview();
+        initReason();
+    }
 
+    //        获取退款原因
+    ApplyReturnGoodsModel mModel;
+
+    private void initReason() {
+        mModel = new ApplyReturnGoodsModel(this);
+        mModel.getReason(new IRequest<ReasonResponse>() {
+            @Override
+            public void request(ReasonResponse mReasonResponse) {
+                spinnerList = mReasonResponse.getData();
+                mSpinner.setAdapter(new ReasonSpinnerAdapter());
+            }
+        });
     }
 
     /**
@@ -82,10 +103,6 @@ public class ApplyReturnGoodsActivity extends BaseActivity implements View.OnCli
         submit.setOnClickListener(this);
         back.setOnClickListener(this);
         top_view_text.setText("申请退货");
-        spinnerList.add("原因1");
-        spinnerList.add("原因2");
-        spinnerList.add("原因3");
-        mSpinner.setAdapter(new ReasonSpinnerAdapter());
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> mAdapterView, View mView, int position, long mL) {
@@ -128,12 +145,26 @@ public class ApplyReturnGoodsActivity extends BaseActivity implements View.OnCli
     public void onClick(View mView) {
         switch (mView.getId()) {
             case R.id.submit:
-                // TODO: 2017/3/3 提交
+                returnGoods();
                 break;
             case R.id.top_view_back:
                 finish();
                 break;
 
         }
+    }
+
+    /**
+     * \退货申请
+     */
+    private void returnGoods() {
+        mModel.Retuan_Goods(goodsid, param_reson, mET_apply.getText().toString(), new IRequest<addressaddResponse>() {
+            @Override
+            public void request(addressaddResponse mJSONObject) {
+                if (mJSONObject.status.succeed == ErrorCodeConst.ResponseSucceed) {
+                    finish();
+                }
+            }
+        });
     }
 }

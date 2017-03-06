@@ -62,7 +62,7 @@ import org.json.JSONObject;
 import static com.grandmagic.BeeFramework.BeeFrameworkConst.TAG;
 
 public class E4_HistoryActivity extends BaseActivity implements BusinessResponse, IXListViewListener {
-
+public static final int REQUEST_REFUND=101;
     private String flag;
     private TextView title;
     private ImageView back;
@@ -82,10 +82,11 @@ public class E4_HistoryActivity extends BaseActivity implements BusinessResponse
 
     private IWXAPI mWeixinAPI = null;
     private ShoppingCartModel mShoppingCartModel;
+    private Resources mResource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Resources resource = (Resources) getBaseContext().getResources();
+        mResource = (Resources) getBaseContext().getResources();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.e4_history);
 
@@ -118,38 +119,7 @@ public class E4_HistoryActivity extends BaseActivity implements BusinessResponse
         mShoppingCartModel = new ShoppingCartModel(this);
         mShoppingCartModel.addResponseListener(this);
 
-        String awa = resource.getString(R.string.await_pay);
-        String ship = resource.getString(R.string.await_ship);
-        String shipped = resource.getString(R.string.shipped);
-        String fin = resource.getString(R.string.profile_history);
-
-        if (flag.equals("await_pay")) {
-            title.setText(awa);
-            /**
-             * 在这里请求数据
-             */
-            orderModel.getOrder("await_pay");
-        } else if (flag.equals("await_ship")) {
-            title.setText(ship);
-            /**
-             * 在这里请求数据
-             */
-            orderModel.getOrder("await_ship");
-
-        } else if (flag.equals("shipped")) {
-            title.setText(shipped);
-            /**
-             * 在这里请求数据
-             */
-            orderModel.getOrder("shipped");
-
-        } else if (flag.equals("finished")) {
-            title.setText(fin);
-            /**
-             * 在这里请求数据
-             */
-            orderModel.getOrder("finished");
-        }
+        requestOrder();
         messageHandler = new Handler() {
 
             public void handleMessage(final Message msg) {
@@ -190,6 +160,41 @@ public class E4_HistoryActivity extends BaseActivity implements BusinessResponse
 
             }
         };
+    }
+
+    private void requestOrder() {
+        String awa = mResource.getString(R.string.await_pay);
+        String ship = mResource.getString(R.string.await_ship);
+        String shipped = mResource.getString(R.string.shipped);
+        String fin = mResource.getString(R.string.profile_history);
+
+        if (flag.equals("await_pay")) {
+            title.setText(awa);
+            /**
+             * 在这里请求数据
+             */
+            orderModel.getOrder("await_pay");
+        } else if (flag.equals("await_ship")) {
+            title.setText(ship);
+            /**
+             * 在这里请求数据
+             */
+            orderModel.getOrder("await_ship");
+
+        } else if (flag.equals("shipped")) {
+            title.setText(shipped);
+            /**
+             * 在这里请求数据
+             */
+            orderModel.getOrder("shipped");
+
+        } else if (flag.equals("finished")) {
+            title.setText(fin);
+            /**
+             * 在这里请求数据
+             */
+            orderModel.getOrder("finished");
+        }
     }
 
     public void setOrder() {
@@ -484,6 +489,8 @@ public class E4_HistoryActivity extends BaseActivity implements BusinessResponse
                 }
             });
 
+        }else if (REQUEST_REFUND==requestCode){
+          requestOrder();
         }
     }
 

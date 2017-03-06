@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,6 +36,7 @@ import com.grandmagic.BeeFramework.view.WebImageView;
 import com.grandmagic.edustore.EcmobileApp;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.activity.ApplyReturnGoodsActivity;
+import com.grandmagic.edustore.activity.E4_HistoryActivity;
 import com.grandmagic.edustore.activity.E6_ShippingStatusActivity;
 import com.grandmagic.edustore.protocol.GOODORDER;
 import com.grandmagic.edustore.protocol.ORDER_GOODS_LIST;
@@ -144,17 +146,30 @@ public class E4_HistoryAdapter extends BaseAdapter {
 				text.setText(goods_list.get(i).name);
 				total.setText(goods_list.get(i).subtotal);
 				num.setText("X "+goods_list.get(i).goods_number);
+				if (goods_list.get(i).refund_status.equals("0")){
+					refund.setText("申请退款");
+					refund.setEnabled(true);
+				}else if (goods_list.get(i).refund_status.equals("1")){
+					refund.setText("退款处理中");
+					refund.setEnabled(false);
+				}else if (goods_list.get(i).refund_status.equals("2")){
+					refund.setText("退款成功");
+					refund.setEnabled(false);
+				}else if (goods_list.get(i).refund_status.equals("3")){
+					refund.setText("退款失败");
+					refund.setEnabled(false);
+				}
 				final int finalI = i;
 				refund.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View mView) {
 						Intent mIntent = new Intent(context, ApplyReturnGoodsActivity.class);
 						mIntent.putExtra(ApplyReturnGoodsActivity.GOODS_IMG,goods_list.get(finalI).img.thumb);
-						mIntent.putExtra(ApplyReturnGoodsActivity.GOODS_ID,goods_list.get(finalI).goods_id);
+						mIntent.putExtra(ApplyReturnGoodsActivity.GOODS_ID,goods_list.get(finalI).rec_id);
 						mIntent.putExtra(ApplyReturnGoodsActivity.GOODS_NAME,goods_list.get(finalI).name);
 						mIntent.putExtra(ApplyReturnGoodsActivity.GOODS_TOTAL,goods_list.get(finalI).subtotal);
 						mIntent.putExtra(ApplyReturnGoodsActivity.GOODS_NUM,goods_list.get(finalI).goods_number);
-						context.startActivity(mIntent);
+						((Activity)context).startActivityForResult(mIntent, E4_HistoryActivity.REQUEST_REFUND);
 					}
 				});
 			}

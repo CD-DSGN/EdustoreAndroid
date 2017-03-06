@@ -30,6 +30,10 @@ public class ORDER_GOODS_LIST  extends Model
      @Column(name = "subtotal")
      public String subtotal;
 
+     @Column(name = "refund_status")
+     public String refund_status;   @Column(name = "rec_id")
+     public String rec_id;
+
  public void  fromJson(JSONObject jsonObject)  throws JSONException
  {
      if(null == jsonObject){
@@ -45,6 +49,8 @@ public class ORDER_GOODS_LIST  extends Model
      this.goods_id = jsonObject.optString("goods_id");
 
      this.name = jsonObject.optString("name");
+     this.refund_status = jsonObject.optString("refund_status");
+     this.rec_id = jsonObject.optString("rec_id");
      PHOTO photo=new PHOTO();
      photo.fromJson(jsonObject.optJSONObject("img"));
      this.img = photo;
@@ -62,6 +68,8 @@ public class ORDER_GOODS_LIST  extends Model
      localItemObject.put("goods_number", goods_number);
      localItemObject.put("goods_id", goods_id);
      localItemObject.put("name", name);
+     localItemObject.put("rec_id", rec_id);
+     localItemObject.put("refund_status", refund_status);
      if(null!=img)
      {
        localItemObject.put("img", img.toJson());
