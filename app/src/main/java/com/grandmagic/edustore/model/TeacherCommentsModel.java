@@ -10,6 +10,7 @@ import com.grandmagic.edustore.ErrorCodeConst;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.DeleteCommentsRequest;
+import com.grandmagic.edustore.protocol.NewCommentRequest;
 import com.grandmagic.edustore.protocol.PAGINATED;
 import com.grandmagic.edustore.protocol.PAGINATION;
 import com.grandmagic.edustore.protocol.SESSION;
@@ -187,5 +188,56 @@ public class TeacherCommentsModel extends BaseModel {
         MyProgressDialog pd = new MyProgressDialog(mContext, mContext.getResources().getString(R.string.hold_on));
         aq.progress(pd.mDialog).ajax(cb);
 
+    }
+
+    /**
+     * 评论动态
+     * @param content
+     * @param mNewsid
+     */
+    public void sendnewComment(String content, String mNewsid,int position) {
+        commentPublish(content, mNewsid,null,position);
+    }
+
+    private void commentPublish(String content, String mNewsid,String mTargetcommentid,int position) {
+        NewCommentRequest mRequest = new NewCommentRequest();
+        SESSION mInstance = SESSION.getInstance();
+        mRequest.mSESSION = mInstance;
+        mRequest.comment_content = content;
+        mRequest.news_id = mNewsid;
+        mRequest.target_comment_id=mTargetcommentid;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("json", mRequest.toJson().toString());
+        BeeCallback<JSONObject> cb = new BeeCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject jo, AjaxStatus status) {
+                TeacherCommentsModel.this.callback(url, jo, status);
+                try {
+                    JSONObject mStatus = jo.optJSONObject("status");
+                    int mSucceed = mStatus.optInt("succeed");
+                    if (mSucceed== ErrorCodeConst.ResponseSucceed){
+                        //// fixme: 有更好的解决方案，2017/3/8 刷新评论
+                        fetchComments();
+//singleTeacherCommentList.get(0).mCommentArray.add(new TEACHERCOMMENTS.CommentArray())
+                    }
+                    TeacherCommentsModel.this.OnMessageResponse(url, jo, status);
+                } catch (JSONException mE) {
+                    mE.printStackTrace();
+                }
+            }
+        };
+        cb.url(ApiInterface.COMMENT_PUBLISH).type(JSONObject.class).params(params);
+        MyProgressDialog pd = new MyProgressDialog(mContext, mContext.getResources().getString(R.string.hold_on));
+        aq.progress(pd.mDialog).ajax(cb);
+    }
+
+    /**
+     * 回复别人评论
+     * @param content
+     * @param mNewsid
+     * @param mTargetcommentid
+     */
+    public void replyComment(String content, String mNewsid, String mTargetcommentid,int position) {
+        commentPublish(content, mNewsid,mTargetcommentid,position);
     }
 }

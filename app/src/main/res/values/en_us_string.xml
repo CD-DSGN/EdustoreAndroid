@@ -448,5 +448,6 @@
     <string name="select_img">select image</string>
     <string name="set_head">Set Head</string>
     <string name="delete">delete</string>
+    <string name="comment">comment</string>
 
 </resources>

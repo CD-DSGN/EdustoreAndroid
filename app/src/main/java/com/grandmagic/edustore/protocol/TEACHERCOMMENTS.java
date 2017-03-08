@@ -23,7 +23,9 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
 
     public String publish_time;
     public String publish_uid;
+    public String news_id;
     public List<Img> photoArray   =new ArrayList<>();
+    public List<CommentArray> mCommentArray   =new ArrayList<>();
 
     public void fromJson(JSONObject jsonObject) throws JSONException {
         if (null == jsonObject) {
@@ -39,9 +41,11 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
 
         this.publish_time = publish_info.optString("publish_time");
         this.publish_uid = publish_info.optString("user_id");
+        this.news_id = publish_info.optString("news_id");
 
         this.teacher_img_small = teacher_info.optString("avatar");
         JSONArray photo_Array = publish_info.optJSONArray("photo_array");
+        JSONArray mComment_array = publish_info.optJSONArray("comment_array");
         if (photo_Array != null && photo_Array.length() > 0) {
 
             for (int i = 0; i < photo_Array.length(); i++) {
@@ -49,6 +53,17 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
                 image.img = photo_Array.optJSONObject(i).optString("img");
                 image.img_thumb = photo_Array.optJSONObject(i).optString("img_thumb");
                 photoArray.add(image);
+            }
+        }
+        if (mComment_array != null && mComment_array.length() > 0) {
+
+            for (int i = 0; i < mComment_array.length(); i++) {
+                CommentArray comment = new CommentArray();
+                comment.comment_id = mComment_array.optJSONObject(i).optString("comment_id");
+                comment.username = mComment_array.optJSONObject(i).optString("username");
+                comment.target_username = mComment_array.optJSONObject(i).optString("target_username");
+                comment.comment_content = mComment_array.optJSONObject(i).optString("comment_content");
+                mCommentArray.add(comment);
             }
         }
         return;
@@ -63,7 +78,7 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
         localObj_teacher_info.put("avatar", teacher_img_small);
         localObj_publish_info.put("news_content", teacher_comments);
         localObj_publish_info.put("publish_time", publish_time);
-        localObj_publish_info.put("publish_time", publish_uid);
+        localObj_publish_info.put("publish_uid", publish_uid);
 
         localItemObject.put("teacher_info", localObj_teacher_info);
         localItemObject.put("publish_info", localObj_publish_info);
@@ -74,5 +89,11 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
    public class Img implements Serializable {
         public String img;
         public String img_thumb;
+    }
+    public class CommentArray{
+        public String comment_id;
+        public String username;
+        public String target_username;
+        public String comment_content;
     }
 }

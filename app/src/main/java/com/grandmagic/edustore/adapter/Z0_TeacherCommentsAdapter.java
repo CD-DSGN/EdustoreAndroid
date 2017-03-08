@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -54,8 +56,8 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         TextView teacher_name;
         TextView comments;
         TextView publish_time;
-        TextView delete;
-        LinearLayout imagelayout;
+        TextView delete, comment;
+        LinearLayout imagelayout, commentlayout;
     }
 
     @Override
@@ -66,7 +68,9 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         cell.comments = (TextView) cellView.findViewById(R.id.comments);
         cell.delete = (TextView) cellView.findViewById(R.id.delete);
         cell.publish_time = (TextView) cellView.findViewById(R.id.publish_date);
+        cell.comment = (TextView) cellView.findViewById(R.id.comment);
         cell.imagelayout = (LinearLayout) cellView.findViewById(R.id.imagelayout);
+        cell.commentlayout = (LinearLayout) cellView.findViewById(R.id.commentlayout);
         return cell;
     }
 
@@ -83,6 +87,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         final String publish_time_tmp = teacherComments.publish_time;
         String teacher_img_tmp = teacherComments.teacher_img_small;
         final String teacher_uid = teacherComments.publish_uid;
+        final String newsid = teacherComments.news_id;
 
         CommentsCellHolder holder = (CommentsCellHolder) h;
         holder.teacher_name.setText(teacher_name_tmp);
@@ -90,18 +95,61 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         holder.publish_time.setText(stampToDate(publish_time_tmp));
         mImageLoader.displayImage(teacher_img_tmp, holder.teacherImg);
         int size = teacherComments.photoArray.size();
-        initImageLayout(teacherComments, holder, size);
-        holder.delete.setVisibility(isSelf(teacherComments.publish_uid)?View.VISIBLE:View.GONE);
+        initImageLayout(teacherComments, holder, size);//加载图片
+        initCommentLayout(teacherComments, holder,position);//加载评论
+        holder.delete.setVisibility(isSelf(teacherComments.publish_uid) ? View.VISIBLE : View.GONE);
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mView) {
-if (mDeleteListener!=null){
-    mDeleteListener.delete(teacher_uid,publish_time_tmp,position);
-}
+                if (mDeleteListener != null) {
+                    mDeleteListener.delete(teacher_uid, publish_time_tmp, position);
+                }
+            }
+        });
+        holder.comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View mView) {
+                if (mDeleteListener != null) {
+                    mDeleteListener.commentnews(newsid,position);
+                }
             }
         });
         return cellView;
 
+    }
+
+    //加载评论
+    private void initCommentLayout(final TEACHERCOMMENTS mTeacherComments, CommentsCellHolder mHolder, final int position) {
+        mHolder.commentlayout.removeAllViews();
+        //如果有评论
+        if (mTeacherComments.mCommentArray != null && mTeacherComments.mCommentArray.size() > 0) {
+            for (int i = 0; i < mTeacherComments.mCommentArray.size(); i++) {
+                View mcommentView = LayoutInflater.from(mContext).inflate(R.layout.view_comment, null);
+                TextView name = (TextView) mcommentView.findViewById(R.id.name);
+                TextView reply = (TextView) mcommentView.findViewById(R.id.reply);
+                TextView re_name = (TextView) mcommentView.findViewById(R.id.re_name);
+                TextView content = (TextView) mcommentView.findViewById(R.id.content);
+                final TEACHERCOMMENTS.CommentArray mCommentArray = mTeacherComments.mCommentArray.get(i);
+                if (TextUtils.isEmpty(mCommentArray.target_username)||"null".equals(mCommentArray.target_username)) {
+                    name.setVisibility(View.GONE);
+                    reply.setVisibility(View.GONE);
+                } else {
+                    name.setText(mCommentArray.target_username);
+                }
+                re_name.setText(mCommentArray.username);
+                content.setText(mCommentArray.comment_content);
+                mcommentView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View mView) {
+                        if (mDeleteListener!=null){
+                            mDeleteListener.replycomment(mTeacherComments.news_id,mCommentArray.comment_id,position);
+                        }
+                    }
+                });
+                mHolder.commentlayout.addView(mcommentView);
+
+            }
+        }
     }
 
     /**
@@ -188,7 +236,11 @@ if (mDeleteListener!=null){
         this.mDeleteListener = mDeleteListener;
     }
 
-    public interface DeleteListener{
+    public interface DeleteListener {
         void delete(String mTeacher_uid, String mPublish_time_tmp, int mPosition);
+
+        void commentnews(String newsid, int mPosition);
+
+        void replycomment(String newsid, String targetcommentid,int position);
     }
 }

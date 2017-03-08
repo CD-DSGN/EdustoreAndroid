@@ -6,13 +6,21 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.external.androidquery.callback.AjaxStatus;
 import com.external.maxwin.view.XListView;
@@ -214,7 +222,15 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
             } else {
                 publish.setVisibility(View.VISIBLE);
             }
-        }else if (url.endsWith(ApiInterface.DELETE_ONE_COMMENT)){
+        } else if (url.endsWith(ApiInterface.DELETE_ONE_COMMENT)) {
+            commentsListView.stopLoadMore();
+            commentsListView.stopRefresh();
+            commentsListView.setRefreshTime();
+            setContent();
+        } else if (url.endsWith(ApiInterface.DELETE_ONE_COMMENT)) {
+            if (mCommentPopupWindow!=null&&mCommentPopupWindow.isShowing()){
+                mCommentPopupWindow.dismiss();
+            }
             commentsListView.stopLoadMore();
             commentsListView.stopRefresh();
             commentsListView.setRefreshTime();
@@ -227,9 +243,10 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
 
     /**
      * 删除动态
-     * @param mTeacher_uid uid
+     *
+     * @param mTeacher_uid      uid
      * @param mPublish_time_tmp time
-     * @param mPosition position
+     * @param mPosition         position
      */
     @Override
     public void delete(final String mTeacher_uid, final String mPublish_time_tmp, final int mPosition) {
@@ -238,7 +255,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
         mView.findViewById(R.id.sure).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mView) {
-                teacherCommentsModel.delete(mTeacher_uid,mPublish_time_tmp,mPosition);
+                teacherCommentsModel.delete(mTeacher_uid, mPublish_time_tmp, mPosition);
                 if (mDialog != null && mDialog.isShowing()) {
                     mDialog.dismiss();
                 }
@@ -251,4 +268,82 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
         mAttributes.width = ScreenUtils.getScreenSize(getActivity()).x * 2 / 3;
         mDialog.getWindow().setAttributes(mAttributes);
     }
+
+    PopupWindow mCommentPopupWindow;
+
+    /**
+     * 对动态评论
+     *
+     * @param newsid 主题id
+     * @param mPosition
+     */
+    @Override
+    public void commentnews(String newsid, int mPosition) {
+        showCommentPop(newsid,null,mPosition);
+    }
+    EditText mEditText=null;
+
+    /**
+     * 弹出评论框，进行评论
+     * @param mNewsid
+     * @param mTargetcommentid
+     * @param position
+     */
+    private void showCommentPop(final String mNewsid, final String mTargetcommentid, final int position) {
+        Button sendBtn;
+        if (mCommentPopupWindow == null) {
+            View mcomentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_comment, null);
+            mEditText= (EditText) mcomentView.findViewById(R.id.et_comment);
+            sendBtn= (Button) mcomentView.findViewById(R.id.send);
+            mCommentPopupWindow = new PopupWindow(mcomentView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
+           mCommentPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+            mCommentPopupWindow.setOutsideTouchable(true);
+            mCommentPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+                    toogleInput();
+                }
+            });
+            sendBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View mView) {
+                    if (TextUtils.isEmpty(mEditText.getText())) {
+                        Toast.makeText(getActivity(), "评论内容不能为空", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (mTargetcommentid==null) {
+                        teacherCommentsModel.sendnewComment(mEditText.getText().toString(), mNewsid,position);
+                    }else {
+                        teacherCommentsModel.replyComment(mEditText.getText().toString(), mNewsid,mTargetcommentid,position);
+                    }
+                }
+            });
+        }
+        mCommentPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        toogleInput();
+        mEditText.setText("");
+        mCommentPopupWindow.showAtLocation(view, Gravity.BOTTOM,0,0);
+    }
+
+    /**
+     * 切换输入法显示状态
+     */
+    private void toogleInput() {
+        InputMethodManager inputMethodManager
+                = (InputMethodManager) getActivity().getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    /**
+     * 回复动态中的评论
+     *
+     * @param newsid          主题id
+     * @param targetcommentid 被回复的评论的id
+     */
+    @Override
+    public void replycomment(String newsid, String targetcommentid,int position) {
+showCommentPop(newsid,targetcommentid,position);
+    }
+
 }

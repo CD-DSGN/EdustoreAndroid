@@ -63,5 +63,6 @@ public class ApiInterface
      public static final String DELETE_ONE_COMMENT ="/interaction/delete_one_comment";//删除汇师圈动态
      public static final String RETURN_REASON ="order/return_reason";//获取可选择的退款原因
      public static final String GOODS_RETURN ="order/goods_return";//提交退货申请
+     public static final String COMMENT_PUBLISH ="interaction/comment_publish";//提交退货申请
 
 }
