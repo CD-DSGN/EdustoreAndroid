@@ -11,6 +11,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="130dp"
         android:text="登录后查看"
+        android:id="@+id/login"
         android:textColor="#999999"
         android:textSize="18dp" />
 

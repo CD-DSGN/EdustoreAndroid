@@ -27,6 +27,7 @@ import com.external.maxwin.view.XListView;
 import com.grandmagic.BeeFramework.Utils.ScreenUtils;
 import com.grandmagic.BeeFramework.fragment.BaseFragment;
 import com.grandmagic.edustore.R;
+import com.grandmagic.edustore.activity.A0_SigninActivity;
 import com.grandmagic.edustore.activity.Z1_TeacherPublishActivity;
 import com.grandmagic.edustore.adapter.Z0_TeacherCommentsAdapter;
 import com.grandmagic.edustore.model.TeacherCommentsModel;
@@ -107,6 +108,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
         }
 
         publish.setOnClickListener(this);
+        not_login.findViewById(R.id.login).setOnClickListener(this);
 
         commentsListView.setPullLoadEnable(true);
         commentsListView.setRefreshTime();
@@ -148,6 +150,14 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
     @Override
     public void onResume() {
         super.onResume();
+        uid = shared.getString("uid", "");
+        if (!uid.equals("")) {
+            userInfoModel.getUserInfo();
+            not_login.setVisibility(View.GONE);
+            teacherCommentsModel.fetchComments();
+        } else {
+            not_login.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -170,6 +180,10 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
                 if (mDialog != null && mDialog.isShowing()) {
                     mDialog.dismiss();
                 }
+                break;
+            case R.id.login:
+                startActivity(new Intent(getActivity(), A0_SigninActivity.class));
+                getActivity().overridePendingTransition(R.anim.push_buttom_in, R.anim.push_buttom_out);
                 break;
             default:
                 break;
@@ -228,7 +242,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
             commentsListView.setRefreshTime();
             setContent();
         } else if (url.endsWith(ApiInterface.DELETE_ONE_COMMENT)) {
-            if (mCommentPopupWindow!=null&&mCommentPopupWindow.isShowing()){
+            if (mCommentPopupWindow != null && mCommentPopupWindow.isShowing()) {
                 mCommentPopupWindow.dismiss();
             }
             commentsListView.stopLoadMore();
@@ -274,17 +288,19 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
     /**
      * 对动态评论
      *
-     * @param newsid 主题id
+     * @param newsid    主题id
      * @param mPosition
      */
     @Override
     public void commentnews(String newsid, int mPosition) {
-        showCommentPop(newsid,null,mPosition);
+        showCommentPop(newsid, null, mPosition);
     }
-    EditText mEditText=null;
+
+    EditText mEditText = null;
 
     /**
      * 弹出评论框，进行评论
+     *
      * @param mNewsid
      * @param mTargetcommentid
      * @param position
@@ -293,10 +309,10 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
         Button sendBtn;
         if (mCommentPopupWindow == null) {
             View mcomentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_comment, null);
-            mEditText= (EditText) mcomentView.findViewById(R.id.et_comment);
-            sendBtn= (Button) mcomentView.findViewById(R.id.send);
+            mEditText = (EditText) mcomentView.findViewById(R.id.et_comment);
+            sendBtn = (Button) mcomentView.findViewById(R.id.send);
             mCommentPopupWindow = new PopupWindow(mcomentView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
-           mCommentPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+            mCommentPopupWindow.setBackgroundDrawable(new BitmapDrawable());
             mCommentPopupWindow.setOutsideTouchable(true);
             mCommentPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
@@ -311,10 +327,10 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
                         Toast.makeText(getActivity(), "评论内容不能为空", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    if (mTargetcommentid==null) {
-                        teacherCommentsModel.sendnewComment(mEditText.getText().toString(), mNewsid,position);
-                    }else {
-                        teacherCommentsModel.replyComment(mEditText.getText().toString(), mNewsid,mTargetcommentid,position);
+                    if (mTargetcommentid == null) {
+                        teacherCommentsModel.sendnewComment(mEditText.getText().toString(), mNewsid, position);
+                    } else {
+                        teacherCommentsModel.replyComment(mEditText.getText().toString(), mNewsid, mTargetcommentid, position);
                     }
                 }
             });
@@ -322,7 +338,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
         mCommentPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         toogleInput();
         mEditText.setText("");
-        mCommentPopupWindow.showAtLocation(view, Gravity.BOTTOM,0,0);
+        mCommentPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
     /**
@@ -342,8 +358,8 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
      * @param targetcommentid 被回复的评论的id
      */
     @Override
-    public void replycomment(String newsid, String targetcommentid,int position) {
-showCommentPop(newsid,targetcommentid,position);
+    public void replycomment(String newsid, String targetcommentid, int position) {
+        showCommentPop(newsid, targetcommentid, position);
     }
 
 }
