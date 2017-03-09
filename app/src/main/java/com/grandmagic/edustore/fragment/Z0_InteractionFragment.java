@@ -126,6 +126,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
             public void onGlobalLayout() {
                 Rect rect = new Rect();
                 view.getWindowVisibleDisplayFrame(rect);
+                if (getActivity()==null)return;
                 int mScreenheight = ScreenUtils.getScreenSize(getActivity()).y;
                 int keyheight = mScreenheight-(rect.bottom - rect.top);
                 if (keyheight >mScreenheight * 0.3) {//检测键盘是否弹起
