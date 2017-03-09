@@ -6,19 +6,19 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -69,6 +69,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
     private UserInfoModel userInfoModel;
 
     private USER _user;
+    boolean keywordisShow = false;//键盘是否弹出
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,8 +116,25 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
         commentsListView.setPullLoadEnable(true);
         commentsListView.setRefreshTime();
         commentsListView.setXListViewListener(this, 1);
-
+        addGloableListener();
         return view;
+    }
+
+    private void addGloableListener() {
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect rect = new Rect();
+                view.getWindowVisibleDisplayFrame(rect);
+                int mScreenheight = ScreenUtils.getScreenSize(getActivity()).y;
+                int keyheight = mScreenheight-(rect.bottom - rect.top);
+                if (keyheight >mScreenheight * 0.3) {//检测键盘是否弹起
+                    keywordisShow = true;
+                }else {
+                    keywordisShow=false;
+                }
+            }
+        });
     }
 
     private void setContent() {
@@ -286,7 +304,6 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
     }
 
     PopupWindow mCommentPopupWindow;
-
     /**
      * 对动态评论
      *
@@ -308,7 +325,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
      * @param mTarget_username 被回复人的昵称
      * @param position
      */
-    TextView sendBtn=null;
+    TextView sendBtn = null;
 
     private void showCommentPop(final String mNewsid, final String mTargetcommentid, final String mTarget_username, final int position) {
         if (mCommentPopupWindow == null) {
@@ -324,12 +341,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
             mCommentPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
                 public void onDismiss() {
-                   new Handler().postDelayed(new Runnable() {
-                       @Override
-                       public void run() {
-                           HideKeyboard(mEditText);
-                       }
-                   },500);
+                    CloseInput();
                 }
             });
 
@@ -355,13 +367,12 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
                 mCommentPopupWindow.dismiss();
             }
         });
+
     }
 
-    public void HideKeyboard(View v) {
-        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-
+    private void CloseInput() {
+        if (keywordisShow) toogleInput();
     }
 
     /**
