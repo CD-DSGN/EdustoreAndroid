@@ -150,7 +150,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
                     @Override
                     public void onClick(View mView) {
                         if (mDeleteListener != null) {
-                            mDeleteListener.replycomment(mTeacherComments.news_id, mCommentArray.comment_id, position);
+                            mDeleteListener.replycomment(mTeacherComments.news_id, mCommentArray.comment_id,mCommentArray.username, position);
                         }
                     }
                 });
@@ -250,6 +250,6 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
 
         void commentnews(String newsid, int mPosition);
 
-        void replycomment(String newsid, String targetcommentid, int position);
+        void replycomment(String newsid, String targetcommentid, String mTarget_username, int position);
     }
 }

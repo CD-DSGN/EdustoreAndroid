@@ -293,7 +293,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
      */
     @Override
     public void commentnews(String newsid, int mPosition) {
-        showCommentPop(newsid, null, mPosition);
+        showCommentPop(newsid, null, null, mPosition);
     }
 
     EditText mEditText = null;
@@ -303,9 +303,10 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
      *
      * @param mNewsid
      * @param mTargetcommentid
+     * @param mTarget_username 被回复人的昵称
      * @param position
      */
-    private void showCommentPop(final String mNewsid, final String mTargetcommentid, final int position) {
+    private void showCommentPop(final String mNewsid, final String mTargetcommentid, final String mTarget_username, final int position) {
         Button sendBtn;
         if (mCommentPopupWindow == null) {
             View mcomentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_comment, null);
@@ -317,7 +318,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
             mCommentPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
                 public void onDismiss() {
-                    toogleInput();
+                 toogleInput();
                 }
             });
             sendBtn.setOnClickListener(new View.OnClickListener() {
@@ -335,12 +336,12 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
                 }
             });
         }
+       mEditText.setHint(mTarget_username==null?"":"回复" + mTarget_username);
         mCommentPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         toogleInput();
         mEditText.setText("");
         mCommentPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
-
     /**
      * 切换输入法显示状态
      */
@@ -354,12 +355,13 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
     /**
      * 回复动态中的评论
      *
-     * @param newsid          主题id
-     * @param targetcommentid 被回复的评论的id
+     * @param newsid           主题id
+     * @param targetcommentid  被回复的评论的id
+     * @param mTarget_username
      */
     @Override
-    public void replycomment(String newsid, String targetcommentid, int position) {
-        showCommentPop(newsid, targetcommentid, position);
+    public void replycomment(String newsid, String targetcommentid, String mTarget_username, int position) {
+        showCommentPop(newsid, targetcommentid, mTarget_username, position);
     }
 
 }
