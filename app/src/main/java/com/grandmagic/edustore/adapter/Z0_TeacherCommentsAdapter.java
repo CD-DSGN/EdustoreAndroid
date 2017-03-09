@@ -4,8 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,7 +101,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         mImageLoader.displayImage(teacher_img_tmp, holder.teacherImg);
         int size = teacherComments.photoArray.size();
         initImageLayout(teacherComments, holder, size);//加载图片
-        initCommentLayout(teacherComments, holder,position);//加载评论
+        initCommentLayout(teacherComments, holder, position);//加载评论
         holder.delete.setVisibility(isSelf(teacherComments.publish_uid) ? View.VISIBLE : View.GONE);
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +115,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
             @Override
             public void onClick(View mView) {
                 if (mDeleteListener != null) {
-                    mDeleteListener.commentnews(newsid,position);
+                    mDeleteListener.commentnews(newsid, position);
                 }
             }
         });
@@ -123,29 +128,33 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         mHolder.commentlayout.removeAllViews();
         //如果有评论
         if (mTeacherComments.mCommentArray != null && mTeacherComments.mCommentArray.size() > 0) {
-            for (int i = 0; i < mTeacherComments.mCommentArray.size(); i++) {
-                View mcommentView = LayoutInflater.from(mContext).inflate(R.layout.view_comment, null);
-                TextView name = (TextView) mcommentView.findViewById(R.id.name);
-                TextView reply = (TextView) mcommentView.findViewById(R.id.reply);
-                TextView re_name = (TextView) mcommentView.findViewById(R.id.re_name);
-                TextView content = (TextView) mcommentView.findViewById(R.id.content);
+            for (int i = 0; i < mTeacherComments.mCommentArray.size(); i++) {//根据评论数量动态添加Textview
+//                使用SpannableString是为了保持换行的时候依然对齐，如果用Linlearlayout往里面添加多个Texview不行的
+                SpannableStringBuilder mSpannableStringBuilder = new SpannableStringBuilder();
+                TextView mcommentView = (TextView) LayoutInflater.from(mContext).inflate(R.layout.view_comment, null);
                 final TEACHERCOMMENTS.CommentArray mCommentArray = mTeacherComments.mCommentArray.get(i);
-                if (TextUtils.isEmpty(mCommentArray.target_username)||"null".equals(mCommentArray.target_username)) {
-                    name.setVisibility(View.GONE);
-                    reply.setVisibility(View.GONE);
+                String targetuserbane = mCommentArray.target_username;
+                String mUsername = mCommentArray.username;
+                if (!TextUtils.isEmpty(targetuserbane) && !"null".equals(targetuserbane)) {//如果target为空则不需要添加被回复人和“回复”
+                    mSpannableStringBuilder.append(targetuserbane).append("回复");
+                    mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#516792")), 0, targetuserbane.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    mSpannableStringBuilder.append(mUsername);
+                    mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#516792")), targetuserbane.length()+2, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 } else {
-                    name.setText(mCommentArray.target_username);
+                    mSpannableStringBuilder.append(mUsername);
+                    mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#516792")), 0, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
-                re_name.setText(mCommentArray.username);
-                content.setText(mCommentArray.comment_content);
+                mSpannableStringBuilder.append(": ");
+                mSpannableStringBuilder.append(mCommentArray.comment_content);
                 mcommentView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
-                        if (mDeleteListener!=null){
-                            mDeleteListener.replycomment(mTeacherComments.news_id,mCommentArray.comment_id,position);
+                        if (mDeleteListener != null) {
+                            mDeleteListener.replycomment(mTeacherComments.news_id, mCommentArray.comment_id, position);
                         }
                     }
                 });
+                mcommentView.setText(mSpannableStringBuilder);
                 mHolder.commentlayout.addView(mcommentView);
 
             }
@@ -241,6 +250,6 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
 
         void commentnews(String newsid, int mPosition);
 
-        void replycomment(String newsid, String targetcommentid,int position);
+        void replycomment(String newsid, String targetcommentid, int position);
     }
 }

@@ -127,7 +127,7 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:paddingBottom="9.5dp"
-        android:paddingLeft="12.5dp"
+        android:paddingLeft="57.5dp"
         android:paddingRight="18.5dp"
         android:paddingTop="12.5dp"
         android:layout_height="wrap_content">
