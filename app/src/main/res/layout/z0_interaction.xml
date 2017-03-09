@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/body">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/body"
+              android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="46dp" >
+        android:layout_height="46dp">
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="20dp"
-            android:background="#000000" />
+            android:background="#000000"/>
 
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="48dp"
-            android:background="@drawable/nav_bg" />
+            android:background="@drawable/nav_bg"/>
 
         <TextView
             android:layout_width="150dp"
@@ -28,7 +28,7 @@
             android:singleLine="true"
             android:text="@string/interaction_tch_stu"
             android:textColor="#ffffff"
-            android:textSize="24dp" />
+            android:textSize="24dp"/>
 
         <TextView
             android:id="@+id/teacher_publish"
@@ -37,14 +37,16 @@
             android:layout_gravity="center_vertical|right"
             android:layout_marginRight="10dp"
             android:background="@drawable/filter_blue_btn"
+            android:gravity="center"
             android:padding="5dp"
             android:text="@string/publish"
-            android:gravity="center"
             android:textColor="#ffffff"
             android:textSize="14dp"
             android:visibility="gone"/>
     </FrameLayout>
-
+    <!--通过设置        android:listSelector="#00000000"
+    取消listview按下时默认给的橙黄色
+    -->
     <com.external.maxwin.view.XListView
         android:id="@+id/interaction_list"
         android:layout_width="fill_parent"
@@ -54,21 +56,23 @@
         android:fadingEdge="none"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="false"
+        android:listSelector="#00000000"
 
         android:scrollbars="none"
-        android:visibility="gone" >
+        android:visibility="gone">
     </com.external.maxwin.view.XListView>
 
     <include
         android:id="@+id/notlogin"
+        layout="@layout/not_login"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        layout="@layout/not_login"
-        android:visibility="gone" />
+        android:visibility="gone"/>
+
     <include
         android:id="@+id/notpublish"
+        layout="@layout/not_publish"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        layout="@layout/not_publish"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 </LinearLayout>

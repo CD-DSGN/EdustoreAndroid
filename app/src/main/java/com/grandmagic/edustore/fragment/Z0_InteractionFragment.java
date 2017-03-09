@@ -8,10 +8,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -306,42 +308,62 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
      * @param mTarget_username 被回复人的昵称
      * @param position
      */
+    TextView sendBtn=null;
+
     private void showCommentPop(final String mNewsid, final String mTargetcommentid, final String mTarget_username, final int position) {
-        Button sendBtn;
         if (mCommentPopupWindow == null) {
-            View mcomentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_comment, null);
+            final View mcomentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_comment, null);
             mEditText = (EditText) mcomentView.findViewById(R.id.et_comment);
-            sendBtn = (Button) mcomentView.findViewById(R.id.send);
+            mEditText.setFocusable(true);
+            sendBtn = (TextView) mcomentView.findViewById(R.id.send);
             mCommentPopupWindow = new PopupWindow(mcomentView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
             mCommentPopupWindow.setBackgroundDrawable(new BitmapDrawable());
-            mCommentPopupWindow.setOutsideTouchable(true);
+            mCommentPopupWindow.setOutsideTouchable(false);
+            mCommentPopupWindow.setFocusable(true);
+            mCommentPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
             mCommentPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
                 public void onDismiss() {
-                 toogleInput();
+                   new Handler().postDelayed(new Runnable() {
+                       @Override
+                       public void run() {
+                           HideKeyboard(mEditText);
+                       }
+                   },500);
                 }
             });
-            sendBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View mView) {
-                    if (TextUtils.isEmpty(mEditText.getText())) {
-                        Toast.makeText(getActivity(), "评论内容不能为空", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (mTargetcommentid == null) {
-                        teacherCommentsModel.sendnewComment(mEditText.getText().toString(), mNewsid, position);
-                    } else {
-                        teacherCommentsModel.replyComment(mEditText.getText().toString(), mNewsid, mTargetcommentid, position);
-                    }
-                }
-            });
+
         }
-       mEditText.setHint(mTarget_username==null?"":"回复" + mTarget_username);
-        mCommentPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        mEditText.requestFocus();
+        mEditText.setHint(mTarget_username == null ? "" : "回复" + mTarget_username);
         toogleInput();
         mEditText.setText("");
         mCommentPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View mView) {
+                if (TextUtils.isEmpty(mEditText.getText())) {
+                    Toast.makeText(getActivity(), "评论内容不能为空", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (mTargetcommentid == null) {
+                    teacherCommentsModel.sendnewComment(mEditText.getText().toString(), mNewsid, position);
+                } else {
+                    teacherCommentsModel.replyComment(mEditText.getText().toString(), mNewsid, mTargetcommentid, position);
+                }
+                mEditText.setText("");
+                mCommentPopupWindow.dismiss();
+            }
+        });
     }
+
+    public void HideKeyboard(View v) {
+        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+    }
+
     /**
      * 切换输入法显示状态
      */

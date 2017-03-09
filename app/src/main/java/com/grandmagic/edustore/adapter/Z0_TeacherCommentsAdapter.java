@@ -133,13 +133,13 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
                 SpannableStringBuilder mSpannableStringBuilder = new SpannableStringBuilder();
                 TextView mcommentView = (TextView) LayoutInflater.from(mContext).inflate(R.layout.view_comment, null);
                 final TEACHERCOMMENTS.CommentArray mCommentArray = mTeacherComments.mCommentArray.get(i);
-                String targetuserbane = mCommentArray.target_username;
+                String mTargetUsername = mCommentArray.target_username;
                 String mUsername = mCommentArray.username;
-                if (!TextUtils.isEmpty(targetuserbane) && !"null".equals(targetuserbane)) {//如果target为空则不需要添加被回复人和“回复”
-                    mSpannableStringBuilder.append(targetuserbane).append("回复");
-                    mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#516792")), 0, targetuserbane.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    mSpannableStringBuilder.append(mUsername);
-                    mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#516792")), targetuserbane.length()+2, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                if (!TextUtils.isEmpty(mTargetUsername) && !"null".equals(mTargetUsername)) {//如果target为空则不需要添加被回复人和“回复”
+                    mSpannableStringBuilder.append(mUsername).append("回复");
+                    mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#516792")), 0, mUsername.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    mSpannableStringBuilder.append(mTargetUsername);
+                    mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#516792")), mUsername.length()+2, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 } else {
                     mSpannableStringBuilder.append(mUsername);
                     mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#516792")), 0, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
