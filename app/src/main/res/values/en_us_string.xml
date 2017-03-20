@@ -450,4 +450,6 @@
     <string name="delete">delete</string>
     <string name="comment">comment</string>
 
+    <string name="click_for_more">click_for_more</string>
+
 </resources>
