@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.grandmagic.BeeFramework.Utils.ScreenUtils;
@@ -61,7 +62,8 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         TextView teacher_name;
         TextView comments;
         TextView publish_time;
-        TextView delete, comment;
+        TextView delete;
+        RelativeLayout comment;
         LinearLayout imagelayout, commentlayout;
     }
 
@@ -73,7 +75,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         cell.comments = (TextView) cellView.findViewById(R.id.comments);
         cell.delete = (TextView) cellView.findViewById(R.id.delete);
         cell.publish_time = (TextView) cellView.findViewById(R.id.publish_date);
-        cell.comment = (TextView) cellView.findViewById(R.id.comment);
+        cell.comment = (RelativeLayout) cellView.findViewById(R.id.comment);
         cell.imagelayout = (LinearLayout) cellView.findViewById(R.id.imagelayout);
         cell.commentlayout = (LinearLayout) cellView.findViewById(R.id.commentlayout);
         return cell;

@@ -110,8 +110,18 @@
         android:layout_height="0.5dp"
         android:background="#cccccc"
         />
-    <TextView
+    <RelativeLayout
         android:id="@+id/comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginTop="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tv_comment"
+            android:src="@drawable/ic_comment"/>
+    <TextView
+        android:id="@+id/tv_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -122,6 +132,7 @@
         android:textColor="#516792"
         android:textSize="10sp"
         />
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/commentlayout"
         android:layout_width="match_parent"
