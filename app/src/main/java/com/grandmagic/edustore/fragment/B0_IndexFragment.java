@@ -17,11 +17,10 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -43,7 +42,6 @@ import com.bigkoo.convenientbanner.holder.Holder;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.external.androidquery.callback.AjaxStatus;
 import com.external.maxwin.view.XListView;
-import com.external.viewpagerindicator.PageIndicator;
 import com.grandmagic.BeeFramework.fragment.BaseFragment;
 import com.grandmagic.BeeFramework.model.BusinessResponse;
 import com.grandmagic.BeeFramework.view.MyDialog;
@@ -56,29 +54,22 @@ import com.grandmagic.edustore.activity.B1_ProductListActivity;
 import com.grandmagic.edustore.activity.B2_ProductDetailActivity;
 import com.grandmagic.edustore.activity.BannerWebActivity;
 import com.grandmagic.edustore.activity.D0_AllCategoryActivity;
-import com.grandmagic.edustore.activity.G0_SettingActivity;
 import com.grandmagic.edustore.activity.G3_MessageActivity;
 import com.grandmagic.edustore.activity.SubscriptionActivity;
 import com.grandmagic.edustore.activity.UserIntegralActivity;
 import com.grandmagic.edustore.adapter.B0_IndexAdapter;
-import com.grandmagic.edustore.adapter.Bee_PageAdapter;
-import com.grandmagic.edustore.component.CircleFrameLayout;
 import com.grandmagic.edustore.model.ConfigModel;
 import com.grandmagic.edustore.model.HomeModel;
 import com.grandmagic.edustore.model.LoginModel;
 import com.grandmagic.edustore.model.MsgModel;
 import com.grandmagic.edustore.model.MsgModel.OnMessageContResponse;
-
+import com.grandmagic.edustore.model.NewsData;
 import com.grandmagic.edustore.model.ShoppingCartModel;
 import com.grandmagic.edustore.model.SimpleUserInfoModel;
-import com.grandmagic.edustore.model.UserInfoModel;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.FILTER;
 import com.grandmagic.edustore.protocol.PLAYER;
-import com.grandmagic.edustore.protocol.USER;
 import com.grandmagic.grandMagicManager.GrandMagicManager;
-import com.iflytek.cloud.resource.Resource;
-import com.insthub.ecmobile.EcmobileManager;
 import com.insthub.ecmobile.EcmobileManager.RegisterApp;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -87,7 +78,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -295,6 +285,8 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
 
         mConvenientBanner.setLayoutParams(params1);
 
+        initNews();
+
         mListView = (MyListView) mainView.findViewById(R.id.home_listview);
         mListView.addHeaderView(b0_index_banner_and_button);
 
@@ -318,6 +310,86 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
         shoppingCartModel.homeCartList();
 
         return mainView;
+    }
+
+
+    //增加资讯相关的界面
+    private void initNews() {
+        ArrayList<NewsData> data = initIndustryData();
+        //先加分类header
+        View news_category = LayoutInflater.from(getActivity()).inflate(R.layout.item_news_category, b0_index_banner_and_button, false);
+        TextView tv_news_category = (TextView) news_category.findViewById(R.id.tv_news_category);
+        tv_news_category.setText("行业资讯");
+        b0_index_banner_and_button.addView(news_category);
+
+        initNewsViewBydata(data);
+
+        View news_policy = LayoutInflater.from(getActivity()).inflate(R.layout.item_news_category, b0_index_banner_and_button, false);
+        TextView tv_policy = (TextView) news_policy.findViewById(R.id.tv_news_category);
+        tv_policy.setText("教育政策");
+        b0_index_banner_and_button.addView(news_policy);
+        ArrayList<NewsData> policy = initPolicyData();
+        initNewsViewBydata(policy);
+
+        View teacher_article = LayoutInflater.from(getActivity()).inflate(R.layout.item_news_category, b0_index_banner_and_button, false);
+        TextView tv_article = (TextView) teacher_article.findViewById(R.id.tv_news_category);
+        tv_article.setText("教师文萃");
+        b0_index_banner_and_button.addView(teacher_article);
+        ArrayList<NewsData> article = initArticleData();
+        initNewsViewBydata(article);
+
+    }
+
+    private ArrayList<NewsData> initArticleData() {
+        ArrayList<NewsData> data = new ArrayList<NewsData>();
+        NewsData newsData = new NewsData("http://www.pyedu.cc/files/345414155704/image/dsc00618.jpg",
+                "您心目中理想的学校是怎么样的","有人说理想的学校是一个花园、乐园、书园；有人说理想的学校是全体师生诞生希望、成就梦想的地方；" );
+        data.add(newsData);
+
+        NewsData newsData1 = new NewsData("http://img.ivsky.com/img/tupian/t/201009/11/fumuyuxiaohai-006.jpg",
+                "用赏花的心情，去面对孩子", "如果你感到别扭，那么孩子也一定不会舒服;要让孩子牵住你的手，而不是用你的手去抓住他的。");
+        data.add(newsData1);
+        return data;
+    }
+
+    @NonNull
+    private ArrayList<NewsData> initIndustryData() {
+        ArrayList<NewsData> data = new ArrayList<NewsData>();
+        NewsData newsData = new NewsData("http://news.eol.cn/t9/201703/W020170315644247660892.jpg",
+                "2017两会教育: 你被哪位代表委员圈粉了?","大国崛起，教育先行，一起去看看2017两会中，关于教育有哪些热点，哪些面孔" );
+        data.add(newsData);
+
+        NewsData newsData1 = new NewsData("http://news.eol.cn/t9/201703/W020170315519202106465.jpg",
+                "3.15：“互联网+教育” 开启教育消费新模式", "丰富的在线课程资源，也让消费者的消费模式发生了变化。如何维权？");
+        data.add(newsData1);
+        return data;
+    }
+
+    private ArrayList<NewsData> initPolicyData() {
+        ArrayList<NewsData> data = new ArrayList<NewsData>();
+        NewsData newsData = new NewsData("http://news.eol.cn/t9/201703/W020170301662129987237.png",
+                "好政策暖人心 不让一个“穷孩子”掉队","2016年，国家进一步完善了学生资助政策体系，各项资助政策得到有效落实，实现了“受助学生规模”、“资助总额”、“财政投入”、“学校社会投入”四个增长" );
+        data.add(newsData);
+
+        NewsData newsData1 = new NewsData("http://news.eol.cn/t9/201703/W020170306585277792917.bmp",
+                "深化“互联网+”战略 首个教育类国家工程实验室将落地", "近日，由广东省发改委、中山市发改局鼓励推送，全通教育集团组织申报的“互联网教育系统技术及应用国家工程实验室”获国家发展改革委批复建设，并将落户中山");
+        data.add(newsData1);
+        return data;
+    }
+
+
+    private void initNewsViewBydata(ArrayList<NewsData> data) {
+        for (NewsData item_data : data) {
+            View item = LayoutInflater.from(getActivity()).inflate(R.layout.item_index_news, b0_index_banner_and_button, false);
+            ImageView iv_news = (ImageView) item.findViewById(R.id.iv_news_pic);
+            TextView tv_title = (TextView) item.findViewById(R.id.tv_news_title);
+            TextView tv_content = (TextView) item.findViewById(R.id.tv_news_content);
+            imageLoader.displayImage(item_data.getUrl(), iv_news, EcmobileApp.options);
+            tv_title.setText(item_data.getTitle());
+            tv_content.setText(item_data.getContent());
+
+            b0_index_banner_and_button.addView(item);
+        }
     }
 
     private void startLoginActivity() {
