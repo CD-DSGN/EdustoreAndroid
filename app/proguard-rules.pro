@@ -96,4 +96,7 @@ public static final int *;
     public void onEvent*(**);
     void onEvent*(**);
 }
+#bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
 
