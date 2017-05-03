@@ -46,6 +46,8 @@ import com.grandmagic.BeeFramework.Utils.CustomExceptionHandler;
 import com.grandmagic.BeeFramework.model.BeeQuery;   import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 import com.grandmagic.edustore.R;
+import com.tencent.bugly.crashreport.CrashReport;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 

@@ -18,6 +18,7 @@ import java.net.URLDecoder;
 
 import android.annotation.TargetApi;
 import android.app.FragmentManager;
+import android.content.SharedPreferences;
 import android.os.Build;
 import com.grandmagic.edustore.fragment.D0_CategoryFragment;
 import org.json.JSONException;
@@ -42,6 +43,7 @@ import com.grandmagic.grandMagicManager.GrandMagicManager;
 import com.insthub.ecmobile.EcmobilePush;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.protocol.FILTER;
+import com.tencent.bugly.crashreport.CrashReport;
 
 public class EcmobileMainActivity extends FragmentActivity
 {
@@ -73,7 +75,8 @@ public class EcmobileMainActivity extends FragmentActivity
 		if(getIntent().getStringExtra(CUSTOM_CONTENT) != null) {
 			pushIntent(getIntent().getStringExtra(CUSTOM_CONTENT));
 		}
-
+        SharedPreferences mPreferences=this.getSharedPreferences("userInfo", 0);
+        CrashReport.setUserId(mPreferences.getString("uid",""));
     }
 
     @Override

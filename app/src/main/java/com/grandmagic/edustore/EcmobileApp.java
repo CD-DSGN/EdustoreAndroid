@@ -16,6 +16,7 @@ package com.grandmagic.edustore;
 import android.graphics.Bitmap;
 import com.grandmagic.BeeFramework.BeeFrameworkApp;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.tencent.bugly.crashreport.CrashReport;
 
 public class EcmobileApp extends BeeFrameworkApp
 {
@@ -42,5 +43,10 @@ public class EcmobileApp extends BeeFrameworkApp
                 .cacheOnDisc(true)							// 设置下载的图片是否缓存在SD卡中
                         //.displayer(new RoundedBitmapDisplayer(30))	// 设置成圆角图片
                 .build();
+        initbugly();
+    }
+
+    private void initbugly() {
+        CrashReport.initCrashReport(this);
     }
 }

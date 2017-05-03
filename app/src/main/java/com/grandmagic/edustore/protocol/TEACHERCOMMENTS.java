@@ -90,7 +90,7 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
         public String img;
         public String img_thumb;
     }
-    public class CommentArray{
+    public class CommentArray implements Serializable{
         public String comment_id;
         public String username;
         public String target_username;
