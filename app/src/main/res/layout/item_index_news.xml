@@ -6,6 +6,7 @@
               android:layout_marginRight="2dp"
               android:background="@drawable/body_cont_bg"
               android:gravity="center_vertical"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="horizontal">
 
     <ImageView
@@ -15,6 +16,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:layout_weight="1"
+        tools:src="@color/bottom_bg"
         android:scaleType="centerCrop"/>
 
     <LinearLayout
@@ -33,6 +35,7 @@
             android:maxLines="1"
             android:textColor="@color/TextColorBlack"
             android:textSize="15sp"
+            tools:text="空间冯绍峰你是"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
             />
@@ -45,6 +48,7 @@
             android:maxLines="2"
             android:textColor="#999999"
             android:textSize="12sp"
+            tools:text="content"
             android:ellipsize="marquee"
             />
     </LinearLayout>

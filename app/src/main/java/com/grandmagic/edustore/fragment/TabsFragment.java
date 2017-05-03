@@ -36,12 +36,13 @@ import com.grandmagic.edustore.model.ShoppingCartModel;
 
 public class TabsFragment extends Fragment
 {
-
+ImageView tab_zero;
     ImageView tab_one;
     ImageView tab_two;
     ImageView tab_three;
     ImageView tab_four;
 
+    ImageView tab_zerobg;
     ImageView tab_onebg;
     ImageView tab_twobg;
     ImageView tab_threebg;
@@ -56,7 +57,7 @@ public class TabsFragment extends Fragment
     C0_ShoppingCartFragment shoppingCartFragment;
     E0_ProfileFragment profileFragment;
     Z0_InteractionFragment interactionFragment;
-
+InformationFragment mInformationFragment;
     public TabsFragment() {
     }
 
@@ -88,6 +89,14 @@ public class TabsFragment extends Fragment
     	this.shopping_cart_num = (TextView) mainView.findViewById(R.id.shopping_cart_num);
     	this.shopping_cart_num_bg = (LinearLayout) mainView.findViewById(R.id.shopping_cart_num_bg);
 
+        this.tab_zero= (ImageView) mainView.findViewById(R.id.toolbar_tabzero);
+        this.tab_zerobg= (ImageView) mainView.findViewById(R.id.toolbar_tabzerobg);
+        this.tab_zero.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OnTabSelected("tab_zero");
+            }
+        });
         this.tab_one = (ImageView) mainView.findViewById(R.id.toolbar_tabone);
         this.tab_onebg = (ImageView) mainView.findViewById(R.id.toolbar_tabonebg);
         this.tab_one.setOnClickListener(new View.OnClickListener() {
@@ -124,11 +133,34 @@ public class TabsFragment extends Fragment
             }
         });
 
-        OnTabSelected("tab_one");
+        OnTabSelected("tab_zero");
     }
 
 	void OnTabSelected(String tabName) {
-        if (tabName == "tab_one") {
+        if (tabName == "tab_zero") {
+
+            if (null == mInformationFragment)
+            {
+                mInformationFragment = new InformationFragment();
+            }
+
+            FragmentTransaction localFragmentTransaction = getFragmentManager().beginTransaction();
+            localFragmentTransaction.replace(R.id.fragment_container, mInformationFragment, "tab_zero");
+            localFragmentTransaction.commit();
+
+            this.tab_zero.setImageResource(R.drawable.footer_home_active_icon);
+            this.tab_one.setImageResource(R.drawable.footer_home_icon);
+            this.tab_two.setImageResource(R.drawable.footer_search_icon);
+            this.tab_three.setImageResource(R.drawable.footer_shopping_cart_icon);
+            this.tab_four.setImageResource(R.drawable.footer_user_icon);
+
+            this.tab_zerobg.setVisibility(View.VISIBLE);
+            this.tab_onebg.setVisibility(View.INVISIBLE);
+            this.tab_twobg.setVisibility(View.INVISIBLE);
+            this.tab_threebg.setVisibility(View.INVISIBLE);
+            this.tab_fourbg.setVisibility(View.INVISIBLE);
+
+        }else if (tabName == "tab_one") {
 
             if (null == homeFragment)
             {
@@ -139,11 +171,13 @@ public class TabsFragment extends Fragment
             localFragmentTransaction.replace(R.id.fragment_container, homeFragment, "tab_one");
             localFragmentTransaction.commit();
 
+            this.tab_zero.setImageResource(R.drawable.footer_home_icon);
             this.tab_one.setImageResource(R.drawable.footer_home_active_icon);
             this.tab_two.setImageResource(R.drawable.footer_search_icon);
             this.tab_three.setImageResource(R.drawable.footer_shopping_cart_icon);
             this.tab_four.setImageResource(R.drawable.footer_user_icon);
 
+            this.tab_zerobg.setVisibility(View.INVISIBLE);
             this.tab_onebg.setVisibility(View.VISIBLE);
             this.tab_twobg.setVisibility(View.INVISIBLE);
             this.tab_threebg.setVisibility(View.INVISIBLE);
@@ -161,11 +195,13 @@ public class TabsFragment extends Fragment
             localFragmentTransaction.commit();
         	
 
+            this.tab_zero.setImageResource(R.drawable.footer_home_icon);
             this.tab_one.setImageResource(R.drawable.footer_home_icon);
             this.tab_two.setImageResource(R.drawable.footer_search_active_icon);
             this.tab_three.setImageResource(R.drawable.footer_shopping_cart_icon);
             this.tab_four.setImageResource(R.drawable.footer_user_icon);
 
+            this.tab_zerobg.setVisibility(View.INVISIBLE);
             this.tab_onebg.setVisibility(View.INVISIBLE);
             this.tab_twobg.setVisibility(View.VISIBLE);
             this.tab_threebg.setVisibility(View.INVISIBLE);
@@ -178,11 +214,13 @@ public class TabsFragment extends Fragment
                 localFragmentTransaction.replace(R.id.fragment_container, shoppingCartFragment, "tab_three");
                 localFragmentTransaction.commit();
 
+                this.tab_zero.setImageResource(R.drawable.footer_home_icon);
                 this.tab_one.setImageResource(R.drawable.footer_home_icon);
                 this.tab_two.setImageResource(R.drawable.footer_search_icon);
                 this.tab_three.setImageResource(R.drawable.footer_shopping_cart_active_icon);
                 this.tab_four.setImageResource(R.drawable.footer_user_icon);
 
+                this.tab_zerobg.setVisibility(View.INVISIBLE);
                 this.tab_onebg.setVisibility(View.INVISIBLE);
                 this.tab_twobg.setVisibility(View.INVISIBLE);
                 this.tab_threebg.setVisibility(View.VISIBLE);
@@ -196,11 +234,13 @@ public class TabsFragment extends Fragment
             	localFragmentTransaction.replace(R.id.fragment_container, profileFragment, "tab_four");
             	localFragmentTransaction.commit();
           	
+            	this.tab_zero.setImageResource(R.drawable.footer_home_icon);
             	this.tab_one.setImageResource(R.drawable.footer_home_icon);
             	this.tab_two.setImageResource(R.drawable.footer_search_icon);
             	this.tab_three.setImageResource(R.drawable.footer_shopping_cart_icon);
             	this.tab_four.setImageResource(R.drawable.footer_user_active_icon);
   
+            	this.tab_zerobg.setVisibility(View.INVISIBLE);
             	this.tab_onebg.setVisibility(View.INVISIBLE);
             	this.tab_twobg.setVisibility(View.INVISIBLE);
             	this.tab_threebg.setVisibility(View.INVISIBLE);

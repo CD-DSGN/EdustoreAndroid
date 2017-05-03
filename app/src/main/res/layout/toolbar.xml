@@ -10,7 +10,27 @@
         android:layout_height="match_parent"
         android:background="@drawable/foot_bg"
         android:gravity="center" >
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25" >
 
+            <ImageView
+                android:id="@+id/toolbar_tabzerobg"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/footer_active_bg"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/toolbar_tabzero"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="#00000000"
+                android:padding="7dp"
+                android:src="@drawable/footer_home_icon" />
+        </FrameLayout>
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

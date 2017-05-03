@@ -16,6 +16,8 @@ package com.grandmagic.edustore;
 import android.graphics.Bitmap;
 import com.grandmagic.BeeFramework.BeeFrameworkApp;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.tencent.bugly.crashreport.CrashReport;
 
 public class EcmobileApp extends BeeFrameworkApp
@@ -43,6 +45,10 @@ public class EcmobileApp extends BeeFrameworkApp
                 .cacheOnDisc(true)							// 设置下载的图片是否缓存在SD卡中
                         //.displayer(new RoundedBitmapDisplayer(30))	// 设置成圆角图片
                 .build();
+        ImageLoaderConfiguration mConfiguration = new ImageLoaderConfiguration.Builder(this)
+                .defaultDisplayImageOptions(options)
+                .build();
+        ImageLoader.getInstance().init(mConfiguration);
         initbugly();
     }
 

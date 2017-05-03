@@ -138,7 +138,6 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
-        imageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
         View mainView = inflater.inflate(R.layout.b0_index, null);
 
         input = (EditText) mainView.findViewById(R.id.search_input);
@@ -304,11 +303,6 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
         }
         mSimpleUserInfoModel.addResponseListener(this);
         homeSetAdapter();
-
-        ShoppingCartModel shoppingCartModel = new ShoppingCartModel(getActivity());
-        shoppingCartModel.addResponseListener(this);
-        shoppingCartModel.homeCartList();
-
         return mainView;
     }
 
@@ -516,8 +510,6 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
             }
             mListView.setAdapter(listAdapter);
             //            addBannerView();
-        } else if (url.endsWith(ApiInterface.CART_LIST)) {
-            TabsFragment.setShoppingcartNum();
         } else if (url.endsWith(ApiInterface.SIMPLE_USER_INFO)) {
             login_is_teacher = mSimpleUserInfoModel.is_teacher;
             changeVisibility();
