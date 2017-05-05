@@ -93,6 +93,9 @@ public class BeeQuery<T> extends AQuery {
 
 
     private static String getAbsoluteUrl(String relativeUrl) {
+		if (relativeUrl.startsWith("http://")){//如果给的是完整路径。就不去拼接
+			return relativeUrl;
+		}
 			return  BeeQuery.serviceUrl() + relativeUrl;
     }
 }
