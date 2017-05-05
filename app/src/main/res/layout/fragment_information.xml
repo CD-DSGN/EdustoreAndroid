@@ -1,22 +1,43 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.grandmagic.edustore.fragment.InformationFragment">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+    >
 
-<com.external.maxwin.view.XListView
-    android:id="@+id/listview"
-    android:layout_width="match_parent"
-    android:background="#00000000"
-    android:divider="#cccccc"
-    android:fadingEdge="none"
-    android:footerDividersEnabled="true"
-    android:headerDividersEnabled="false"
-    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="@drawable/nav_bg"
+        android:gravity="center"
+        android:text="教育资讯"
+        android:textColor="@color/TextColorWhite"
+        android:textSize="24sp"
+        />
 
-</com.external.maxwin.view.XListView>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+        >
+
+        <com.external.maxwin.view.XListView
+            android:layout_marginTop="15dp"
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00000000"
+            android:divider="#cccccc"
+            android:fadingEdge="none"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="false">
+
+        </com.external.maxwin.view.XListView>
 
 
-    <include layout="@layout/null_pager" android:id="@+id/view_empty"/>
+        <include
+            android:id="@+id/view_empty"
+            layout="@layout/null_pager"/>
 
-</FrameLayout>
+    </FrameLayout>
+</LinearLayout>
