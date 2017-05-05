@@ -1,6 +1,7 @@
 package com.grandmagic.edustore.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.grandmagic.BeeFramework.adapter.BeeBaseAdapter;
 import com.grandmagic.edustore.R;
+import com.grandmagic.edustore.activity.NewsDetailActivity;
 import com.grandmagic.edustore.protocol.NewsList;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -41,11 +43,19 @@ public class InfoListAdapter extends BeeBaseAdapter {
 
     @Override
     protected View bindData(int position, View cellView, ViewGroup parent, BeeCellHolder h) {
-        NewsList.DataBean.InfoBean data = (NewsList.DataBean.InfoBean) dataList.get(position);
+        final NewsList.DataBean.InfoBean data = (NewsList.DataBean.InfoBean) dataList.get(position);
         InfoHolder hodler = (InfoHolder) h;
         hodler.content.setText(data.getSketch());
         hodler.title.setText(data.getTitle());
         ImageLoader.getInstance().displayImage(data.getBanner().getBanner_url(), hodler.conver);
+        cellView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mIntent=new Intent(mContext, NewsDetailActivity.class);
+                mIntent.putExtra(NewsDetailActivity.URL,data.getUrl());
+                mContext.startActivity(mIntent);
+            }
+        });
         return null;
     }
 

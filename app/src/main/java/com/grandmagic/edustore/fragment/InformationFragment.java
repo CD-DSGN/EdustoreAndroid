@@ -1,12 +1,14 @@
 package com.grandmagic.edustore.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 
 import com.external.androidquery.callback.AjaxStatus;
@@ -15,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.grandmagic.BeeFramework.model.BusinessResponse;
 import com.grandmagic.edustore.R;
+import com.grandmagic.edustore.activity.NewsDetailActivity;
 import com.grandmagic.edustore.adapter.InfoListAdapter;
 import com.grandmagic.edustore.model.NewsModel;
 import com.grandmagic.edustore.model.ShoppingCartModel;

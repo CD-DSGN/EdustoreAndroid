@@ -85,19 +85,19 @@ public class NewsList {
              * banner : [{"banner_id":"9","banner_url":"http://192.168.1.115/huishiwang/backend/web/news_image/20170504/1102021146110246978712200626A.jpg"}]
              */
 
-            private String news_id;
+            private String url;
             private String title;
             private String sketch;
             private String created_at;
             private String updated_at;
             private BannerBean banner;
 
-            public String getNews_id() {
-                return news_id;
+            public String getUrl() {
+                return url;
             }
 
-            public void setNews_id(String news_id) {
-                this.news_id = news_id;
+            public void setUrl(String mUrl) {
+                url = mUrl;
             }
 
             public String getTitle() {
