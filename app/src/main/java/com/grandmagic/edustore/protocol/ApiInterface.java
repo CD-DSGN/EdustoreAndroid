@@ -66,5 +66,6 @@ public class ApiInterface
      public static final String COMMENT_PUBLISH ="interaction/comment_publish";//提交退货申请
 
      public static final String GET_NEWS="http://192.168.1.115/huishiwang/api/web/getnews/detail";//资讯列表
+     public static final String CHECK_VERSION="http://192.168.1.115/huishiwang/api/web/version/updateversion";//检查版本
 
 }

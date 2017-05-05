@@ -1,6 +1,8 @@
 package com.grandmagic.edustore.model;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import com.external.androidquery.callback.AjaxStatus;
 import com.grandmagic.BeeFramework.model.BaseModel;
@@ -41,8 +43,6 @@ public class NewsModel extends BaseModel {
 
             @Override
             public void callback(String url, JSONObject jo, AjaxStatus status) {
-
-                NewsModel.this.callback(url, jo, status);
                 try {
                     NewsModel.this.OnMessageResponse(url, jo, status);
                 } catch (JSONException mE) {
@@ -53,10 +53,41 @@ public class NewsModel extends BaseModel {
         };
 
         Map<String, String> params = new HashMap<String, String>();
-            params.put("pagesize", 20+"");
-            params.put("cpage", cpage+"");
+        params.put("pagesize", 20 + "");
+        params.put("cpage", cpage + "");
         cb.url(ApiInterface.GET_NEWS).method(1).type(JSONObject.class).params(params);
         MyProgressDialog pd = new MyProgressDialog(mContext, mContext.getResources().getString(R.string.hold_on));
         aq.progress(pd.mDialog).ajax(cb);
+    }
+
+    //    检查版本
+    public void checkversion() {
+        BeeCallback<JSONObject> cb = new BeeCallback<JSONObject>() {
+
+            @Override
+            public void callback(String url, JSONObject jo, AjaxStatus status) {
+                try {
+                    NewsModel.this.OnMessageResponse(url, jo, status);
+                } catch (JSONException mE) {
+                    mE.printStackTrace();
+                }
+            }
+
+        };
+        String mVersionName="1.0.0";
+
+        PackageManager mPackageManager = mContext.getPackageManager();
+        try {
+            PackageInfo mPackageInfo = mPackageManager.getPackageInfo(mContext.getPackageName()
+                    , PackageManager.GET_CONFIGURATIONS);
+            mVersionName = mPackageInfo.versionName;
+        } catch (Exception mE) {
+            mE.printStackTrace();
+        }
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("version", mVersionName + "");
+        params.put("client_type", "2");
+        cb.url(ApiInterface.CHECK_VERSION).method(1).type(JSONObject.class).params(params);
+        aq.ajax(cb);
     }
 }
