@@ -58,7 +58,6 @@ public class InformationFragment extends Fragment implements BusinessResponse {
             @Override
             public void onRefresh(int id) {
                 currpage = 1;
-                mList.clear();
                 mNewsModel.getNewsData(currpage);
                 mXListView.setRefreshTime();
             }
@@ -105,6 +104,7 @@ public class InformationFragment extends Fragment implements BusinessResponse {
                 NewsList mNewsList = mGson.fromJson(jo.toString(), NewsList.class);
                 if (mNewsList.getCode() == 200) {
                     if (mNewsList.getData() != null) {
+                        if (currpage==1)    mList.clear();
                         mTotalPage = mNewsList.getData().getTotal_page();
                         if (currpage < mTotalPage) {
                             mXListView.setPullLoadEnable(true);
