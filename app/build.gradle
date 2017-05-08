@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'bugly'
 
 android {
     compileSdkVersion 23
@@ -10,6 +11,10 @@ android {
         targetSdkVersion 17
         versionCode 3
         versionName "1.2.0"
+    }
+    bugly {
+        appId = 'fddb92302f' // 注册时分配的App ID
+        appKey = '36c5bdf5-16a3-43ab-915e-c659939bdc6a' // 注册时分配的App Key
     }
     buildTypes {
         release {
