@@ -450,4 +450,9 @@
     <string name="comment">评论</string>
 
     <string name="click_for_more">更多>>></string>
+    <string name="nickname">昵称</string>
+    <string name="nickname_too_short">昵称过短</string>
+    <string name="nickname_too_long">昵称过长</string>
+    <string name="search">搜索</string>
+    <string name="keyword_empty">请填写搜索内容</string>
 </resources>

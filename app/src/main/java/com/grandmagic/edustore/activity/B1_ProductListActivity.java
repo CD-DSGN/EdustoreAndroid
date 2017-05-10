@@ -16,26 +16,25 @@ package com.grandmagic.edustore.activity;
 //
 
 import android.content.Context;
-import android.view.*;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
-
-import com.grandmagic.grandMagicManager.GrandMagicManager;
-
-import com.grandmagic.edustore.protocol.ApiInterface;
-import com.grandmagic.edustore.protocol.FILTER;
-import com.grandmagic.edustore.protocol.PAGINATED;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.external.androidquery.callback.AjaxStatus;
 import com.external.maxwin.view.XListView;
@@ -49,6 +48,12 @@ import com.grandmagic.edustore.adapter.B1_ProductListAdapter;
 import com.grandmagic.edustore.adapter.GoodListLargeListActivityAdapter;
 import com.grandmagic.edustore.model.GoodsListModel;
 import com.grandmagic.edustore.model.ShoppingCartModel;
+import com.grandmagic.edustore.protocol.ApiInterface;
+import com.grandmagic.edustore.protocol.FILTER;
+import com.grandmagic.edustore.protocol.PAGINATED;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class B1_ProductListActivity extends BaseActivity implements BusinessResponse, IXListViewListener,OnClickListener
 {
@@ -58,7 +63,9 @@ public class B1_ProductListActivity extends BaseActivity implements BusinessResp
     private ImageView shopping_cart;
     private TextView good_list_shopping_cart_num;
     private LinearLayout good_list_shopping_cart_num_bg;
-	
+	private Button mBtnSearch;
+
+
 	private XListView goodlistView;
 	private GoodsListModel dataModel;
 	private B1_ProductListAdapter listAdapter;
@@ -120,6 +127,7 @@ public class B1_ProductListActivity extends BaseActivity implements BusinessResp
 
         input = (EditText) findViewById(R.id.search_input);
         search = (ImageView) findViewById(R.id.search_search);
+        mBtnSearch = (Button) findViewById(R.id.btn_b1_search);
         searchFilter = (Button )findViewById(R.id.search_filter);
         bottom_line = (View)findViewById(R.id.bottom_line);
         top_view=findViewById(R.id.top_view);
@@ -134,21 +142,16 @@ public class B1_ProductListActivity extends BaseActivity implements BusinessResp
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {                
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    String keyword = input.getText().toString().toString();
-                    if (null != keyword && keyword.length() > 0)
-                    {
-                        B1_ProductListActivity.this.filter.keywords = keyword;
-                        dataModel.fetchPreSearch(B1_ProductListActivity.this.filter);
-                    }
-                    else
-                    {
-                        B1_ProductListActivity.this.filter.keywords = null;
-                        dataModel.fetchPreSearch(B1_ProductListActivity.this.filter);
-                    }
-                    CloseKeyBoard();
-
+                    search_by_keyword();
                 }
                 return false;
+            }
+        });
+
+        mBtnSearch.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search_by_keyword();
             }
         });
 
@@ -166,12 +169,14 @@ public class B1_ProductListActivity extends BaseActivity implements BusinessResp
                         input.setCursorVisible(true);
                         top_view.setVisibility(View.VISIBLE);
                         searchFilter.setVisibility(View.GONE);
+                        mBtnSearch.setVisibility(View.VISIBLE);
                     }
                     else
                     {
                         input.setCursorVisible(false);
                         top_view.setVisibility(View.INVISIBLE);
                         searchFilter.setVisibility(View.VISIBLE);
+                        mBtnSearch.setVisibility(View.GONE);
                     }
                 }
             });
@@ -313,6 +318,21 @@ public class B1_ProductListActivity extends BaseActivity implements BusinessResp
         flag = PRICE_ASC_INT;
 		
 	}
+
+    private void search_by_keyword() {
+        String keyword = input.getText().toString().toString();
+        if (null != keyword && keyword.length() > 0)
+        {
+            B1_ProductListActivity.this.filter.keywords = keyword;
+            dataModel.fetchPreSearch(B1_ProductListActivity.this.filter);
+        }
+        else
+        {
+            B1_ProductListActivity.this.filter.keywords = null;
+            dataModel.fetchPreSearch(B1_ProductListActivity.this.filter);
+        }
+        CloseKeyBoard();
+    }
 
     void selectedTab(int index)
     {

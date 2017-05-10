@@ -71,6 +71,18 @@
                 android:visibility="visible"
                 android:background="@drawable/filter_blue_btn"
                 android:gravity="center" android:textSize="16dp" android:textColor="#FFFFFF"/>
+
+        <Button
+            android:id="@+id/btn_b1_search"
+            android:layout_width="55dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="10dp"
+            android:text="@string/search"
+            android:visibility="gone"
+            android:background="@drawable/filter_blue_btn"
+            android:gravity="center" android:textSize="16dp" android:textColor="#FFFFFF"/>
     </LinearLayout>
 
 
