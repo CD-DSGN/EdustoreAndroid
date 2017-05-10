@@ -92,7 +92,7 @@ public class RegisterModel_teacher extends BaseModel {
 
     }
 
-    public void signup(String name, String password, String mobile_phone, String course,
+    public void signup(String password, String mobile_phone, String course,
                        String teacher_real_name, String school, String country, String province, String city, String district, String invite_code) {
         usersignupteacherRequest request = new usersignupteacherRequest( );
 
@@ -128,7 +128,7 @@ public class RegisterModel_teacher extends BaseModel {
             }
 
         };
-        request.name = name;
+
         request.password = password;
 //        request.field = fields;
         request.mobile_phone = mobile_phone;

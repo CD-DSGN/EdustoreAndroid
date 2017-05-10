@@ -11,14 +11,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static android.R.attr.name;
+
 @Table(name = "usersignupteacherRequest")
 public class usersignupteacherRequest extends Model
 {
 
      public ArrayList<FIELD>   field = new ArrayList<FIELD>();
 
-     @Column(name = "name")
-     public String   name;
+
 
      @Column(name = "password")
      public String   password;
@@ -69,7 +70,6 @@ public class usersignupteacherRequest extends Model
           }
 
 
-          this.name = jsonObject.optString("name");
 
           this.password = jsonObject.optString("password");
 
@@ -91,7 +91,6 @@ public class usersignupteacherRequest extends Model
           JSONObject localItemObject = new JSONObject();
           JSONArray itemJSONArray = new JSONArray();
 
-          localItemObject.put("name", name);
           localItemObject.put("password", password);
           localItemObject.put("real_name", real_name);
           localItemObject.put("school", school);

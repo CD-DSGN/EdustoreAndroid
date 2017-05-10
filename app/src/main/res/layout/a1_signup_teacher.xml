@@ -67,26 +67,6 @@
                 android:orientation="vertical" >
 
                 <EditText
-                    android:id="@+id/register_name_teacher"
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_margin="5dp"
-                    android:background="#ffffff"
-                    android:gravity="center_vertical"
-                    android:hint="@string/login_username_teacher"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:singleLine="true"
-                    android:textColor="#000000"
-                    android:maxLength="20"
-                    android:textSize="16dp" />
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.1dp"
-                    android:background="#c4c4c4" />
-
-                <EditText
                     android:id="@+id/et_signup_teacher_step_two_real_name"
                     android:layout_width="fill_parent"
                     android:layout_height="40dp"

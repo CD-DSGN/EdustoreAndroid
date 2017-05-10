@@ -14,23 +14,11 @@ package com.grandmagic.edustore.activity;
 //  Powered by BeeFramework
 //注册 -学生注册
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import android.content.res.Resources;
-import android.text.InputType;
-import com.grandmagic.BeeFramework.activity.BaseActivity;
-import com.grandmagic.edustore.ActivityStackManager;
-import com.grandmagic.edustore.fragment.E0_ProfileFragment;
-import com.grandmagic.edustore.protocol.ApiInterface;
-import com.grandmagic.edustore.protocol.FIELD;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,10 +30,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.external.androidquery.callback.AjaxStatus;
-import com.grandmagic.edustore.R;
+import com.grandmagic.BeeFramework.activity.BaseActivity;
 import com.grandmagic.BeeFramework.model.BusinessResponse;
 import com.grandmagic.BeeFramework.view.ToastView;
+import com.grandmagic.edustore.ActivityStackManager;
+import com.grandmagic.edustore.R;
+import com.grandmagic.edustore.fragment.E0_ProfileFragment;
 import com.grandmagic.edustore.model.RegisterModel;
+import com.grandmagic.edustore.protocol.ApiInterface;
+import com.grandmagic.edustore.protocol.FIELD;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class A1_SignupActivity_student extends BaseActivity implements OnClickListener, BusinessResponse {
 
@@ -169,11 +169,11 @@ public class A1_SignupActivity_student extends BaseActivity implements OnClickLi
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else if (name.length() < 2) {
-                    ToastView toast = new ToastView(this, resource.getString(R.string.username_too_short));
+                    ToastView toast = new ToastView(this, resource.getString(R.string.nickname_too_short));
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else if (name.length() > 20) {
-                    ToastView toast = new ToastView(this, resource.getString(R.string.username_too_long));
+                    ToastView toast = new ToastView(this, resource.getString(R.string.nickname_too_long));
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
 //                } else if ("".equals(mail)) {
