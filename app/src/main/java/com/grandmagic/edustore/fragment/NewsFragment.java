@@ -42,14 +42,13 @@ import java.util.List;
 /**
  * 新的首页。关于资讯
  */
-public class InformationFragment extends Fragment implements BusinessResponse {
-    private static final String TAG = "InformationFragment";
+public class NewsFragment extends Fragment implements BusinessResponse {
     private XListView mXListView;
     FrameLayout mView_Empty;
     NewsModel mNewsModel;
     int mTotalPage = 1;
     int currpage = 1;
-    private AlertDialog mAlertDialog;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
