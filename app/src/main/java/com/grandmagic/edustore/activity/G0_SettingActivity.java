@@ -16,7 +16,6 @@ package com.grandmagic.edustore.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,26 +26,19 @@ import android.widget.TextView;
 
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
-import com.external.androidquery.callback.AjaxStatus;
 import com.grandmagic.BeeFramework.activity.BaseActivity;
 import com.grandmagic.BeeFramework.activity.WebViewActivity;
-import com.grandmagic.BeeFramework.model.BusinessResponse;
 import com.grandmagic.BeeFramework.view.MyDialog;
 import com.grandmagic.edustore.ECMobileAppConst;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.fragment.B0_IndexFragment;
 import com.grandmagic.edustore.model.ConfigModel;
-import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.SESSION;
 import com.grandmagic.grandMagicManager.GrandMagicManager;
-
 import com.insthub.ecmobile.EcmobilePush;
 import com.insthub.ecmobile.EcmobilePush.PushResponse;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-public class G0_SettingActivity extends BaseActivity implements OnClickListener,BusinessResponse, PushResponse {
+public class G0_SettingActivity extends BaseActivity implements OnClickListener, PushResponse {
 	
 	private TextView title;
 	private ImageView back;
@@ -61,12 +53,13 @@ public class G0_SettingActivity extends BaseActivity implements OnClickListener,
 	private ImageView picture_high_quality_arrow;
 	private ImageView picture_low_quality_arrow;
 	
-	private TextView mobile;
-	private LinearLayout official_web;
+
+
 	private LinearLayout aboutApp;
-    private LinearLayout settingMobileLayout;
+
     private LinearLayout about;
-    private LinearLayout settingSupport;
+	private LinearLayout settingSupport;
+
 
 	private Button exitLogin;
 	
@@ -89,12 +82,10 @@ public class G0_SettingActivity extends BaseActivity implements OnClickListener,
         if (null == ConfigModel.getInstance())
         {
             ConfigModel configModel = new ConfigModel(this);
-            configModel.addResponseListener(this);
             ConfigModel.getInstance().getConfig();
         }
         else if (null == ConfigModel.getInstance().config)
         {
-            ConfigModel.getInstance().addResponseListener(this);
             ConfigModel.getInstance().getConfig();
         }
 
@@ -116,21 +107,9 @@ public class G0_SettingActivity extends BaseActivity implements OnClickListener,
 		picture_high_quality_arrow = (ImageView) findViewById(R.id.setting_picture_high_quality_arrow);
 		picture_low_quality_arrow = (ImageView) findViewById(R.id.setting_picture_low_quality_arrow);
 
-        settingMobileLayout = (LinearLayout)findViewById(R.id.setting_mobile_layout);
-        settingMobileLayout.setOnClickListener(this);
-        
         settingSupport = (LinearLayout) findViewById(R.id.setting_support);
         settingSupport.setOnClickListener(this);
 
-		mobile = (TextView) findViewById(R.id.setting_mobile);
-
-        if (null != ConfigModel.getInstance().config &&
-                null != ConfigModel.getInstance().config.service_phone)
-        {
-            mobile.setText(ConfigModel.getInstance().config.service_phone);
-        }
-
-		official_web = (LinearLayout) findViewById(R.id.setting_official_web);
 		aboutApp = (LinearLayout) findViewById(R.id.setting_aboutApp);
 		about = (LinearLayout) findViewById(R.id.setting_about);
 		exitLogin = (Button) findViewById(R.id.setting_exitLogin);
@@ -138,8 +117,7 @@ public class G0_SettingActivity extends BaseActivity implements OnClickListener,
 		picture_auto.setOnClickListener(this);
 		picture_high_quality.setOnClickListener(this);
 		picture_low_quality.setOnClickListener(this);
-		
-		official_web.setOnClickListener(this);
+
 		aboutApp.setOnClickListener(this);
 		about.setOnClickListener(this);
 		exitLogin.setOnClickListener(this);
@@ -217,16 +195,7 @@ public class G0_SettingActivity extends BaseActivity implements OnClickListener,
 			editor.putString("imageType", "low");
 			editor.commit();
 			break;
-		case R.id.setting_official_web:
-        {
-            Intent it = new Intent(G0_SettingActivity.this, WebViewActivity.class);
-            it.putExtra(WebViewActivity.WEBURL, ConfigModel.getInstance().config.site_url);
-            Resources resource = (Resources) getBaseContext().getResources();
-            String off=resource.getString(R.string.setting_website);
-            it.putExtra(WebViewActivity.WEBTITLE, off);
-            startActivity(it);
-            break;
-        }
+
 		case R.id.setting_aboutApp:
         {
             Intent it = new Intent(G0_SettingActivity.this, WebViewActivity.class);
@@ -237,30 +206,7 @@ public class G0_SettingActivity extends BaseActivity implements OnClickListener,
             startActivity(it);
             break;
         }
-        case R.id.setting_mobile_layout:
-        {
-            Resources resource = (Resources) getBaseContext().getResources();
-            String call=resource.getString(R.string.call_or_not);
-            mDialog = new MyDialog(G0_SettingActivity.this, call, ConfigModel.getInstance().config.service_phone);
-            mDialog.show();
-            mDialog.positive.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {					
-					mDialog.dismiss();
-					Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + ConfigModel.getInstance().config.service_phone));
-		            startActivity(intent);
-				}
-			});
-            mDialog.negative.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {					
-					mDialog.dismiss();
-				}
-			});
-            
-           break;
-        }
-        
+
         case R.id.setting_about:
         	Intent it = new Intent(G0_SettingActivity.this, WebViewActivity.class);
             it.putExtra(WebViewActivity.WEBURL, ConfigModel.getInstance().config.site_url);
@@ -315,26 +261,7 @@ public class G0_SettingActivity extends BaseActivity implements OnClickListener,
 		
 	}
 
-    @Override
 
-    public void OnMessageResponse(String url, JSONObject jo, AjaxStatus status) throws JSONException
-    {
-        if (url.endsWith(ApiInterface.CONFIG))
-        {
-            if (null != ConfigModel.getInstance().config &&
-                    null != ConfigModel.getInstance().config.service_phone)
-            {
-                mobile.setText(ConfigModel.getInstance().config.service_phone);
-            }
-        }
-    }
-
-    @Override
-    protected void onDestroy()
-    {
-        ConfigModel.getInstance().removeResponseListener(this);
-        super.onDestroy();
-    }
 
 	@Override
 	public void onPushResponse(boolean success, boolean push_switch) {		

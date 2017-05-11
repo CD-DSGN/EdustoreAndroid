@@ -451,5 +451,12 @@
     <string name="comment">comment</string>
 
     <string name="click_for_more">click_for_more</string>
+    <string name="nickname">nickname</string>
+    <string name="nickname_too_short">nickname too short</string>
+    <string name="nickname_too_long">nickname too long</string>
+
+    <string name="search">search</string>
+    <string name="keyword_empty">please input keywords</string>
+
 
 </resources>

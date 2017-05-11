@@ -67,16 +67,21 @@
                 android:padding="10dp"
                 android:src="@drawable/searcher_new_search_icon" />
         </FrameLayout>
+
+
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/search_voice"
+    <Button
+        android:id="@+id/btn_b0_search"
         android:layout_width="55dp"
         android:layout_height="35dp"
         android:layout_gravity="center_vertical|right"
         android:layout_marginRight="10dp"
         android:background="@drawable/filter_blue_btn"
-        android:src="@drawable/huishi_icon"
-        android:scaleType="centerInside"/>
+        android:text="@string/search"
+        android:textColor="@color/TextColorWhite"
+        android:textSize="16dp"
+        android:visibility="visible"
+        />
 
 </FrameLayout>

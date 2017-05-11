@@ -19,7 +19,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -47,8 +46,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class A1_SignupActivity_teacher extends BaseActivity implements View.OnClickListener, BusinessResponse {
     private ImageView back;
@@ -83,7 +80,7 @@ public class A1_SignupActivity_teacher extends BaseActivity implements View.OnCl
 
 
     Resources resource;
-    private EditText user_name_teacher;
+
     private EditText et_real_name;
     private EditText et_school;
     private TextView tv_courses;
@@ -141,7 +138,7 @@ public class A1_SignupActivity_teacher extends BaseActivity implements View.OnCl
     }
 
     private void initView() {
-        user_name_teacher = (EditText) findViewById(R.id.register_name_teacher);
+
         et_real_name = (EditText) findViewById(R.id.et_signup_teacher_step_two_real_name); //真实姓名
         et_school = (EditText) findViewById(R.id.et_signup_teacher_step_two_school_name);  //学校姓名
 
@@ -191,7 +188,7 @@ public class A1_SignupActivity_teacher extends BaseActivity implements View.OnCl
         school_str = et_school.getText().toString();
         course_str = tv_courses.getText().toString();
         real_name_str = et_real_name.getText().toString();
-        name = user_name_teacher.getText().toString();
+
 
         String user = resource.getString(R.string.user_name_cannot_be_empty);
         String pass = resource.getString(R.string.password_cannot_be_empty);
@@ -201,13 +198,7 @@ public class A1_SignupActivity_teacher extends BaseActivity implements View.OnCl
 
         String select_course = resource.getString(R.string.please_select_course);
 
-        if ("".equals(name)) {
-            showToast(user);
-        } else if (name.length() < 2) {
-            showToast(resource.getString(R.string.username_too_short));
-        } else if (name.length() > 20) {
-            showToast(resource.getString(R.string.username_too_long));
-        }else if ("".equals(passwordStr)) {
+        if ("".equals(passwordStr)) {
             showToast(pass);
         }  else if (passwordStr.length() < 6) {
             showToast(resource.getString(R.string.password_too_short));
@@ -236,7 +227,7 @@ public class A1_SignupActivity_teacher extends BaseActivity implements View.OnCl
 
     public void signup() {
         CloseKeyBoard(); //关闭键盘
-        register_model_teacher.signup(name, passwordStr, mobile_phone, course_id, real_name_str,
+        register_model_teacher.signup(passwordStr, mobile_phone, course_id, real_name_str,
                 school_str, country_id, province_id, city_id, county_id, invitation_code_str);
     }
 

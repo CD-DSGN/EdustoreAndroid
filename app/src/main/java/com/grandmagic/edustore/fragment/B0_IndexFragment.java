@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -42,10 +44,12 @@ import com.bigkoo.convenientbanner.holder.Holder;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.external.androidquery.callback.AjaxStatus;
 import com.external.maxwin.view.XListView;
+import com.grandmagic.BeeFramework.BeeFrameworkApp;
 import com.grandmagic.BeeFramework.fragment.BaseFragment;
 import com.grandmagic.BeeFramework.model.BusinessResponse;
 import com.grandmagic.BeeFramework.view.MyDialog;
 import com.grandmagic.BeeFramework.view.MyListView;
+import com.grandmagic.BeeFramework.view.ToastView;
 import com.grandmagic.edustore.ECMobileAppConst;
 import com.grandmagic.edustore.EcmobileApp;
 import com.grandmagic.edustore.R;
@@ -72,7 +76,6 @@ import com.grandmagic.edustore.protocol.PLAYER;
 import com.grandmagic.grandMagicManager.GrandMagicManager;
 import com.insthub.ecmobile.EcmobileManager.RegisterApp;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -126,6 +129,8 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
 
     private String tel_num;
 
+    Button mSearchBtn;
+
     //zhangmengqi end
 
     @Override
@@ -142,6 +147,7 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
 
         input = (EditText) mainView.findViewById(R.id.search_input);
         search_search = (ImageView) mainView.findViewById(R.id.search_search);
+        mSearchBtn = (Button) mainView.findViewById(R.id.btn_b0_search);
 
         shared = getActivity().getSharedPreferences("userInfo", 0);
         imageType = shared.getString("imageType", "mind"); //一开始读一次数据
@@ -161,6 +167,18 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
                     }
                 }
                 return false;
+            }
+        });
+
+        mSearchBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    searchByKeyWord();
+
+                } catch (JSONException e) {
+
+                }
             }
         });
 
@@ -427,6 +445,13 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
         Intent intent = new Intent(getActivity(), B1_ProductListActivity.class);
         FILTER filter = new FILTER();
         filter.keywords = input.getText().toString().toString();
+        if (TextUtils.isEmpty(filter.keywords)) {
+            ToastView toast = new ToastView(BeeFrameworkApp.getInstance(), R.string.keyword_empty);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            return;
+        }
+
         intent.putExtra(B1_ProductListActivity.FILTER, filter.toJson().toString());
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.push_right_in,
