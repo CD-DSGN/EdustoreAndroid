@@ -22,6 +22,7 @@
             android:layout_centerVertical="true"
             tools:text="10"
             android:textSize="16dp"
+            android:gravity="center"
             />
 
         <ImageView

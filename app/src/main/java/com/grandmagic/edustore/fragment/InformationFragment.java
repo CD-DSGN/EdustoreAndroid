@@ -1,23 +1,15 @@
 package com.grandmagic.edustore.fragment;
 
 
-
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.external.androidquery.callback.AjaxStatus;
 import com.external.maxwin.view.XListView;
@@ -25,11 +17,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.grandmagic.BeeFramework.model.BusinessResponse;
 import com.grandmagic.edustore.R;
-import com.grandmagic.edustore.activity.NewsDetailActivity;
 import com.grandmagic.edustore.adapter.InfoListAdapter;
 import com.grandmagic.edustore.model.NewsModel;
 import com.grandmagic.edustore.model.ShoppingCartModel;
-import com.grandmagic.edustore.protocol.APKVersion;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.NewsList;
 
@@ -37,7 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 新的首页。关于资讯
@@ -50,6 +39,7 @@ public class InformationFragment extends Fragment implements BusinessResponse {
     int mTotalPage = 1;
     int currpage = 1;
     private AlertDialog mAlertDialog;
+    private SharedPreferences shared;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,7 +87,12 @@ public class InformationFragment extends Fragment implements BusinessResponse {
     private void initdata() {
         ShoppingCartModel shoppingCartModel = new ShoppingCartModel(getActivity());
         shoppingCartModel.addResponseListener(this);
-        shoppingCartModel.homeCartList();
+
+        shared = getActivity().getSharedPreferences("userInfo", 0);
+        String uid = shared.getString("uid", "");
+        if (!TextUtils.isEmpty(uid)) {
+            shoppingCartModel.homeCartList();
+        }
         mNewsModel = new NewsModel(getActivity());
         mNewsModel.addResponseListener(this);
         mNewsModel.getNewsData(currpage);
