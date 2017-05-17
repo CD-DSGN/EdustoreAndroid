@@ -79,10 +79,10 @@
             android:value="584fcf95e88bad491f0005a1"/>
 
         <activity
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:name=".activity.EcmobileMainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".wxapi.WXPayEntryActivity"
@@ -416,6 +416,8 @@
         <activity android:name=".activity.ApplyReturnGoodsActivity">
         </activity>
         <activity android:name=".activity.NewsDetailActivity">
+        </activity>
+        <activity android:name=".activity.StudentPointsActivity">
         </activity>
     </application>
 

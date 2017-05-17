@@ -412,7 +412,9 @@ public class B0_IndexFragment extends BaseFragment implements BusinessResponse, 
     private void call_client_service() {
         Resources resource = (Resources) getActivity().getResources();
         String call=resource.getString(R.string.call_or_not);
-        tel_num = ConfigModel.getInstance().config.service_phone;
+        if (ConfigModel.getInstance().config != null) {
+            tel_num = ConfigModel.getInstance().config.service_phone;
+        }
         if (TextUtils.isEmpty(tel_num)) {
             if (shared != null) {
                 tel_num = shared.getString("service_phone", "");
