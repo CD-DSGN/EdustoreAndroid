@@ -18,6 +18,7 @@ import java.net.URLDecoder;
 import java.util.List;
 
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -262,7 +263,9 @@ public class EcmobileMainActivity extends FragmentActivity {
     }
 
     private void showUpdateDialog(APKVersion mAPKVersion) {
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+//设置主题，否则会报异常
+// java.lang.IllegalStateException: You need to use a Theme.AppCompat theme (or descendant) with this activity.
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this,R.style.Theme_AppCompat_DayNight_Dialog_Alert);
         mBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -278,10 +281,7 @@ public class EcmobileMainActivity extends FragmentActivity {
         mBuilder.setTitle("版本升级");
         mBuilder.setMessage("更新信息：\n" + mAPKVersion.getData().getUpdate_note());
         mAlertDialog = mBuilder.create();
-
-
         mAlertDialog.show();
-
     }
 
     private void openApplicationMarket() {

@@ -14,6 +14,7 @@ package com.grandmagic.edustore.activity;
 //  Powered by BeeFramework
 //注册 -学生注册
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -28,6 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.external.androidquery.callback.AjaxStatus;
 import com.grandmagic.BeeFramework.activity.BaseActivity;
@@ -48,7 +50,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class A1_SignupActivity_student extends BaseActivity implements OnClickListener, BusinessResponse {
-
+public static final int REQUEST_ADDRES=0x100;
     private ImageView back;
     private Button register;
 
@@ -79,6 +81,13 @@ public class A1_SignupActivity_student extends BaseActivity implements OnClickLi
 
     ActivityStackManager mActivityStackManager;
 
+//
+private TextView tv_shcool_address;
+    private LinearLayout lin_stu_address;
+    private String country_id;
+    private String province_id;
+    private String city_id;
+    private String county_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,14 +104,15 @@ public class A1_SignupActivity_student extends BaseActivity implements OnClickLi
 //        email = (EditText) findViewById(R.id.register_email);
         password = (EditText) findViewById(R.id.register_password1);
         passwordRepeat = (EditText) findViewById(R.id.register_password2);
-
+lin_stu_address= (LinearLayout) findViewById(R.id.ll_signup_student_step_two_school_address);
         body = (LinearLayout) findViewById(R.id.register_body);
-
+tv_shcool_address= (TextView) findViewById(R.id.tv_signup_teacher_step_two_address);
         back.setOnClickListener(this);
         register.setOnClickListener(this);
 
         registerModel = new RegisterModel(this);
         registerModel.addResponseListener(this);
+        lin_stu_address.setOnClickListener(this);
         registerModel.signupFields();
 
         mActivityStackManager = ActivityStackManager.getInstance();
@@ -225,6 +235,10 @@ public class A1_SignupActivity_student extends BaseActivity implements OnClickLi
 
                 }
                 break;
+            case R.id.ll_signup_student_step_two_school_address:
+                Intent intent = new Intent(A1_SignupActivity_student.this, F3_RegionPickActivity.class);
+                startActivityForResult(intent, REQUEST_ADDRES);
+                overridePendingTransition(R.anim.my_scale_action,R.anim.my_alpha_action);
         }
 
     }
@@ -274,4 +288,25 @@ public class A1_SignupActivity_student extends BaseActivity implements OnClickLi
         super.onDestroy();
         mActivityStackManager.popOneActivity(this);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_ADDRES && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                country_id = data.getStringExtra("country_id");
+                province_id = data.getStringExtra("province_id");
+                city_id = data.getStringExtra("city_id");
+                county_id = data.getStringExtra("county_id");
+
+                StringBuffer sbf = new StringBuffer();
+                sbf.append(data.getStringExtra("country_name")+" ");
+                sbf.append(data.getStringExtra("province_name")+" ");
+                sbf.append(data.getStringExtra("city_name")+" ");
+                sbf.append(data.getStringExtra("county_name"));
+                tv_shcool_address.setText(sbf.toString());
+
+            }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+}
 }
