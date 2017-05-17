@@ -279,7 +279,7 @@ public class EcmobileMainActivity extends FragmentActivity {
             }
         });
         mBuilder.setTitle("版本升级");
-        mBuilder.setMessage("更新信息：\n" + mAPKVersion.getData().getUpdate_note());
+        mBuilder.setMessage("更新信息：\n" + mAPKVersion.getData().getUpdate_note().replace("\\n","\n"));
         mAlertDialog = mBuilder.create();
         mAlertDialog.show();
     }

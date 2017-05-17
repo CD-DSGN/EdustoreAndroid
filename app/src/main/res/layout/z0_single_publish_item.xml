@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <LinearLayout
@@ -53,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
-                        android:text="张老师"
+                        tools:text="张老师"
                         android:textColor="#6b8747"
                         android:textSize="13sp"/>
 
@@ -74,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
-                    android:text="2015-12-31 12:30"
+                    tools:text="2015-12-31 12:30"
                     android:textColor="#8e8e8e"
                     android:textSize="9.5sp"/>
 
@@ -84,7 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="false"
-                    android:text="阿呆沙发是大法师大法是否是大法师大法大术发达省份撒旦发所发生的阿斯大法阿斯顿发生大法是否发生发送方阿斯顿发生大法"
+                    tools:text="阿呆沙发是大法师大法是否是大法师大法大术发达省份撒旦发所发生的阿斯大法阿斯顿发生大法是否发生发送方阿斯顿发生大法"
                     android:textColor="#505050"
                     android:textSize="12sp"/>
 

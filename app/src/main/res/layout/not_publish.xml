@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/body"
-    android:orientation="vertical" >
+                android:gravity="center"
+    >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="130dp"
-        android:text="没有关注教师或教师暂未发表内容"
-        android:textColor="#999999"
-        android:textSize="18dp" />
+
 
     <ImageView
+        android:id="@+id/iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/searcher_no_result_empty_icon" />
-
-</FrameLayout>
+        android:layout_centerInParent="true"
+        android:src="@drawable/iv_not_publish" />
+    <TextView
+        android:layout_marginTop="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="没有关注教师或教师暂未发表内容"
+        android:gravity="center_horizontal"
+        android:textColor="#999999"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/iv"
+        android:textSize="18sp" />
+</RelativeLayout>
