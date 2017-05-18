@@ -63,6 +63,9 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
                 comment.username = mComment_array.optJSONObject(i).optString("username");
                 comment.target_username = mComment_array.optJSONObject(i).optString("target_username");
                 comment.comment_content = mComment_array.optJSONObject(i).optString("comment_content");
+                comment.show_name = mComment_array.optJSONObject(i).optString("show_name");
+                comment.show_target_name = mComment_array.optJSONObject(i).optString("show_target_name");
+
                 mCommentArray.add(comment);
             }
         }
@@ -95,5 +98,7 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
         public String username;
         public String target_username;
         public String comment_content;
+        public String show_name;
+        public String show_target_name;
     }
 }

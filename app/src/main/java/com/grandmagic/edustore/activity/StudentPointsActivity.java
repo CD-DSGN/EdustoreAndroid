@@ -29,18 +29,22 @@ public class StudentPointsActivity extends BaseActivity implements IXListViewLis
     StudentPointAdapter mStudentPointAdapter;
 
     private View null_paView;
+    private String info_id_str;
+    public final static String INFO_ID = "INFO_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_points);
+        info_id_str = getIntent().getStringExtra(INFO_ID);
         initView();
         loadData();
     }
 
+
     //加载数据
     private void loadData() {
-        mStudentPointModel.getStudentPoints();
+        mStudentPointModel.getStudentPoints(info_id_str);
     }
 
     private void initView() {
@@ -60,16 +64,17 @@ public class StudentPointsActivity extends BaseActivity implements IXListViewLis
         mStudentPointModel = new StudentPointModel(this);
         mStudentPointModel.addResponseListener(this);
         mMyListView.setXListViewListener(this,1);
+        mMyListView.setPullLoadEnable(false);
     }
 
     @Override
     public void onRefresh(int id) {
-        mStudentPointModel.getStudentPoints();
+        mStudentPointModel.getStudentPoints(info_id_str);
     }
 
     @Override
     public void onLoadMore(int id) {
-        mStudentPointModel.getStudentPointsMore();
+
     }
 
     @Override
@@ -78,11 +83,6 @@ public class StudentPointsActivity extends BaseActivity implements IXListViewLis
             mMyListView.setRefreshTime();
             mMyListView.stopRefresh();
             mMyListView.stopLoadMore();
-            if(mStudentPointModel.paginated.more == 0) {
-                mMyListView.setPullLoadEnable(false);
-            } else {
-                mMyListView.setPullLoadEnable(true);
-            }
             setContent();
         }
     }

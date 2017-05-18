@@ -10,7 +10,8 @@ import org.json.JSONObject;
 
 public class StudentPointsRequest {
     public SESSION   session;
-    public PAGINATION   pagination;
+
+    public String info_id;
 
     public JSONObject toJson() throws JSONException
     {
@@ -20,9 +21,10 @@ public class StudentPointsRequest {
         {
             localItemObject.put("session", session.toJson());
         }
-        if(null != pagination)
+
+        if(null != info_id)
         {
-            localItemObject.put("pagination", pagination.toJson());
+            localItemObject.put("info_id", info_id);
         }
         return localItemObject;
     }

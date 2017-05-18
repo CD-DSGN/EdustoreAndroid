@@ -110,7 +110,8 @@ public class UserIntegralActivity extends BaseActivity implements View.OnClickLi
         int id = view.getId();
         switch (id) {
             case R.id.ll_student_points:
-                startActivity(new Intent(UserIntegralActivity.this, StudentPointsActivity.class));
+//                startActivity(new Intent(UserIntegralActivity.this, StudentPointsActivity.class));
+                startActivity(new Intent(UserIntegralActivity.this, TeacherClassActivity.class));
                 break;
         }
     }

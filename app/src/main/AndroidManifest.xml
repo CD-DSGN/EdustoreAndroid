@@ -419,6 +419,8 @@
         </activity>
         <activity android:name=".activity.StudentPointsActivity">
         </activity>
+        <activity android:name=".activity.TeacherClassActivity">
+        </activity>
     </application>
 
 </manifest>

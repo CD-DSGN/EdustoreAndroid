@@ -67,6 +67,9 @@ public class ApiInterface
 
      // TODO: 2017/5/11
      public static final String STUDENT_POINTS ="user/student_point_info";//获取学生积分信息接口
+     public static final String TEACHER_CLASS_INFO ="user/teacher_class_info";//获取学生积分信息接口
+
+
 
 
      public static final String GET_NEWS="http://192.168.1.115/huishiwang/api/web/getnews/detail";//资讯列表
