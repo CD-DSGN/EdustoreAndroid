@@ -25,7 +25,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SelectCourseActivity extends Activity implements BusinessResponse {
-
+	public static final String COURSE_TAG="course_tag";
+	int tag=-1;
 	private TextView title;
 	private ListView listView;
 	private CourseAdapter courseAdapter;
@@ -58,6 +59,7 @@ public class SelectCourseActivity extends Activity implements BusinessResponse {
 				Intent intent = new Intent();
 				intent.putExtra("course_name", course_name);
 				intent.putExtra("course_id", course_id);
+				intent.putExtra(COURSE_TAG, tag);
 				setResult(Activity.RESULT_OK, intent);
 				finish();
 
@@ -68,6 +70,7 @@ public class SelectCourseActivity extends Activity implements BusinessResponse {
 	private void initViews() {
 		title = (TextView) findViewById(R.id.tv_select_course);
 		listView = (ListView) findViewById(R.id.lv_select_course);
+		tag=getIntent().getIntExtra(COURSE_TAG,-1);
 	}
 
 	public void setCourses() {

@@ -31,6 +31,8 @@ public class GradePickActicity extends Activity implements BusinessResponse {
     public static final String SCHOOL_ID="school_id";
     public static final String GRADE="grade";
     public static final String GRADE_ID="grade_id";
+    public static final String COURSE_TAG="course_tag";
+    int tag=-1;
     String region;
     String school;
     String grade;
@@ -48,6 +50,7 @@ TextView tv_title;
 
     private void initdata() {
         i=getIntent().getIntExtra("type",0);
+        tag=getIntent().getIntExtra(COURSE_TAG,-1);
         region=getIntent().getStringExtra(SCHOOL_REGION);
         mModel=new SchoolModel(this);
         if (i==0) {
@@ -78,6 +81,7 @@ if (i==0){//请求学校
     Intent mIntent=new Intent();
     mIntent.putExtra(GRADE,grade);
     mIntent.putExtra(GRADE_ID,grade_id);
+    mIntent.putExtra(COURSE_TAG,tag);
     setResult(RESULT_OK,mIntent);
     finish();
 }

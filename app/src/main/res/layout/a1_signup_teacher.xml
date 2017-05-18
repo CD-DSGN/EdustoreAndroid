@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/body"
-    android:orientation="vertical" >
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/body"
+              android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="48dp" >
+        android:layout_height="48dp">
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="20dp"
-            android:background="#000000" />
+            android:background="#000000"/>
 
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/nav_bg" />
+            android:background="@drawable/nav_bg"/>
 
         <ImageView
             android:id="@+id/register_back_teacher"
@@ -26,7 +27,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:padding="10dp"
-            android:src="@drawable/item_grid_header_arrow_icon" />
+            android:src="@drawable/item_grid_header_arrow_icon"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,29 +35,29 @@
             android:layout_gravity="center"
             android:text="@string/login_account"
             android:textColor="#ffffff"
-            android:textSize="24dp" />
+            android:textSize="24dp"/>
 
-<!--        <Button
-            android:id="@+id/register_register_teacher"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/filter_blue_btn"
-            android:text="@string/register_regist"
-            android:textColor="#ffffff"
-            android:textSize="16dp" />-->
+        <!--        <Button
+                    android:id="@+id/register_register_teacher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/filter_blue_btn"
+                    android:text="@string/register_regist"
+                    android:textColor="#ffffff"
+                    android:textSize="16dp" />-->
     </FrameLayout>
 
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/body" >
+        android:background="@drawable/body">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -64,7 +65,7 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/body_cont"
                 android:gravity="center_vertical"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <EditText
                     android:id="@+id/et_signup_teacher_step_two_real_name"
@@ -74,39 +75,39 @@
                     android:background="#ffffff"
                     android:gravity="center_vertical"
                     android:hint="@string/teacher_real_name"
+                    android:maxLength="20"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:singleLine="true"
                     android:textColor="#000000"
-                    android:maxLength="20"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"/>
 
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="0.1dp"
-                    android:background="#c4c4c4" />
+                    android:background="#c4c4c4"/>
 
                 <!--<EditText-->
-                    <!--android:id="@+id/register_email"-->
-                    <!--android:layout_width="fill_parent"-->
-                    <!--android:layout_height="40dp"-->
-                    <!--android:layout_margin="5dp"-->
-                    <!--android:background="#ffffff"-->
-                    <!--android:gravity="center_vertical"-->
-                    <!--android:hint="@string/register_email"-->
-                    <!--android:inputType="textEmailAddress"-->
-                    <!--android:paddingLeft="10dp"-->
-                    <!--android:paddingRight="10dp"-->
-                    <!--android:singleLine="true"-->
-                    <!--android:textColor="#000000"-->
-                    <!--android:textSize="16dp" />-->
+                <!--android:id="@+id/register_email"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:layout_margin="5dp"-->
+                <!--android:background="#ffffff"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:hint="@string/register_email"-->
+                <!--android:inputType="textEmailAddress"-->
+                <!--android:paddingLeft="10dp"-->
+                <!--android:paddingRight="10dp"-->
+                <!--android:singleLine="true"-->
+                <!--android:textColor="#000000"-->
+                <!--android:textSize="16dp" />-->
                 <LinearLayout
                     android:id="@+id/ll_signup_teacher_step_two_school_address"
                     android:layout_width="fill_parent"
                     android:layout_height="50dp"
+                    android:layout_marginLeft="5dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="5dp">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_signup_teacher_step_two_address"
@@ -116,21 +117,22 @@
                         android:layout_weight="1"
                         android:text="@string/address_school_area"
                         android:textColor="#000000"
-                        android:textSize="16dp" />
+                        android:textSize="16dp"/>
 
                     <ImageView
                         android:layout_width="12dp"
                         android:layout_height="12dp"
                         android:layout_marginRight="10dp"
-                        android:src="@drawable/accsessory_arrow_right" />
+                        android:src="@drawable/accsessory_arrow_right"/>
                 </LinearLayout>
 
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="0.1dp"
-                    android:background="#c4c4c4" />
+                    android:background="#c4c4c4"/>
 
                 <EditText
+                    android:visibility="gone"
                     android:id="@+id/et_signup_teacher_step_two_school_name"
                     android:layout_width="fill_parent"
                     android:layout_height="40dp"
@@ -138,63 +140,60 @@
                     android:background="#ffffff"
                     android:gravity="center_vertical"
                     android:hint="@string/school"
+                    android:maxLength="20"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:singleLine="true"
                     android:textColor="#000000"
-                    android:maxLength="20"
-                    android:textSize="16dp" />
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.1dp"
-                    android:background="#c4c4c4" />
-
-
-
+                    android:textSize="16dp"/>
                 <LinearLayout
-                    android:id="@+id/ll_signup_teacher_step_two_school_course"
+                    android:id="@+id/ll_school"
                     android:layout_width="fill_parent"
                     android:layout_height="50dp"
+                    android:layout_marginLeft="5dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="5dp">
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tv_signup_teacher_step_two_courses"
+                        android:id="@+id/tv_school"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
-                        android:text="@string/please_select_course"
+                        android:text="学校"
                         android:textColor="#000000"
-                        android:textSize="16dp" />
+                        android:textSize="16dp"/>
 
                     <ImageView
                         android:layout_width="12dp"
                         android:layout_height="12dp"
                         android:layout_marginRight="10dp"
-                        android:src="@drawable/accsessory_arrow_right" />
+                        android:src="@drawable/accsessory_arrow_right"/>
                 </LinearLayout>
-
-
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_signup_teacher_step_two_courses"-->
-                    <!--android:layout_width="fill_parent"-->
-                    <!--android:layout_height="40dp"-->
-                    <!--android:layout_margin="5dp"-->
-                    <!--android:background="#ffffff"-->
-                    <!--android:gravity="center_vertical"-->
-                    <!--android:hint="@string/please_select_course"-->
-                    <!--android:paddingLeft="10dp"-->
-                    <!--android:paddingRight="10dp"-->
-                    <!--android:textColor="#000000"-->
-                    <!--android:textSize="16dp" />-->
 
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="0.1dp"
-                    android:background="#c4c4c4" />
+                    android:background="#c4c4c4"/>
+
+
+                <!--<TextView-->
+                <!--android:id="@+id/tv_signup_teacher_step_two_courses"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:layout_margin="5dp"-->
+                <!--android:background="#ffffff"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:hint="@string/please_select_course"-->
+                <!--android:paddingLeft="10dp"-->
+                <!--android:paddingRight="10dp"-->
+                <!--android:textColor="#000000"-->
+                <!--android:textSize="16dp" />-->
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.1dp"
+                    android:background="#c4c4c4"/>
 
 
                 <EditText
@@ -205,18 +204,18 @@
                     android:background="#ffffff"
                     android:gravity="center_vertical"
                     android:hint="@string/login_password"
+                    android:maxLength="20"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:password="true"
                     android:singleLine="true"
                     android:textColor="#000000"
-                    android:maxLength="20"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"/>
 
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="0.1dp"
-                    android:background="#c4c4c4" />
+                    android:background="#c4c4c4"/>
 
                 <EditText
                     android:id="@+id/et_signup_teacher_step_two_password2"
@@ -226,27 +225,146 @@
                     android:background="#ffffff"
                     android:gravity="center_vertical"
                     android:hint="@string/register_confirm"
+                    android:maxLength="20"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:password="true"
                     android:singleLine="true"
                     android:textColor="#000000"
-                    android:maxLength="20"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"/>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.1dp"
+                    android:background="#c4c4c4"/>
+
+                <LinearLayout
+                    android:id="@+id/root_course_linearlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/ll_signup_teacher_step_two_school_course"
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_signup_teacher_step_two_courses"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="@string/please_select_course"
+                            android:textColor="#000000"
+                            android:textSize="16dp"/>
+
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/accsessory_arrow_right"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/lin_grade"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="年级:"
+                                android:textColor="#999999"
+                                android:textSize="16dp"
+                                />
 
+                            <TextView
+                                android:id="@+id/tv_grade"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:textColor="#000000"
+                                android:textSize="16dp"
+                                tools:text="初中一年级"
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="班级:"
+                                android:textColor="#999999"
+                                android:textSize="16dp"
+                                />
+
+                            <EditText
+                                android:layout_width="fill_parent"
+                                android:layout_height="40dp"
+                                android:layout_margin="5dp"
+                                android:background="#ffffff"
+                                android:gravity="center_vertical"
+                                android:hint="班级"
+                                android:inputType="number"
+                                android:maxLength="20"
+                                android:maxLines="1"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:textColor="#000000"
+                                android:textSize="16dp"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.1dp"
+                    android:background="#c4c4c4"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="添加"
+                    android:gravity="center"
+                    android:id="@+id/btn_add_course"
+                    android:layout_gravity="center"
+
+                    />
             </LinearLayout>
 
             <Button
                 android:id="@+id/register_register_teacher"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="@string/register_regist"
                 android:layout_margin="5dp"
-                android:textSize="20dp"
+                android:background="@color/default_register_button_color"
+                android:text="@string/register_regist"
                 android:textColor="#ffffff"
-                android:background="@color/default_register_button_color"/>
+                android:textSize="20dp"/>
 
             <LinearLayout
                 android:id="@+id/register_body_teacher"
@@ -257,7 +375,8 @@
                 android:gravity="center_vertical"
                 android:orientation="vertical"
                 android:padding="5dp"
-                android:visibility="gone" >
+                android:visibility="gone">
+
             </LinearLayout>
 
         </LinearLayout>

@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -27,6 +28,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.external.androidquery.callback.AjaxStatus;
 import com.grandmagic.BeeFramework.activity.BaseActivity;
@@ -45,9 +47,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class A1_SignupActivity_teacher extends BaseActivity implements View.OnClickListener, BusinessResponse {
+    private static final int REQUEST_GRADE = 0x110;
+    private static final int REQUEST_SCHOOL = 0x111;
     private ImageView back;
     private Button register;
 
@@ -98,6 +103,14 @@ public class A1_SignupActivity_teacher extends BaseActivity implements View.OnCl
 
     private ActivityStackManager mActivityStackManager;
 
+    //    lps
+    TextView tv_addCourse;
+    LinearLayout mrootlinearLayout;
+    LinearLayout lin_grade;
+    TextView tv_grade;
+    LinearLayout lin_school;
+TextView tv_school;
+    String school_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,12 +142,14 @@ public class A1_SignupActivity_teacher extends BaseActivity implements View.OnCl
         ll_course.setOnClickListener(this);
         register.setOnClickListener(this);
         back.setOnClickListener(this);
+        tv_addCourse.setOnClickListener(this);
 
         register_model_teacher = new RegisterModel_teacher(this);
         register_model_teacher.addResponseListener(this);
 
         ll_school_address.setOnClickListener(this);
-
+        lin_grade.setOnClickListener(this);
+        lin_school.setOnClickListener(this);
     }
 
     private void initView() {
@@ -154,6 +169,12 @@ public class A1_SignupActivity_teacher extends BaseActivity implements View.OnCl
         ll_school_address = (LinearLayout) findViewById(R.id.ll_signup_teacher_step_two_school_address); //学校地址的线性布局
         tv_shcool_address = (TextView) findViewById(R.id.tv_signup_teacher_step_two_address);
 
+        tv_addCourse = (TextView) findViewById(R.id.btn_add_course);
+        mrootlinearLayout = (LinearLayout) findViewById(R.id.root_course_linearlayout);
+        lin_grade = (LinearLayout) findViewById(R.id.lin_grade);
+        tv_grade = (TextView) findViewById(R.id.tv_grade);
+        lin_school= (LinearLayout) findViewById(R.id.ll_school);
+        tv_school= (TextView) findViewById(R.id.tv_school);
     }
 
     @Override
@@ -176,9 +197,71 @@ public class A1_SignupActivity_teacher extends BaseActivity implements View.OnCl
             case R.id.ll_signup_teacher_step_two_school_address:
                 Intent intent = new Intent(A1_SignupActivity_teacher.this, F3_RegionPickActivity.class);
                 startActivityForResult(intent, 2);
-                overridePendingTransition(R.anim.my_scale_action,R.anim.my_alpha_action);
+                overridePendingTransition(R.anim.my_scale_action, R.anim.my_alpha_action);
+                break;
+            case R.id.btn_add_course:
+                addCourse();
+                break;
+            case R.id.lin_grade:
+                Intent mIntent = new Intent(A1_SignupActivity_teacher.this, GradePickActicity.class);
+                mIntent.putExtra(GradePickActicity.TYPE, 1);
+                startActivityForResult(mIntent, REQUEST_GRADE);
+                break;
+            case R.id.ll_school:
+                Intent mIntent1= new Intent(A1_SignupActivity_teacher.this, GradePickActicity.class);
+                mIntent1.putExtra(GradePickActicity.TYPE, 0);
+                mIntent1.putExtra(GradePickActicity.SCHOOL_REGION, county_id);
+                startActivityForResult(mIntent1, REQUEST_SCHOOL);
+                break;
         }
 
+    }
+
+    int addCourseCount = 0;
+    List<TextView> courseNameList = new ArrayList<>();
+    List<EditText> classeNameList = new ArrayList<>();
+    List<TextView> gradeNameList = new ArrayList<>();
+    List<LinearLayout> linCourse = new ArrayList<>();
+    List<LinearLayout> linGrade = new ArrayList<>();
+
+    private void addCourse() {
+        if (addCourseCount < 4) {
+            View mInflate = View.inflate(this, R.layout.view_add_course, null);
+            TextView mTextViewcourse = (TextView) mInflate.findViewById(R.id.tv_signup_teacher_step_two_courses);
+            TextView mTextViewgrade = (TextView) mInflate.findViewById(R.id.tv_grade);
+            EditText mTextViewclass = (EditText) mInflate.findViewById(R.id.et_class);
+            LinearLayout lincourse = (LinearLayout) mInflate.findViewById(R.id.ll_signup_teacher_step_two_school_course);
+            LinearLayout lingrade = (LinearLayout) mInflate.findViewById(R.id.lin_grade);
+            courseNameList.add(mTextViewcourse);
+            gradeNameList.add(mTextViewgrade);
+            classeNameList.add(mTextViewclass);
+            mrootlinearLayout.addView(mInflate);
+            addCourseCount++;
+            lincourse.setTag(addCourseCount - 1);
+            lincourse.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int mTag = (int) v.getTag();
+                    Intent intent_select_course = new Intent(A1_SignupActivity_teacher.this,
+                            SelectCourseActivity.class);
+                    intent_select_course.putExtra(SelectCourseActivity.COURSE_TAG, mTag);
+                    startActivityForResult(intent_select_course, 3);
+                }
+            });
+            lingrade.setTag(addCourseCount - 1);
+            lingrade.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int mTag = (int) v.getTag();
+                    Intent mIntent = new Intent(A1_SignupActivity_teacher.this, GradePickActicity.class);
+                    mIntent.putExtra(GradePickActicity.TYPE, 1);
+                    mIntent.putExtra(SelectCourseActivity.COURSE_TAG, mTag);
+                    startActivityForResult(mIntent, REQUEST_GRADE);
+                }
+            });
+        } else {
+            Toast.makeText(this, "最多添加到五门课程", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void btn_step_two_register_onClick() {
@@ -200,13 +283,13 @@ public class A1_SignupActivity_teacher extends BaseActivity implements View.OnCl
 
         if ("".equals(passwordStr)) {
             showToast(pass);
-        }  else if (passwordStr.length() < 6) {
+        } else if (passwordStr.length() < 6) {
             showToast(resource.getString(R.string.password_too_short));
         } else if (passwordStr.length() > 20) {
             showToast(resource.getString(R.string.password_too_long));
         } else if (!passwordStr.equals(passwordRepeatStr)) {
             showToast(passw);
-        } else if("".equals(real_name_str)){
+        } else if ("".equals(real_name_str)) {
             showToast(getString(R.string.real_name_not_empty));
         } else if (country_id == null || province_id == null || city_id == null || county_id == null) {
             showToast(getString(R.string.school_address_empty));
@@ -234,21 +317,21 @@ public class A1_SignupActivity_teacher extends BaseActivity implements View.OnCl
 
     @Override
     public void OnMessageResponse(String url, JSONObject jo, AjaxStatus status) throws JSONException {
-        if(url.endsWith(ApiInterface.USER_SIGNUP_TEACHER)){
+        if (url.endsWith(ApiInterface.USER_SIGNUP_TEACHER)) {
 //            Intent intent = new Intent();
 //            intent.putExtra("login", true);
 //            setResult(Activity.RESULT_OK, intent);
 //            finish();
             mActivityStackManager.finishAllActivity();
-            E0_ProfileFragment.isRefresh=true;
-            overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
+            E0_ProfileFragment.isRefresh = true;
+            overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
             String wel = resource.getString(R.string.welcome);
             showToast(wel);
-      }
+        }
     }
 
 
-//     关闭键盘
+    //     关闭键盘
     public void CloseKeyBoard() {
         et_real_name.clearFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -267,18 +350,61 @@ public class A1_SignupActivity_teacher extends BaseActivity implements View.OnCl
                 county_id = data.getStringExtra("county_id");
 
                 StringBuffer sbf = new StringBuffer();
-                sbf.append(data.getStringExtra("country_name")+" ");
-                sbf.append(data.getStringExtra("province_name")+" ");
-                sbf.append(data.getStringExtra("city_name")+" ");
+                sbf.append(data.getStringExtra("country_name") + " ");
+                sbf.append(data.getStringExtra("province_name") + " ");
+                sbf.append(data.getStringExtra("city_name") + " ");
                 sbf.append(data.getStringExtra("county_name"));
                 tv_shcool_address.setText(sbf.toString());
+                if (!TextUtils.isEmpty(school_id)) {//选过学校之后再次选择地区的时候重置学校信息
+                    tv_school.setText("学校");
+                    school_id="";
+                }
+            }
+        }else if (requestCode==REQUEST_SCHOOL&&resultCode==RESULT_OK){
+            school_id=data.getStringExtra(GradePickActicity.SCHOOL_ID);
+            tv_school.setText(data.getStringExtra(GradePickActicity.SCHOOL));
+        }
+
+        else if (requestCode == 3 && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                switch (data.getIntExtra(SelectCourseActivity.COURSE_TAG, -1)) {
+                    case -1:
+                        course_str = data.getStringExtra("course_name");
+                        course_id = data.getStringExtra("course_id");
+                        tv_courses.setText(course_str);
+                        break;
+                    case 0:
+                        courseNameList.get(0).setText(data.getStringExtra("course_name"));
+                        break;
+                    case 1:
+                        courseNameList.get(1).setText(data.getStringExtra("course_name"));
+                        break;
+                    case 2:
+                        courseNameList.get(2).setText(data.getStringExtra("course_name"));
+                        break;
+                    case 3:
+                        courseNameList.get(3).setText(data.getStringExtra("course_name"));
+                        break;
+                }
 
             }
-        } else if (requestCode == 3 && resultCode == Activity.RESULT_OK) {
-            if (data != null) {
-                course_str = data.getStringExtra("course_name");
-                course_id = data.getStringExtra("course_id");
-                tv_courses.setText(course_str);
+        } else if (requestCode == REQUEST_GRADE && resultCode == RESULT_OK) {
+            switch (data.getIntExtra(GradePickActicity.COURSE_TAG, -1)) {
+                case -1:
+                    tv_grade.setText(data.getStringExtra(GradePickActicity.GRADE));
+                    break;
+                case 0:
+                    gradeNameList.get(0).setText(data.getStringExtra(GradePickActicity.GRADE));
+                    break;
+                case 1:
+                    gradeNameList.get(1).setText(data.getStringExtra(GradePickActicity.GRADE));
+                    break;
+                case 2:
+                    gradeNameList.get(2).setText(data.getStringExtra(GradePickActicity.GRADE));
+                    break;
+                case 3:
+                    gradeNameList.get(3).setText(data.getStringExtra(GradePickActicity.GRADE));
+                    break;
             }
         }
     }

@@ -40,6 +40,8 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import com.grandmagic.edustore.R;
+import com.grandmagic.edustore.activity.A1_SignupActivity_student;
+import com.grandmagic.edustore.activity.A1_SignupActivity_teacher;
 import com.grandmagic.edustore.activity.EcmobileMainActivity;
 import com.grandmagic.edustore.activity.GalleryImageActivity;
 
@@ -80,7 +82,7 @@ public class StartActivity extends Activity {
     }
     //added by chenggaoyuan
     private void startWithoutGalleryImageActivity() {
-        Intent it = new Intent(this,EcmobileMainActivity.class);
+        Intent it = new Intent(this,A1_SignupActivity_teacher.class);
         startActivity(it);
         finish();
     }
