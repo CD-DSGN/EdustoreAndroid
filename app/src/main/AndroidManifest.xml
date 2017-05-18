@@ -79,7 +79,6 @@
             android:value="584fcf95e88bad491f0005a1"/>
 
         <activity
-
             android:name=".activity.EcmobileMainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -416,6 +415,11 @@
         <activity android:name=".activity.ApplyReturnGoodsActivity">
         </activity>
         <activity android:name=".activity.NewsDetailActivity">
+        </activity>
+        <activity android:name=".activity.GradePickActicity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/dialog"
+            >
         </activity>
     </application>
 

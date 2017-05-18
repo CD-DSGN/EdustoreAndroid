@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +51,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class A1_SignupActivity_student extends BaseActivity implements OnClickListener, BusinessResponse {
-public static final int REQUEST_ADDRES=0x100;
+    public static final int REQUEST_ADDRES = 0x100;
+    public static final int REQUEST_GRADE = 0x101;
     private ImageView back;
     private Button register;
 
@@ -81,13 +83,17 @@ public static final int REQUEST_ADDRES=0x100;
 
     ActivityStackManager mActivityStackManager;
 
-//
-private TextView tv_shcool_address;
-    private LinearLayout lin_stu_address;
+    // create by lps
+    private TextView tv_shcool_address, tv_stu_school, tv_grade;
+    private LinearLayout lin_stu_address, lin_stu_school, lin_grade;
     private String country_id;
     private String province_id;
     private String city_id;
     private String county_id;
+    private String school_id;
+    private String grade_id;
+    int type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,12 +110,17 @@ private TextView tv_shcool_address;
 //        email = (EditText) findViewById(R.id.register_email);
         password = (EditText) findViewById(R.id.register_password1);
         passwordRepeat = (EditText) findViewById(R.id.register_password2);
-lin_stu_address= (LinearLayout) findViewById(R.id.ll_signup_student_step_two_school_address);
+        lin_stu_address = (LinearLayout) findViewById(R.id.ll_signup_student_step_two_school_address);
+        lin_stu_school = (LinearLayout) findViewById(R.id.ll_signup_student_step_two_school_grade);
         body = (LinearLayout) findViewById(R.id.register_body);
-tv_shcool_address= (TextView) findViewById(R.id.tv_signup_teacher_step_two_address);
+        tv_shcool_address = (TextView) findViewById(R.id.tv_signup_teacher_step_two_address);
+        tv_stu_school = (TextView) findViewById(R.id.tv_signup_student_step_two_grade);
+        tv_grade = (TextView) findViewById(R.id.tv_grade);
+        lin_grade = (LinearLayout) findViewById(R.id.lin_grade);
+        lin_grade.setOnClickListener(this);
         back.setOnClickListener(this);
         register.setOnClickListener(this);
-
+        lin_stu_school.setOnClickListener(this);
         registerModel = new RegisterModel(this);
         registerModel.addResponseListener(this);
         lin_stu_address.setOnClickListener(this);
@@ -190,11 +201,11 @@ tv_shcool_address= (TextView) findViewById(R.id.tv_signup_teacher_step_two_addre
 //                    ToastView toast = new ToastView(this, email);
 //                    toast.setGravity(Gravity.CENTER, 0, 0);
 //                    toast.show();
-                }else if ("".equals(passwordStr)) {
+                } else if ("".equals(passwordStr)) {
                     ToastView toast = new ToastView(this, pass);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
-                }  else if (passwordStr.length() < 6) {
+                } else if (passwordStr.length() < 6) {
                     ToastView toast = new ToastView(this, resource.getString(R.string.password_too_short));
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
@@ -219,7 +230,7 @@ tv_shcool_address= (TextView) findViewById(R.id.tv_signup_teacher_step_two_addre
                             toast.show();
                             flag = false;
                             break;
-                        }else{
+                        } else {
                             flag = true;
                         }
                         items.add(edit.get(i).getText().toString());
@@ -238,7 +249,28 @@ tv_shcool_address= (TextView) findViewById(R.id.tv_signup_teacher_step_two_addre
             case R.id.ll_signup_student_step_two_school_address:
                 Intent intent = new Intent(A1_SignupActivity_student.this, F3_RegionPickActivity.class);
                 startActivityForResult(intent, REQUEST_ADDRES);
-                overridePendingTransition(R.anim.my_scale_action,R.anim.my_alpha_action);
+                overridePendingTransition(R.anim.my_scale_action, R.anim.my_alpha_action);
+                break;
+            case R.id.ll_signup_student_step_two_school_grade:
+                if (TextUtils.isEmpty(county_id)) {
+                    new ToastView(A1_SignupActivity_student.this, "请先选择地区再选择学校");
+                    return;
+                }
+                Intent mIntent = new Intent(A1_SignupActivity_student.this, GradePickActicity.class);
+                mIntent.putExtra(GradePickActicity.SCHOOL_REGION, county_id);
+                mIntent.putExtra(GradePickActicity.TYPE, 0);
+                type = 0;
+                startActivityForResult(mIntent, REQUEST_GRADE);
+                overridePendingTransition(R.anim.my_scale_action, R.anim.my_alpha_action);
+                break;
+            case R.id.lin_grade:
+                Intent mIntent1 = new Intent(A1_SignupActivity_student.this, GradePickActicity.class);
+                mIntent1.putExtra(GradePickActicity.SCHOOL_REGION, county_id);
+                mIntent1.putExtra(GradePickActicity.TYPE, 1);
+                type = 1;
+                startActivityForResult(mIntent1, REQUEST_GRADE);
+                overridePendingTransition(R.anim.my_scale_action, R.anim.my_alpha_action);
+                break;
         }
 
     }
@@ -265,8 +297,8 @@ tv_shcool_address= (TextView) findViewById(R.id.tv_signup_teacher_step_two_addre
 //                setResult(Activity.RESULT_OK, intent);
 //                finish();
                 mActivityStackManager.finishAllActivity();
-                E0_ProfileFragment.isRefresh=true;
-                overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
+                E0_ProfileFragment.isRefresh = true;
+                overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
                 String wel = resource.getString(R.string.welcome);
                 ToastView toast = new ToastView(this, wel);
                 toast.setGravity(Gravity.CENTER, 0, 0);
@@ -299,14 +331,28 @@ tv_shcool_address= (TextView) findViewById(R.id.tv_signup_teacher_step_two_addre
                 county_id = data.getStringExtra("county_id");
 
                 StringBuffer sbf = new StringBuffer();
-                sbf.append(data.getStringExtra("country_name")+" ");
-                sbf.append(data.getStringExtra("province_name")+" ");
-                sbf.append(data.getStringExtra("city_name")+" ");
+                sbf.append(data.getStringExtra("country_name") + " ");
+                sbf.append(data.getStringExtra("province_name") + " ");
+                sbf.append(data.getStringExtra("city_name") + " ");
                 sbf.append(data.getStringExtra("county_name"));
                 tv_shcool_address.setText(sbf.toString());
-
+                if (!TextUtils.isEmpty(school_id)) {//选过学校之后再次选择地区的时候重置学校信息
+                    tv_stu_school.setText("学校");
+                    school_id="";
+                }
             }
+        } else if (requestCode == REQUEST_GRADE && resultCode == RESULT_OK) {
+            if (type == 0) {
+                StringBuffer sbf = new StringBuffer();
+                sbf.append(data.getStringExtra(GradePickActicity.SCHOOL) + " ");
+                school_id=data.getStringExtra(GradePickActicity.SCHOOL_ID);
+                tv_stu_school.setText(sbf);
+            } else if (type == 1) {
+                tv_grade.setText(data.getStringExtra(GradePickActicity.GRADE) + " ");
+                grade_id=data.getStringExtra(GradePickActicity.GRADE_ID);
+            }
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
-}
+
 }
