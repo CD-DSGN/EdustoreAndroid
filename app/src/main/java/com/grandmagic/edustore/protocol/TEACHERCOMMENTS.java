@@ -24,6 +24,8 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
     public String publish_time;
     public String publish_uid;
     public String news_id;
+    public String course_name;
+
     public List<Img> photoArray   =new ArrayList<>();
     public List<CommentArray> mCommentArray   =new ArrayList<>();
 
@@ -36,12 +38,14 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
 
 
         this.teacher_name = teacher_info.optString("real_name");
+        this.course_name = teacher_info.optString("course_name");
 
         this.teacher_comments = publish_info.optString("news_content");
 
         this.publish_time = publish_info.optString("publish_time");
         this.publish_uid = publish_info.optString("user_id");
         this.news_id = publish_info.optString("news_id");
+
 
         this.teacher_img_small = teacher_info.optString("avatar");
         JSONArray photo_Array = publish_info.optJSONArray("photo_array");

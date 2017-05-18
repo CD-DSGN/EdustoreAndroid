@@ -58,6 +58,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         TextView comments;
         TextView publish_time;
         TextView delete;
+        TextView course_name;
         RelativeLayout comment;
         LinearLayout imagelayout, commentlayout;
     }
@@ -73,6 +74,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         cell.comment = (RelativeLayout) cellView.findViewById(R.id.comment);
         cell.imagelayout = (LinearLayout) cellView.findViewById(R.id.imagelayout);
         cell.commentlayout = (LinearLayout) cellView.findViewById(R.id.commentlayout);
+        cell.course_name = (TextView) cellView.findViewById(R.id.tv_course_name);
         return cell;
     }
 
@@ -85,6 +87,8 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
     protected View bindData(final int position, View cellView, ViewGroup parent, BeeCellHolder h) {
         TEACHERCOMMENTS teacherComments = teacherCommentsArrayList.get(position);
         String teacher_name_tmp = teacherComments.teacher_name;
+        String course_name = teacherComments.course_name;
+
         String teacher_comments_tmp = teacherComments.teacher_comments;
         final String publish_time_tmp = teacherComments.publish_time;
         String teacher_img_tmp = teacherComments.teacher_img_small;
@@ -93,6 +97,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
 
         CommentsCellHolder holder = (CommentsCellHolder) h;
         holder.teacher_name.setText(teacher_name_tmp);
+        holder.course_name.setText("("+course_name+")");
         holder.comments.setText(teacher_comments_tmp);
         holder.publish_time.setText(stampToDate(publish_time_tmp));
         mImageLoader.displayImage(teacher_img_tmp, holder.teacherImg);
