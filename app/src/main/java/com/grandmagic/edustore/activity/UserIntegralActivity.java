@@ -1,9 +1,11 @@
 package com.grandmagic.edustore.activity;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.external.androidquery.callback.AjaxStatus;
@@ -31,6 +33,8 @@ public class UserIntegralActivity extends BaseActivity implements View.OnClickLi
     private TextView tv_points_from_affiliate;
     private TextView tv_points_from_subscription;
     private TextView tv_invitation_code;
+
+    private LinearLayout ll_student_points;
 
 
     private TeacherInfoModel teacherInfoModel;
@@ -62,6 +66,8 @@ public class UserIntegralActivity extends BaseActivity implements View.OnClickLi
         tv_points_from_affiliate = (TextView) findViewById(R.id.tv_user_integral_teacher_recommand);
         tv_points_from_subscription = (TextView) findViewById(R.id.tv_user_integral_student_buy);
         tv_invitation_code = (TextView) findViewById(R.id.tv_user_invitation_code);
+        ll_student_points = (LinearLayout) findViewById(R.id.ll_student_points);
+        ll_student_points.setOnClickListener(this);
 
     }
 
@@ -101,6 +107,12 @@ public class UserIntegralActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-
+        int id = view.getId();
+        switch (id) {
+            case R.id.ll_student_points:
+//                startActivity(new Intent(UserIntegralActivity.this, StudentPointsActivity.class));
+                startActivity(new Intent(UserIntegralActivity.this, TeacherClassActivity.class));
+                break;
+        }
     }
 }

@@ -54,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
-                        tools:text="张老师"
+                        android:text="张老师"
                         android:textColor="#6b8747"
                         android:textSize="13sp"/>
 
@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
-                    tools:text="2015-12-31 12:30"
+                    android:text="2015-12-31 12:30"
                     android:textColor="#8e8e8e"
                     android:textSize="9.5sp"/>
 
@@ -85,7 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="false"
-                    tools:text="阿呆沙发是大法师大法是否是大法师大法大术发达省份撒旦发所发生的阿斯大法阿斯顿发生大法是否发生发送方阿斯顿发生大法"
+                    android:text="阿呆沙发是大法师大法是否是大法师大法大术发达省份撒旦发所发生的阿斯大法阿斯顿发生大法是否发生发送方阿斯顿发生大法"
                     android:textColor="#505050"
                     android:textSize="12sp"/>
 
@@ -110,7 +110,6 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="#cccccc"
-        android:visibility="gone"
         />
     <RelativeLayout
         android:id="@+id/comment"
@@ -146,9 +145,4 @@
         android:layout_height="wrap_content">
 
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#cccccc"
-        />
 </LinearLayout>

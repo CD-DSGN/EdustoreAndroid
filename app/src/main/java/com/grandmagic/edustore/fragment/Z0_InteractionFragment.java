@@ -1,12 +1,10 @@
 package com.grandmagic.edustore.fragment;
 
 import android.app.Activity;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -313,7 +311,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
      */
     @Override
     public void commentnews(String newsid, int mPosition) {
-        showCommentPop(newsid, null, null, mPosition);
+        showCommentPop(newsid, null, null, mPosition, null);
     }
 
     EditText mEditText = null;
@@ -328,7 +326,8 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
      */
     TextView sendBtn = null;
 
-    private void showCommentPop(final String mNewsid, final String mTargetcommentid, final String mTarget_username, final int position) {
+    private void showCommentPop(final String mNewsid, final String mTargetcommentid,
+                                final String mTarget_username, final int position, final String show_name) {
         if (mCommentPopupWindow == null) {
             final View mcomentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_comment, null);
             mEditText = (EditText) mcomentView.findViewById(R.id.et_comment);
@@ -348,7 +347,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
 
         }
         mEditText.requestFocus();
-        mEditText.setHint(mTarget_username == null ? "" : "回复" + mTarget_username);
+        mEditText.setHint(show_name == null ? "" : "回复" + show_name);
         toogleInput();
         mEditText.setText("");
         mCommentPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
@@ -394,8 +393,8 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
      * @param mTarget_username
      */
     @Override
-    public void replycomment(String newsid, String targetcommentid, String mTarget_username, int position) {
-        showCommentPop(newsid, targetcommentid, mTarget_username, position);
+    public void replycomment(String newsid, String targetcommentid, String mTarget_username, int position, String show_name) {
+        showCommentPop(newsid, targetcommentid, mTarget_username, position, show_name);
     }
 
 }

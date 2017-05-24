@@ -224,7 +224,7 @@ public class A1_01_SignupInputPhoneNumActivity extends BaseActivity implements B
 
     //本地检查邀请码是否包含非法字符
     private boolean invitationCodeContainsInvalidChars(String str) {
-        Pattern pattern = Pattern.compile("[0-9a-z]*");
+        Pattern pattern = Pattern.compile("[0-9a-zA-Z]*");
         Matcher matcher = pattern.matcher(str);
         return !(matcher.matches());
     }

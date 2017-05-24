@@ -24,6 +24,8 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
     public String publish_time;
     public String publish_uid;
     public String news_id;
+    public String course_name;
+
     public List<Img> photoArray   =new ArrayList<>();
     public List<CommentArray> mCommentArray   =new ArrayList<>();
 
@@ -36,12 +38,14 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
 
 
         this.teacher_name = teacher_info.optString("real_name");
+        this.course_name = teacher_info.optString("course_name");
 
         this.teacher_comments = publish_info.optString("news_content");
 
         this.publish_time = publish_info.optString("publish_time");
         this.publish_uid = publish_info.optString("user_id");
         this.news_id = publish_info.optString("news_id");
+
 
         this.teacher_img_small = teacher_info.optString("avatar");
         JSONArray photo_Array = publish_info.optJSONArray("photo_array");
@@ -63,6 +67,9 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
                 comment.username = mComment_array.optJSONObject(i).optString("username");
                 comment.target_username = mComment_array.optJSONObject(i).optString("target_username");
                 comment.comment_content = mComment_array.optJSONObject(i).optString("comment_content");
+                comment.show_name = mComment_array.optJSONObject(i).optString("show_name");
+                comment.show_target_name = mComment_array.optJSONObject(i).optString("show_target_name");
+
                 mCommentArray.add(comment);
             }
         }
@@ -95,5 +102,7 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
         public String username;
         public String target_username;
         public String comment_content;
+        public String show_name;
+        public String show_target_name;
     }
 }

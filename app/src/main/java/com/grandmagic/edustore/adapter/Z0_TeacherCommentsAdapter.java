@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -25,11 +24,7 @@ import com.grandmagic.edustore.EcmobileApp;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.activity.BigImageViewAct;
 import com.grandmagic.edustore.protocol.TEACHERCOMMENTS;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 
 import java.io.Serializable;
@@ -63,6 +58,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         TextView comments;
         TextView publish_time;
         TextView delete;
+        TextView course_name;
         RelativeLayout comment;
         LinearLayout imagelayout, commentlayout;
     }
@@ -78,6 +74,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         cell.comment = (RelativeLayout) cellView.findViewById(R.id.comment);
         cell.imagelayout = (LinearLayout) cellView.findViewById(R.id.imagelayout);
         cell.commentlayout = (LinearLayout) cellView.findViewById(R.id.commentlayout);
+        cell.course_name = (TextView) cellView.findViewById(R.id.tv_course_name);
         return cell;
     }
 
@@ -90,6 +87,8 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
     protected View bindData(final int position, View cellView, ViewGroup parent, BeeCellHolder h) {
         TEACHERCOMMENTS teacherComments = teacherCommentsArrayList.get(position);
         String teacher_name_tmp = teacherComments.teacher_name;
+        String course_name = teacherComments.course_name;
+
         String teacher_comments_tmp = teacherComments.teacher_comments;
         final String publish_time_tmp = teacherComments.publish_time;
         String teacher_img_tmp = teacherComments.teacher_img_small;
@@ -98,6 +97,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
 
         CommentsCellHolder holder = (CommentsCellHolder) h;
         holder.teacher_name.setText(teacher_name_tmp);
+        holder.course_name.setText("("+course_name+")");
         holder.comments.setText(teacher_comments_tmp);
         holder.publish_time.setText(stampToDate(publish_time_tmp));
         mImageLoader.displayImage(teacher_img_tmp, holder.teacherImg);
@@ -137,13 +137,16 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
                 final TEACHERCOMMENTS.CommentArray mCommentArray = mTeacherComments.mCommentArray.get(i);
                 String mTargetUsername = mCommentArray.target_username;
                 String mUsername = mCommentArray.username;
-                if (!TextUtils.isEmpty(mTargetUsername) && !"null".equals(mTargetUsername)) {//如果target为空则不需要添加被回复人和“回复”
-                    mSpannableStringBuilder.append(mUsername).append("回复");
-                    mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#516792")), 0, mUsername.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    mSpannableStringBuilder.append(mTargetUsername);
-                    mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#516792")), mUsername.length()+2, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                String mshowName = mCommentArray.show_name;
+                String mshowTargetName = mCommentArray.show_target_name;
+
+                if (!TextUtils.isEmpty(mshowTargetName) && !"null".equals(mshowTargetName)) {//如果target为空则不需要添加被回复人和“回复”
+                    mSpannableStringBuilder.append(mshowName).append("回复");
+                    mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#516792")), 0, mshowName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    mSpannableStringBuilder.append(mshowTargetName);
+                    mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#516792")), mshowName.length()+2, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 } else {
-                    mSpannableStringBuilder.append(mUsername);
+                    mSpannableStringBuilder.append(mshowName);
                     mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#516792")), 0, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
                 mSpannableStringBuilder.append(": ");
@@ -152,7 +155,8 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
                     @Override
                     public void onClick(View mView) {
                         if (mDeleteListener != null) {
-                            mDeleteListener.replycomment(mTeacherComments.news_id, mCommentArray.comment_id,mCommentArray.username, position);
+                            mDeleteListener.replycomment(mTeacherComments.news_id, mCommentArray.comment_id,
+                                    mCommentArray.username, position, mCommentArray.show_name);
                         }
                     }
                 });
@@ -252,6 +256,6 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
 
         void commentnews(String newsid, int mPosition);
 
-        void replycomment(String newsid, String targetcommentid, String mTarget_username, int position);
+        void replycomment(String newsid, String targetcommentid, String mTarget_username, int position, String show_name);
     }
 }
