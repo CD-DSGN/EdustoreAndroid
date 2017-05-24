@@ -82,7 +82,7 @@ public class StartActivity extends Activity {
     }
     //added by chenggaoyuan
     private void startWithoutGalleryImageActivity() {
-        Intent it = new Intent(this,A1_SignupActivity_teacher.class);
+        Intent it = new Intent(this,EcmobileMainActivity.class);
         startActivity(it);
         finish();
     }
