@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical">
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.1dp"
         android:background="#c4c4c4"/>
+
     <LinearLayout
         android:id="@+id/ll_signup_teacher_step_two_school_course"
         android:layout_width="fill_parent"
@@ -33,6 +35,11 @@
             android:layout_marginRight="10dp"
             android:src="@drawable/accsessory_arrow_right"/>
     </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.1dp"
+        android:background="#c4c4c4"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -103,4 +110,9 @@
                 android:textSize="16dp"/>
         </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.1dp"
+        android:background="#c4c4c4"/>
 </LinearLayout>

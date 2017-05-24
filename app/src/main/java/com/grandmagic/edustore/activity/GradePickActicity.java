@@ -56,6 +56,7 @@ TextView tv_title;
         if (i==0) {
             mModel.getSchool(region);
         }else if (i==1){
+            tv_title.setText("选择年级");
             mModel.getgrade();
         }
         mModel.addResponseListener(this);
