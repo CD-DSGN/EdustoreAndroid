@@ -2,7 +2,6 @@ package com.grandmagic.edustore.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,10 +11,10 @@ import com.grandmagic.BeeFramework.adapter.BeeBaseAdapter;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.activity.NewsDetailActivity;
 import com.grandmagic.edustore.protocol.NewsList;
+import com.grandmagic.edustore.view.Label;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by lps on 2017/5/3.
@@ -38,6 +37,7 @@ public class InfoListAdapter extends BeeBaseAdapter {
         mInfoHolder.content = (TextView) cellView.findViewById(R.id.tv_news_content);
         mInfoHolder.title = (TextView) cellView.findViewById(R.id.tv_news_title);
         mInfoHolder.conver = (ImageView) cellView.findViewById(R.id.iv_news_pic);
+        mInfoHolder.catagory = (Label) cellView.findViewById(R.id.tv_news_label);
         return mInfoHolder;
     }
 
@@ -47,6 +47,9 @@ public class InfoListAdapter extends BeeBaseAdapter {
         InfoHolder hodler = (InfoHolder) h;
         hodler.content.setText(data.getSketch());
         hodler.title.setText(data.getTitle());
+        hodler.catagory.setText(data.getLabel_name());
+        hodler.catagory.setColor(0xffffa500);
+
         ImageLoader.getInstance().displayImage(data.getBanner().getBanner_url(), hodler.conver);
         cellView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +70,7 @@ public class InfoListAdapter extends BeeBaseAdapter {
     public class InfoHolder extends BeeCellHolder {
         ImageView conver;
         TextView title, content;
+        Label catagory;
     }
 
 
