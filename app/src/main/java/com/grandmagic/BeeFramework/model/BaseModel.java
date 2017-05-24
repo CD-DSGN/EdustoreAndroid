@@ -156,7 +156,26 @@ public class BaseModel implements BusinessResponse{
             	toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             }
-            
+            if (responseStatus.error_code==ErrorCodeConst.RegisterRepeat){
+                switch (responseStatus.error_message){
+                    case "1":
+                        showToast("您当前课程的第一项班级信息已经被注册");
+                        break;
+                    case "2":
+                        showToast("您当前课程的第二项班级信息已经被注册");
+                        break;
+                    case "3":
+                        showToast("您当前课程的第三项班级信息已经被注册");
+                        break;
+                    case "4":
+                        showToast("您当前课程的第四项班级信息已经被注册");
+                        break;
+                    case "5":
+                        showToast("您当前课程的第五项班级信息已经被注册");
+                        break;
+                }
+
+            }
             if(responseStatus.error_code == ErrorCodeConst.InventoryShortage) {
             	ToastView toast = new ToastView(mContext, und);
             	toast.setGravity(Gravity.CENTER, 0, 0);
@@ -221,5 +240,10 @@ public class BaseModel implements BusinessResponse{
         {
             iterable_element.OnMessageResponse(url,jo,status);
         }
+    }
+    private void showToast(String msg){
+        ToastView toast = new ToastView(mContext,msg);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 }

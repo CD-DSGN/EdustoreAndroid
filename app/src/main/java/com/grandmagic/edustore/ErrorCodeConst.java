@@ -43,4 +43,5 @@ public class ErrorCodeConst
     public final static int NoShippingInformation       = 10009;//订单无发货信息
 
 
+    public static final int RegisterRepeat=800;//教师注册时候选择的科目下的班级年级已被被人注册
 }

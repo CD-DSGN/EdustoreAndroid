@@ -20,7 +20,7 @@ public class STATUS  extends Model
 
      @Column(name = "error_desc")
      public String error_desc;
-
+public String error_message;
  public  void fromJson(JSONObject jsonObject)  throws JSONException
  {
      if(null == jsonObject){
@@ -34,6 +34,7 @@ public class STATUS  extends Model
      this.error_code = jsonObject.optInt("error_code");
 
      this.error_desc = jsonObject.optString("error_desc");
+     this.error_message =  jsonObject.optJSONArray("error_message").get(0)+"";
      return ;
  }
 
@@ -44,6 +45,7 @@ public class STATUS  extends Model
      localItemObject.put("succeed", succeed);
      localItemObject.put("error_code", error_code);
      localItemObject.put("error_desc", error_desc);
+     localItemObject.put("error_message", error_message);
      return localItemObject;
  }
 
