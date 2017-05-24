@@ -4,6 +4,7 @@ package com.grandmagic.edustore.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
@@ -42,7 +43,7 @@ import java.util.List;
 /**
  * 新的首页。关于资讯
  */
-public class InformationFragment extends Fragment implements BusinessResponse {
+public class NewsFragment extends Fragment implements BusinessResponse {
     private static final String TAG = "InformationFragment";
     private XListView mXListView;
     FrameLayout mView_Empty;

@@ -25,6 +25,9 @@ public class usersignupRequest  extends Model
 
      @Column(name = "phoneNumber")
      public String   phoneNumber;
+     public String   student_school;
+     public String   student_grade;
+     public String   student_class;
 
      public void  fromJson(JSONObject jsonObject)  throws JSONException
      {
@@ -74,6 +77,9 @@ public class usersignupRequest  extends Model
           localItemObject.put("name", name);
           localItemObject.put("password", password);
           localItemObject.put("phoneNumber", phoneNumber);
+          localItemObject.put("student_school", student_school);
+          localItemObject.put("student_grade", student_grade);
+          localItemObject.put("student_class", student_class);
           return localItemObject;
      }
 

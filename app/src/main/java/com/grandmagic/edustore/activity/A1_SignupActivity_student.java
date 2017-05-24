@@ -86,6 +86,7 @@ public class A1_SignupActivity_student extends BaseActivity implements OnClickLi
     // create by lps
     private TextView tv_shcool_address, tv_stu_school, tv_grade;
     private LinearLayout lin_stu_address, lin_stu_school, lin_grade;
+    private EditText et_class;
     private String country_id;
     private String province_id;
     private String city_id;
@@ -93,7 +94,9 @@ public class A1_SignupActivity_student extends BaseActivity implements OnClickLi
     private String school_id;
     private String grade_id;
     int type;
-
+private String student_school;
+private String student_grade;
+private String student_class;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +120,7 @@ public class A1_SignupActivity_student extends BaseActivity implements OnClickLi
         tv_stu_school = (TextView) findViewById(R.id.tv_signup_student_step_two_grade);
         tv_grade = (TextView) findViewById(R.id.tv_grade);
         lin_grade = (LinearLayout) findViewById(R.id.lin_grade);
+        et_class= (EditText) findViewById(R.id.et_class);
         lin_grade.setOnClickListener(this);
         back.setOnClickListener(this);
         register.setOnClickListener(this);
@@ -217,7 +221,20 @@ public class A1_SignupActivity_student extends BaseActivity implements OnClickLi
 //                    ToastView toast = new ToastView(this, fault);
 //                    toast.setGravity(Gravity.CENTER, 0, 0);
 //                    toast.show();
-                } else if (!passwordStr.equals(passwordRepeatStr)) {
+//                    新加的判断，学生新增了选择学校年级班级的参数
+                }else if (TextUtils.isEmpty(et_class.getText())){
+                    ToastView toast = new ToastView(this, "请输入所在的班级");
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();}
+                else if (TextUtils.isEmpty(grade_id)){
+                    ToastView toast = new ToastView(this, "请选择年级");
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                } else if (TextUtils.isEmpty(grade_id)) {
+                    ToastView toast = new ToastView(this, "请选择学校");
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }   else if (!passwordStr.equals(passwordRepeatStr)) {
                     ToastView toast = new ToastView(this, passw);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
@@ -279,7 +296,7 @@ public class A1_SignupActivity_student extends BaseActivity implements OnClickLi
 
         if (flag) {
             CloseKeyBoard(); //关闭键盘
-            registerModel.signup(name, passwordStr, mail, fields, phoneNumber);
+            registerModel.signup(name, passwordStr, mail, fields, phoneNumber,school_id,grade_id,et_class.getText().toString());
 
         }
 

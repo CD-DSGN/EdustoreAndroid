@@ -94,7 +94,8 @@ public class RegisterModel extends BaseModel {
 
     }
 
-    public void signup(String name, String password, String email, ArrayList<FIELD> fields, String phoneNumber) {
+    public void signup(String name, String password, String email, ArrayList<FIELD> fields, String phoneNumber
+    ,String student_school,String student_grade,String student_class) {
         usersignupRequest request = new usersignupRequest();
 
         BeeCallback<JSONObject> cb = new BeeCallback<JSONObject>() {
@@ -134,6 +135,9 @@ public class RegisterModel extends BaseModel {
         request.email = email;
         request.field = fields;
         request.phoneNumber = phoneNumber;
+        request.student_class=student_class;
+        request.student_grade=student_grade;
+        request.student_school=student_school;
 
         Map<String, String> params = new HashMap<String, String>();
         try {
