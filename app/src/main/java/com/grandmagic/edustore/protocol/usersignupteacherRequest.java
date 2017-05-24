@@ -50,7 +50,8 @@ public class usersignupteacherRequest extends Model
 
      @Column(name = "invite_code")
      public String invite_code;
-
+public String teacher_grade;
+     public String teacher_class;
      public void fromJson(JSONObject jsonObject) throws JSONException {
 
           if (null == jsonObject) {
@@ -93,7 +94,7 @@ public class usersignupteacherRequest extends Model
 
           localItemObject.put("password", password);
           localItemObject.put("real_name", real_name);
-          localItemObject.put("school", school);
+          localItemObject.put("teacher_school", school);
           localItemObject.put("course", course);
           localItemObject.put("mobile_phone", mobile_phone);
           localItemObject.put("country", country);
@@ -101,6 +102,8 @@ public class usersignupteacherRequest extends Model
           localItemObject.put("city", city);
           localItemObject.put("district", district);
           localItemObject.put("invite_code", invite_code);
+          localItemObject.put("teacher_class", teacher_class);
+          localItemObject.put("teacher_grade", teacher_grade);
 
           return localItemObject;
      }

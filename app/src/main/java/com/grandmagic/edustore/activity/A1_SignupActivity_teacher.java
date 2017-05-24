@@ -106,11 +106,10 @@ public class A1_SignupActivity_teacher extends BaseActivity implements View.OnCl
     //    lps
     TextView tv_addCourse;
     LinearLayout mrootlinearLayout;
-    LinearLayout lin_grade;
-    TextView tv_grade;
     LinearLayout lin_school;
-TextView tv_school;
-    String school_id;
+    TextView tv_school;
+    String school_id, teach_grade, teach_class;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,7 +147,7 @@ TextView tv_school;
         register_model_teacher.addResponseListener(this);
 
         ll_school_address.setOnClickListener(this);
-        lin_grade.setOnClickListener(this);
+
         lin_school.setOnClickListener(this);
     }
 
@@ -171,10 +170,9 @@ TextView tv_school;
 
         tv_addCourse = (TextView) findViewById(R.id.btn_add_course);
         mrootlinearLayout = (LinearLayout) findViewById(R.id.root_course_linearlayout);
-        lin_grade = (LinearLayout) findViewById(R.id.lin_grade);
-        tv_grade = (TextView) findViewById(R.id.tv_grade);
-        lin_school= (LinearLayout) findViewById(R.id.ll_school);
-        tv_school= (TextView) findViewById(R.id.tv_school);
+        lin_school = (LinearLayout) findViewById(R.id.ll_school);
+        tv_school = (TextView) findViewById(R.id.tv_school);
+        addCourse();
     }
 
     @Override
@@ -202,13 +200,13 @@ TextView tv_school;
             case R.id.btn_add_course:
                 addCourse();
                 break;
-            case R.id.lin_grade:
-                Intent mIntent = new Intent(A1_SignupActivity_teacher.this, GradePickActicity.class);
-                mIntent.putExtra(GradePickActicity.TYPE, 1);
-                startActivityForResult(mIntent, REQUEST_GRADE);
-                break;
+
             case R.id.ll_school:
-                Intent mIntent1= new Intent(A1_SignupActivity_teacher.this, GradePickActicity.class);
+                if (TextUtils.isEmpty(county_id)){
+                    showToast("请先选择位置再选择学校");
+                    return;
+                }
+                Intent mIntent1 = new Intent(A1_SignupActivity_teacher.this, GradePickActicity.class);
                 mIntent1.putExtra(GradePickActicity.TYPE, 0);
                 mIntent1.putExtra(GradePickActicity.SCHOOL_REGION, county_id);
                 startActivityForResult(mIntent1, REQUEST_SCHOOL);
@@ -218,36 +216,22 @@ TextView tv_school;
     }
 
     int addCourseCount = 0;
-    List<TextView> courseNameList = new ArrayList<>();
     List<EditText> classeNameList = new ArrayList<>();
     List<TextView> gradeNameList = new ArrayList<>();
-    List<LinearLayout> linCourse = new ArrayList<>();
-    List<LinearLayout> linGrade = new ArrayList<>();
+    List<String> gradeIdList = new ArrayList<>();
 
     private void addCourse() {
-        if (addCourseCount < 4) {
+        if (addCourseCount < 5) {
             View mInflate = View.inflate(this, R.layout.view_add_course, null);
-            TextView mTextViewcourse = (TextView) mInflate.findViewById(R.id.tv_signup_teacher_step_two_courses);
             TextView mTextViewgrade = (TextView) mInflate.findViewById(R.id.tv_grade);
             EditText mTextViewclass = (EditText) mInflate.findViewById(R.id.et_class);
-            LinearLayout lincourse = (LinearLayout) mInflate.findViewById(R.id.ll_signup_teacher_step_two_school_course);
             LinearLayout lingrade = (LinearLayout) mInflate.findViewById(R.id.lin_grade);
-            courseNameList.add(mTextViewcourse);
+
             gradeNameList.add(mTextViewgrade);
+            gradeIdList.add("");
             classeNameList.add(mTextViewclass);
             mrootlinearLayout.addView(mInflate);
             addCourseCount++;
-            lincourse.setTag(addCourseCount - 1);
-            lincourse.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int mTag = (int) v.getTag();
-                    Intent intent_select_course = new Intent(A1_SignupActivity_teacher.this,
-                            SelectCourseActivity.class);
-                    intent_select_course.putExtra(SelectCourseActivity.COURSE_TAG, mTag);
-                    startActivityForResult(intent_select_course, 3);
-                }
-            });
             lingrade.setTag(addCourseCount - 1);
             lingrade.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -280,8 +264,9 @@ TextView tv_school;
         String req = resource.getString(R.string.required_cannot_be_empty);
 
         String select_course = resource.getString(R.string.please_select_course);
-
-        if ("".equals(passwordStr)) {
+        if (TextUtils.isEmpty(school_id)) {
+            showToast("请选择学校");
+        } else if ("".equals(passwordStr)) {
             showToast(pass);
         } else if (passwordStr.length() < 6) {
             showToast(resource.getString(R.string.password_too_short));
@@ -293,8 +278,6 @@ TextView tv_school;
             showToast(getString(R.string.real_name_not_empty));
         } else if (country_id == null || province_id == null || city_id == null || county_id == null) {
             showToast(getString(R.string.school_address_empty));
-        } else if ("".equals(school_str)) {
-            showToast(getString(R.string.shcool_name_cannot_be_empty));
         } else if (select_course.equals(course_str) || "".equals(course_str)) {
             showToast(select_course);
         } else {
@@ -310,8 +293,52 @@ TextView tv_school;
 
     public void signup() {
         CloseKeyBoard(); //关闭键盘
-        register_model_teacher.signup(passwordStr, mobile_phone, course_id, real_name_str,
-                school_str, country_id, province_id, city_id, county_id, invitation_code_str);
+        teach_class = parseClass(classeNameList);
+        teach_grade = parseGrade(gradeIdList);
+        if (teach_class != null && teach_grade != null)
+            register_model_teacher.signup(passwordStr, mobile_phone, course_id, real_name_str,
+                    school_id, country_id, province_id, city_id, county_id, invitation_code_str
+                    , teach_grade, teach_class);
+        else {
+            showToast("您的年级和班级信息没完善呢");
+        }
+    }
+
+    private String parseGrade(List<String> mGradeNameList) {
+        StringBuffer mBuffer = new StringBuffer();
+        int mSize = mGradeNameList.size();
+        for (int i = 0; i < mSize; i++) {
+            String gradename = mGradeNameList.get(i);
+            if (TextUtils.isEmpty(gradename)) {
+                showToast("请完整的填写年级和班级");
+                return null;
+            }
+
+            if (i != mSize - 1) {
+                mBuffer.append(mGradeNameList.get(i)).append("@");
+            }else
+            mBuffer.append(mGradeNameList.get(i));
+        }
+        return mBuffer.toString();
+    }
+
+    private String parseClass(List<EditText> list) {
+        int count = list.size();
+        StringBuffer mBuffer = new StringBuffer();
+        for (int i = 0; i < count; i++) {
+            String classname = list.get(i).getText().toString();
+            if (TextUtils.isEmpty(classname)) {
+                ToastView toast = new ToastView(this, "请完整的填写年级和班级");
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return null;
+            }
+            if (i != count - 1) {
+                mBuffer.append(classname).append("@");
+            }else
+            mBuffer.append(classname);
+        }
+        return mBuffer.toString();
     }
 
 
@@ -357,15 +384,13 @@ TextView tv_school;
                 tv_shcool_address.setText(sbf.toString());
                 if (!TextUtils.isEmpty(school_id)) {//选过学校之后再次选择地区的时候重置学校信息
                     tv_school.setText("学校");
-                    school_id="";
+                    school_id = "";
                 }
             }
-        }else if (requestCode==REQUEST_SCHOOL&&resultCode==RESULT_OK){
-            school_id=data.getStringExtra(GradePickActicity.SCHOOL_ID);
+        } else if (requestCode == REQUEST_SCHOOL && resultCode == RESULT_OK) {
+            school_id = data.getStringExtra(GradePickActicity.SCHOOL_ID);
             tv_school.setText(data.getStringExtra(GradePickActicity.SCHOOL));
-        }
-
-        else if (requestCode == 3 && resultCode == Activity.RESULT_OK) {
+        } else if (requestCode == 3 && resultCode == Activity.RESULT_OK) {
             if (data != null) {
                 switch (data.getIntExtra(SelectCourseActivity.COURSE_TAG, -1)) {
                     case -1:
@@ -373,37 +398,30 @@ TextView tv_school;
                         course_id = data.getStringExtra("course_id");
                         tv_courses.setText(course_str);
                         break;
-                    case 0:
-                        courseNameList.get(0).setText(data.getStringExtra("course_name"));
-                        break;
-                    case 1:
-                        courseNameList.get(1).setText(data.getStringExtra("course_name"));
-                        break;
-                    case 2:
-                        courseNameList.get(2).setText(data.getStringExtra("course_name"));
-                        break;
-                    case 3:
-                        courseNameList.get(3).setText(data.getStringExtra("course_name"));
-                        break;
                 }
-
             }
         } else if (requestCode == REQUEST_GRADE && resultCode == RESULT_OK) {
             switch (data.getIntExtra(GradePickActicity.COURSE_TAG, -1)) {
-                case -1:
-                    tv_grade.setText(data.getStringExtra(GradePickActicity.GRADE));
-                    break;
+
                 case 0:
                     gradeNameList.get(0).setText(data.getStringExtra(GradePickActicity.GRADE));
+                    gradeIdList.set(0, data.getStringExtra(GradePickActicity.GRADE_ID));
                     break;
                 case 1:
                     gradeNameList.get(1).setText(data.getStringExtra(GradePickActicity.GRADE));
+                    gradeIdList.set(1, data.getStringExtra(GradePickActicity.GRADE_ID));
                     break;
                 case 2:
                     gradeNameList.get(2).setText(data.getStringExtra(GradePickActicity.GRADE));
+                    gradeIdList.set(2, data.getStringExtra(GradePickActicity.GRADE_ID));
                     break;
                 case 3:
                     gradeNameList.get(3).setText(data.getStringExtra(GradePickActicity.GRADE));
+                    gradeIdList.set(3, data.getStringExtra(GradePickActicity.GRADE_ID));
+                    break;
+                case 4:
+                    gradeNameList.get(4).setText(data.getStringExtra(GradePickActicity.GRADE));
+                    gradeIdList.set(4, data.getStringExtra(GradePickActicity.GRADE_ID));
                     break;
             }
         }

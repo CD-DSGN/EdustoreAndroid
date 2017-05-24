@@ -230,7 +230,7 @@ private String student_class;
                     ToastView toast = new ToastView(this, "请选择年级");
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
-                } else if (TextUtils.isEmpty(grade_id)) {
+                } else if (TextUtils.isEmpty(school_id)) {
                     ToastView toast = new ToastView(this, "请选择学校");
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
