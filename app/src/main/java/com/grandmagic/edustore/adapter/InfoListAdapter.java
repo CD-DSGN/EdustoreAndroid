@@ -11,7 +11,6 @@ import com.grandmagic.BeeFramework.adapter.BeeBaseAdapter;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.activity.NewsDetailActivity;
 import com.grandmagic.edustore.protocol.NewsList;
-import com.grandmagic.edustore.view.Label;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public class InfoListAdapter extends BeeBaseAdapter {
         mInfoHolder.content = (TextView) cellView.findViewById(R.id.tv_news_content);
         mInfoHolder.title = (TextView) cellView.findViewById(R.id.tv_news_title);
         mInfoHolder.conver = (ImageView) cellView.findViewById(R.id.iv_news_pic);
-        mInfoHolder.catagory = (Label) cellView.findViewById(R.id.tv_news_label);
+        mInfoHolder.catagory = (TextView) cellView.findViewById(R.id.tv_news_label);
         return mInfoHolder;
     }
 
@@ -48,7 +47,26 @@ public class InfoListAdapter extends BeeBaseAdapter {
         hodler.content.setText(data.getSketch());
         hodler.title.setText(data.getTitle());
         hodler.catagory.setText(data.getLabel_name());
-        hodler.catagory.setColor(0xffffa500);
+        int type = 0;
+        try {
+            type = Integer.valueOf(data.getLabel_id());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        switch (type) {
+            case 1:
+                hodler.catagory.setBackgroundColor(0xaaff6600);
+                break;
+            case 2:
+                hodler.catagory.setBackgroundColor(0xaa6699ff);
+                break;
+            case 3:
+                hodler.catagory.setBackgroundColor(0xaa00cc00);
+                break;
+            default:
+                hodler.catagory.setBackgroundColor(0xaa808080);
+                break;
+        }
 
         ImageLoader.getInstance().displayImage(data.getBanner().getBanner_url(), hodler.conver);
         cellView.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +88,7 @@ public class InfoListAdapter extends BeeBaseAdapter {
     public class InfoHolder extends BeeCellHolder {
         ImageView conver;
         TextView title, content;
-        Label catagory;
+        TextView catagory;
     }
 
 

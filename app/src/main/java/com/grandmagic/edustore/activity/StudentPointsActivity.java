@@ -65,6 +65,7 @@ public class StudentPointsActivity extends BaseActivity implements IXListViewLis
         mStudentPointModel.addResponseListener(this);
         mMyListView.setXListViewListener(this,1);
         mMyListView.setPullLoadEnable(false);
+        mMyListView.setPullRefreshEnable(true);
     }
 
     @Override
