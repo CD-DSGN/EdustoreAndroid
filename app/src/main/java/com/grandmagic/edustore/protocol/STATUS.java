@@ -1,12 +1,12 @@
 
 package com.grandmagic.edustore.protocol;
-import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import com.external.activeandroid.Model;
 import com.external.activeandroid.annotation.Column;
 import com.external.activeandroid.annotation.Table;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 @Table(name = "STATUS")
 public class STATUS  extends Model
@@ -38,6 +38,8 @@ public String error_message;
          this.error_message =  jsonObject.optJSONArray("error_message").get(0)+"";
      }
      return ;
+
+     
  }
 
  public JSONObject  toJson() throws JSONException 
