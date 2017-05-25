@@ -34,7 +34,9 @@ public String error_message;
      this.error_code = jsonObject.optInt("error_code");
 
      this.error_desc = jsonObject.optString("error_desc");
-     this.error_message =  jsonObject.optJSONArray("error_message").get(0)+"";
+     if (jsonObject.optJSONArray("error_message") != null) {
+         this.error_message =  jsonObject.optJSONArray("error_message").get(0)+"";
+     }
      return ;
  }
 
