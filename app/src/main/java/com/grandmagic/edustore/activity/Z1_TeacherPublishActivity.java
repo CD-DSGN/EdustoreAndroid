@@ -39,6 +39,7 @@ import com.grandmagic.edustore.adapter.AddImgAdapter;
 import com.grandmagic.edustore.fragment.Base64Coder;
 import com.grandmagic.edustore.model.TeacherPublishModel;
 import com.grandmagic.edustore.protocol.ApiInterface;
+import com.grandmagic.edustore.protocol.teacherpublishResponse;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.yuyh.library.imgsel.ImageLoader;
 import com.yuyh.library.imgsel.ImgSelActivity;
@@ -139,8 +140,12 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
     public void OnMessageResponse(String url, JSONObject jo, AjaxStatus status) throws JSONException {
         teacher_publish.setEnabled(true);
         if (url.endsWith(ApiInterface.TEACHER_PUBLISH)) {
-            setResult(RESULT_OK);
-            finish();
+            teacherpublishResponse mTeacherpublishResponse = new teacherpublishResponse();
+           mTeacherpublishResponse. fromJson(jo);
+            if (mTeacherpublishResponse.status.succeed==1) {
+                setResult(RESULT_OK);
+                finish();
+            }
         }
     }
 
