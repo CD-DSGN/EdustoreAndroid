@@ -49,6 +49,7 @@ public class TeacherPublishModel extends BaseModel{
                         response.fromJson(jo);
                         if (response.status.succeed == 1) {
                             TeacherPublishModel.this.OnMessageResponse(url, jo, status);
+                            return;
                         } else {
                             Resources resource = mContext.getResources();
                             String publish_failed = resource.getString(R.string.publish_failed);
@@ -57,8 +58,16 @@ public class TeacherPublishModel extends BaseModel{
                             toast.show();
                         }
                     }
+                    /**
+                     * 服务器错误时候，比如sql语法问题返回的json为null，导致不走回调
+                     * 在外边调用了一次回调。因为之前的回调逻辑只有服务端返回json并且成功操作的时候才会调用，
+                     * 这里回调方法里面涉及到发布按钮重新设置为enable
+                     */
+                        TeacherPublishModel.this.OnMessageResponse(url, jo, status);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
+
                 }
             }
         };
