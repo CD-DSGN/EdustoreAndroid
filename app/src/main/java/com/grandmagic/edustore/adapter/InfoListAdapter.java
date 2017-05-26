@@ -37,6 +37,7 @@ public class InfoListAdapter extends BeeBaseAdapter {
         mInfoHolder.title = (TextView) cellView.findViewById(R.id.tv_news_title);
         mInfoHolder.conver = (ImageView) cellView.findViewById(R.id.iv_news_pic);
         mInfoHolder.catagory = (TextView) cellView.findViewById(R.id.tv_news_label);
+        mInfoHolder.time = (TextView) cellView.findViewById(R.id.tv_news_update);
         return mInfoHolder;
     }
 
@@ -44,9 +45,10 @@ public class InfoListAdapter extends BeeBaseAdapter {
     protected View bindData(int position, View cellView, ViewGroup parent, BeeCellHolder h) {
         final NewsList.DataBean.InfoBean data = (NewsList.DataBean.InfoBean) dataList.get(position);
         InfoHolder hodler = (InfoHolder) h;
-        hodler.content.setText(data.getSketch());
-        hodler.title.setText(data.getTitle());
+        hodler.content.setText(data.getSketch()+data.getSketch()+data.getSketch());
+        hodler.title.setText(data.getTitle()+data.getTitle()+data.getTitle());
         hodler.catagory.setText(data.getLabel_name());
+        hodler.time.setText(data.getUpdated_at());
         int type = 0;
         try {
             type = Integer.valueOf(data.getLabel_id());
@@ -89,6 +91,7 @@ public class InfoListAdapter extends BeeBaseAdapter {
                 mContext.startActivity(mIntent);
             }
         });
+
         return null;
     }
 
@@ -99,7 +102,7 @@ public class InfoListAdapter extends BeeBaseAdapter {
 
     public class InfoHolder extends BeeCellHolder {
         ImageView conver;
-        TextView title, content;
+        TextView title, content,time;
         TextView catagory;
     }
 

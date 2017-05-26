@@ -4,17 +4,28 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
     >
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:background="@drawable/nav_bg"
-        android:gravity="center"
-        android:text="教育资讯"
-        android:textColor="@color/TextColorWhite"
-        android:textSize="24sp"
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="46dp"
+    android:background="@drawable/nav_bg"
+    >
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/huishi_logo"
+        android:layout_marginBottom="1dp"
+        android:scaleX="1.2"
+        android:scaleY="1.2"
         />
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+     android:layout_centerInParent="true"
+        android:text="首页"
+        android:textColor="@color/TextColorWhite"
+        android:textSize="22sp"
+        />
+</RelativeLayout>
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
                  android:layout_width="match_parent"

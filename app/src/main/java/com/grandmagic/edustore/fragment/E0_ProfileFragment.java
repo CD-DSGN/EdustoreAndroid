@@ -283,7 +283,7 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
 	
 	// set User 信息
 	public void setUserInfo() {
-		name.setText(user.name);
+		name.setText(user.nickname);
         File files = new File(getActivity().getCacheDir()+"/ECMobile/cache"+"/"+uid+"-temp.jpg");
         if(files.exists()&&!uid.equals("")) {
             photo.setImageBitmap(BitmapFactory.decodeFile(getActivity().getCacheDir()+"/ECMobile/cache"+"/"+uid+"-temp.jpg"));
