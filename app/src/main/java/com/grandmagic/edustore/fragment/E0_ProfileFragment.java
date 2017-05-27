@@ -23,8 +23,6 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -54,7 +52,6 @@ import com.grandmagic.edustore.activity.F0_AddressListActivity;
 import com.grandmagic.edustore.activity.G0_SettingActivity;
 import com.grandmagic.edustore.activity.G2_InfoActivity;
 import com.grandmagic.edustore.activity.G3_MessageActivity;
-import com.grandmagic.edustore.activity.SubscriptionActivity;
 import com.grandmagic.edustore.activity.UserIntegralActivity;
 import com.grandmagic.edustore.model.ProtocolConst;
 import com.grandmagic.edustore.model.UserImgModel;
@@ -102,7 +99,7 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
 
 	//zhangmengqi begin
 	private LinearLayout ll_query_points;
-	private LinearLayout ll_subscription;
+//	private LinearLayout ll_subscription;
 	//zhangmengqi end
 
 	//chenggaoyuan begin
@@ -227,7 +224,7 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
 
 		//zhangmengqi begin
 		ll_query_points.setOnClickListener(this);
-		ll_subscription.setOnClickListener(this);
+//		ll_subscription.setOnClickListener(this);
 		//zhangmengqi end
 	}
 
@@ -260,7 +257,7 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
 		help = (LinearLayout)headView.findViewById(R.id.profile_help);
 
 		//zhangmengqi begin
-		ll_subscription = (LinearLayout) headView.findViewById(R.id.ll_profile_subscription);
+//		ll_subscription = (LinearLayout) headView.findViewById(R.id.ll_profile_subscription);
 		ll_query_points = (LinearLayout) headView.findViewById(R.id.ll_profile_query_points);
 		//zhangmengqi end
 	}
@@ -338,9 +335,9 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
 		//zhangmengqi begin
 		if (user.is_teacher.equals("1")) {
 			ll_query_points.setVisibility(View.VISIBLE);
-			ll_subscription.setVisibility(View.GONE);
+//			ll_subscription.setVisibility(View.GONE);
 		} else if (user.is_teacher.equals("0")) {
-			ll_subscription.setVisibility(View.VISIBLE);
+//			ll_subscription.setVisibility(View.VISIBLE);
 			ll_query_points.setVisibility(View.GONE);
 		}
 
@@ -506,11 +503,11 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
              }
         	 break;
 		 //zhangmengqi begin
-		 case R.id.ll_profile_subscription:
-			 intent = new Intent(getActivity(), SubscriptionActivity.class);
-			 startActivity(intent);
-			 getActivity().overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
-			 break;
+//		 case R.id.ll_profile_subscription:
+//			 intent = new Intent(getActivity(), SubscriptionActivity.class);
+//			 startActivity(intent);
+//			 getActivity().overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
+//			 break;
 
 
 		case R.id.ll_profile_query_points:
