@@ -56,25 +56,25 @@ public class InfoListAdapter extends BeeBaseAdapter {
             e.printStackTrace();
         }
         switch (type) {
-            case 1:
+            case 2:
                 hodler.catagory.setBackgroundColor(0xff82659d);
                 break;
-            case 2:
+            case 3:
                 hodler.catagory.setBackgroundColor(0xffd780b5);
                 break;
-            case 3:
+            case 4:
                 hodler.catagory.setBackgroundColor(0xffe57c5e);
                 break;
-            case 4:
+            case 5:
                 hodler.catagory.setBackgroundColor(0xffff8879);
                 break;
-            case 5:
+            case 6:
                 hodler.catagory.setBackgroundColor(0xfff5ab24);
                 break;
-            case 6:
+            case 7:
                 hodler.catagory.setBackgroundColor(0xfffcde02);
                 break;
-            case 7:
+            case 8:
                 hodler.catagory.setBackgroundColor(0xff61c7b1);
                 break;
             default:
