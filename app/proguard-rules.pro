@@ -52,6 +52,9 @@ public static final int *;
 -keep class com.edustore.model.** {*;}
 -keep class com.edustore.protocol.** {*;}
 
+-keep class com.grandmagic.edustore.model.**{*;}
+-keep class com.grandmagic.edustore.protocol.**{*;}
+
 #科大讯飞类不要混淆
 -keep class com.iflytek.speech.** {*;}
 -keepattributes Signature
