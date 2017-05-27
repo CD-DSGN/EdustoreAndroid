@@ -32,7 +32,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:singleLine="true"
-            android:text="@string/subscription"
+            android:text="您的教师"
             android:textColor="#ffffff"
             android:textSize="24dp"/>
     </FrameLayout>
