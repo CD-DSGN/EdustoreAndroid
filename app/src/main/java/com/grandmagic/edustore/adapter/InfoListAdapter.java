@@ -45,8 +45,8 @@ public class InfoListAdapter extends BeeBaseAdapter {
     protected View bindData(int position, View cellView, ViewGroup parent, BeeCellHolder h) {
         final NewsList.DataBean.InfoBean data = (NewsList.DataBean.InfoBean) dataList.get(position);
         InfoHolder hodler = (InfoHolder) h;
-        hodler.content.setText(data.getSketch()+data.getSketch()+data.getSketch());
-        hodler.title.setText(data.getTitle()+data.getTitle()+data.getTitle());
+        hodler.content.setText(data.getSketch());
+        hodler.title.setText(data.getTitle());
         hodler.catagory.setText(data.getLabel_name());
         hodler.time.setText(data.getUpdated_at());
         int type = 0;
