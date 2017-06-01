@@ -352,6 +352,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
             }
             if (response.status.succeed == 1) {
                 onRefresh(-1);//发送完成刷新
+                resettemData();
                 ToastView mToastView = new ToastView(getActivity(), "发送成功");
                 mToastView.setGravity(17, 0, 0);
                 mToastView.show();
@@ -381,12 +382,18 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mRetryDialog.dismiss();
+                    resettemData();
                     onRefresh(-1);
                 }
             });
             mRetryDialog = mBuilder.create();
         }
         mRetryDialog.show();
+    }
+//发送成功，清理保存需要提交的变量
+    private void resettemData() {
+        upFilelist.clear();
+        content="";
     }
 
 
