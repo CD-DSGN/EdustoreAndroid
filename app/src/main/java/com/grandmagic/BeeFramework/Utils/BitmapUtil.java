@@ -31,10 +31,18 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.util.Log;
 import android.view.View;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import static android.R.attr.mimeType;
+import static android.R.attr.path;
 
 /**
  * Created by lps on 2017/1/16.
@@ -51,8 +59,7 @@ public class BitmapUtil {
         throw new Error("Do not need instantiate!");
     }
 
-   /**
-     *
+    /**
      * @param reqWidth  目标宽度,这里的宽高只是阀值，实际显示的图片将小于等于这个值
      * @param reqHeight 目标高度,这里的宽高只是阀值，实际显示的图片将小于等于这个值
      */
@@ -62,7 +69,7 @@ public class BitmapUtil {
         // 源图片的高度和宽度
         final int height = options.outHeight;
         final int width = options.outWidth;
-        Log.e(TAG, "calculateInSampleSize() called with: options = [" + options.outWidth +"\n "+options.outHeight+ "], reqWidth = [" + reqWidth + "], reqHeight = [" + reqHeight + "]");
+        Log.e(TAG, "calculateInSampleSize() called with: options = [" + options.outWidth + "\n " + options.outHeight + "], reqWidth = [" + reqWidth + "], reqHeight = [" + reqHeight + "]");
         int inSampleSize = 1;
         if (height > 400 || width > 450) {//如果宽高本身较小就不进行缩放了
             if (height > reqHeight || width > reqWidth) {
@@ -77,7 +84,7 @@ public class BitmapUtil {
                         : widthRatio;
             }
         }
-        Log.e(TAG, "calculateInSampleSize: "+inSampleSize );
+        Log.e(TAG, "calculateInSampleSize: " + inSampleSize);
         // 设置压缩比例
         options.inSampleSize = inSampleSize;
         options.inJustDecodeBounds = false;
@@ -123,7 +130,7 @@ public class BitmapUtil {
         BitmapFactory.decodeFile(pathName, options);
         options = calculateInSampleSize(options, reqWidth, reqHeight);
         Bitmap bitmap = BitmapFactory.decodeFile(pathName, options);
-        Log.e(TAG, "getBitmapFromFile: w:"+bitmap.getWidth()+"\nh:"+bitmap.getHeight() );
+        Log.e(TAG, "getBitmapFromFile: w:" + bitmap.getWidth() + "\nh:" + bitmap.getHeight());
         return bitmap;
     }
 
@@ -286,8 +293,9 @@ public class BitmapUtil {
 
     /**
      * 合并Bitmap
+     *
      * @param bgd 背景Bitmap
-     * @param fg 前景Bitmap
+     * @param fg  前景Bitmap
      * @return 合成后的Bitmap
      */
     public static Bitmap combineImages(Bitmap bgd, Bitmap fg) {
@@ -311,8 +319,9 @@ public class BitmapUtil {
 
     /**
      * 合并
+     *
      * @param bgd 后景Bitmap
-     * @param fg 前景Bitmap
+     * @param fg  前景Bitmap
      * @return 合成后Bitmap
      */
     public static Bitmap combineImagesToSameSize(Bitmap bgd, Bitmap fg) {
@@ -345,8 +354,8 @@ public class BitmapUtil {
      * 放大缩小图片
      *
      * @param bitmap 源Bitmap
-     * @param w 宽
-     * @param h 高
+     * @param w      宽
+     * @param h      高
      * @return 目标Bitmap
      */
     public static Bitmap zoom(Bitmap bitmap, int w, int h) {
@@ -364,7 +373,7 @@ public class BitmapUtil {
     /**
      * 获得圆角图片的方法
      *
-     * @param bitmap 源Bitmap
+     * @param bitmap  源Bitmap
      * @param roundPx 圆角大小
      * @return 期望Bitmap
      */
@@ -437,24 +446,48 @@ public class BitmapUtil {
      * @param image 源Bitmap
      * @return 压缩后的Bitmap
      */
-    public static Bitmap compressImage(Bitmap image) {
+    public static Bitmap compressImagetoBitmap(Bitmap image) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG, 100, baos);// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
         int options = 100;
 //        options= (int) Math.ceil(100.0/(baos.toByteArray().length / 1024 / 200));
-        Log.e(TAG, "质量压缩之前: "+options +"\t"+baos.toByteArray().length/1024+"kb");
+        Log.e(TAG, "质量压缩之前: " + options + "\t" + baos.toByteArray().length / 1024 + "kb");
         while (baos.toByteArray().length / 1024 > 200) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
-            Log.e(TAG, "compressImage: imagesize"+baos.toByteArray().length/1024+"kb" );
+            Log.e(TAG, "compressImage: imagesize" + baos.toByteArray().length / 1024 + "kb");
             baos.reset();// 重置baos即清空baos
             options -= 10;// 每次都减少10
-        image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 这里压缩options%，把压缩后的数据存放到baos中
-            Log.e(TAG, "compressImage: optionss"+options );
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 这里压缩options%，把压缩后的数据存放到baos中
+            Log.e(TAG, "compressImage: optionss" + options);
         }
-        Log.e(TAG, "质量压缩之后: "+options +"\t"+baos.toByteArray().length/1024+"kb");
+        Log.e(TAG, "质量压缩之后: " + options + "\t" + baos.toByteArray().length / 1024 + "kb");
         ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
         Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
         return bitmap;
+    }
+    /**
+     * 压缩图片大小
+     *
+     * @param image 源Bitmap
+     * @return 压缩后的Bitmap
+     */
+    public static byte[] compressImage(Bitmap image) {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        int options = 100;
+//        options= (int) Math.ceil(100.0/(baos.toByteArray().length / 1024 / 200));
+        Log.e(TAG, "质量压缩之前: " + options + "\t" + baos.toByteArray().length / 1024 + "kb");
+        while (baos.toByteArray().length / 1024 > 200) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            Log.e(TAG, "compressImage: imagesize" + baos.toByteArray().length / 1024 + "kb");
+            baos.reset();// 重置baos即清空baos
+            options -= 10;// 每次都减少10
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 这里压缩options%，把压缩后的数据存放到baos中
+            Log.e(TAG, "compressImage: optionss" + options);
+        }
+        Log.e(TAG, "质量压缩之后: " + options + "\t" + baos.toByteArray().length / 1024 + "kb");
+        return baos.toByteArray();// 把压缩后的数据baos存放到ByteArrayInputStream中
+
     }
 
     /**
@@ -1668,4 +1701,59 @@ public class BitmapUtil {
         return rotatedData;
     }
 
+    public static File savefile(Bitmap bm, String filepath) {
+
+        File dirFile = new File(filepath);
+        if (!dirFile.exists()) {
+            dirFile.mkdirs();
+        }
+        String fileName = System.currentTimeMillis() + ".jpg";
+        File myCaptureFile = new File(filepath +"/"+ fileName);
+        BufferedOutputStream bos = null;
+        try {
+            bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));
+        } catch (FileNotFoundException mE) {
+            mE.printStackTrace();
+        }
+        bm.compress(Bitmap.CompressFormat.JPEG, 80, bos);
+        try {
+            bos.flush();
+        } catch (IOException mE) {
+            mE.printStackTrace();
+        }
+        try {
+            bos.close();
+        } catch (IOException mE) {
+            mE.printStackTrace();
+        }
+        return myCaptureFile;
+    }
+
+    public static byte[] getBytesFromFile(File file) {
+        byte[] buffer = null;
+        try
+        {
+
+            FileInputStream fis = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] b = new byte[1024];
+            int n;
+            while ((n = fis.read(b)) != -1)
+            {
+                bos.write(b, 0, n);
+            }
+            fis.close();
+            bos.close();
+            buffer = bos.toByteArray();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return buffer;
+    }
 }

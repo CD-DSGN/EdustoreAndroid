@@ -3,12 +3,15 @@ package com.grandmagic.edustore.fragment;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,6 +31,7 @@ import com.external.maxwin.view.XListView;
 import com.grandmagic.BeeFramework.Utils.BitmapUtil;
 import com.grandmagic.BeeFramework.Utils.ScreenUtils;
 import com.grandmagic.BeeFramework.fragment.BaseFragment;
+import com.grandmagic.BeeFramework.view.ToastView;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.activity.A0_SigninActivity;
 import com.grandmagic.edustore.activity.Z1_TeacherPublishActivity;
@@ -39,10 +43,12 @@ import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.PAGINATED;
 import com.grandmagic.edustore.protocol.TEACHERCOMMENTS;
 import com.grandmagic.edustore.protocol.USER;
+import com.grandmagic.edustore.protocol.teacherpublishResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -174,27 +180,29 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
         if (requestCode == REQUESTCODE_PUBLISH && resultCode == Activity.RESULT_OK) {
             needrefresh = false;
 //            onRefresh(-1);
-             String content = data.getStringExtra("content");
-             ArrayList<String> gridList = data.getStringArrayListExtra("image");
+            content = data.getStringExtra("content");
+            ArrayList<String> gridList = data.getStringArrayListExtra("image");
             addLocalItem(gridList, content);
-            asyncpublish(content, gridList);//异步发送
+            asyncpublish(gridList);//异步发送
 
         }
     }
 
-    private void asyncpublish(final String mContent, final ArrayList<String> mGridList) {
+    ArrayList<String> upFilelist = new ArrayList<>();
+    String content;
+
+    private void asyncpublish(final ArrayList<String> mGridList) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                ArrayList<String> upFilelist = new ArrayList<>();
                 for (String string : mGridList) {
-                    Bitmap bitmap = BitmapUtil.compressImage(BitmapUtil.getBitmapFromFile(string, 720, 1280));//限制200k
-                    String s = Base64Coder.encodeLines(BitmapUtil.getBytesFromBitmap(bitmap));
+                    byte[] tempbyte = BitmapUtil.compressImage(BitmapUtil.getBitmapFromFile(string, 720, 1280));//限制200k
+                    String s = Base64Coder.encodeLines(tempbyte);
                     upFilelist.add(s);
                 }
                 teacherPublishModel = new TeacherPublishModel(getActivity());
                 teacherPublishModel.addResponseListener(Z0_InteractionFragment.this);
-                teacherPublishModel.publish_teacher_message(mContent, upFilelist);
+                teacherPublishModel.publish_teacher_message(content, upFilelist);
             }
         }).start();
     }
@@ -210,7 +218,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
         ArrayList<TEACHERCOMMENTS.Img> mImgList = new ArrayList<>();
         for (String localurl : mGridList) {
             TEACHERCOMMENTS.Img mImg = new TEACHERCOMMENTS.Img();
-            mImg.img = localurl;
+            mImg.img_thumb = localurl;
             mImgList.add(mImg);
         }
         mTEACHERCOMMENTS.photoArray = mImgList;
@@ -335,8 +343,50 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
             commentsListView.setRefreshTime();
             setContent();
         } else if (url.endsWith(ApiInterface.TEACHER_PUBLISH)) {
-            onRefresh(-1);//发送完成刷新
+            teacherpublishResponse response = new teacherpublishResponse();
+            try {
+                response.fromJson(jo);
+            } catch (JSONException mE) {
+                mE.printStackTrace();
+                showRetryDialog();
+            }
+            if (response.status.succeed == 1) {
+                onRefresh(-1);//发送完成刷新
+                ToastView mToastView = new ToastView(getActivity(), "发送成功");
+                mToastView.setGravity(17, 0, 0);
+                mToastView.show();
+            } else {//失败
+                showRetryDialog();
+            }
         }
+    }
+
+    AlertDialog mRetryDialog;
+
+    /**
+     * 发送失败时候问要重试或者放弃
+     */
+    private void showRetryDialog() {
+        if (mRetryDialog == null) {
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity(), R.style.Theme_AppCompat_DayNight_Dialog_Alert);
+            mBuilder.setMessage("发送失败是否重试");
+            mBuilder.setTitle("发送失败");
+            mBuilder.setPositiveButton("重试", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    teacherPublishModel.publish_teacher_message(content, upFilelist);
+                }
+            });
+            mBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mRetryDialog.dismiss();
+                    onRefresh(-1);
+                }
+            });
+            mRetryDialog = mBuilder.create();
+        }
+        mRetryDialog.show();
     }
 
 

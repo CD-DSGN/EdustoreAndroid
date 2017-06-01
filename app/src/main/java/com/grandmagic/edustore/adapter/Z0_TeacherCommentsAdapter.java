@@ -182,7 +182,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         for (int i = 0; i < size; i++) {
             float y = size > 1 ? 3 : 2;//根据图片数量平分屏幕
             ImageView imageView = creatImageview(holder, size, y);
-            String url = teacherComments.photoArray.get(i).img;
+            String url = teacherComments.photoArray.get(i).img_thumb;
             if (!url.startsWith("http://")){//判断是否是本地图片或者远程图片，本地图片UIL需要file://
                 url="file://"+url;
             }
