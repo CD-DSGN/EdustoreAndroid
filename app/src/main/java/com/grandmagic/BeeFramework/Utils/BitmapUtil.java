@@ -62,8 +62,9 @@ public class BitmapUtil {
         // 源图片的高度和宽度
         final int height = options.outHeight;
         final int width = options.outWidth;
+        Log.e(TAG, "calculateInSampleSize() called with: options = [" + options.outWidth +"\n "+options.outHeight+ "], reqWidth = [" + reqWidth + "], reqHeight = [" + reqHeight + "]");
         int inSampleSize = 1;
-        if (height > 400 || width > 450) {
+        if (height > 400 || width > 450) {//如果宽高本身较小就不进行缩放了
             if (height > reqHeight || width > reqWidth) {
                 // 计算出实际宽高和目标宽高的比率
                 final int heightRatio = Math.round((float) height
@@ -76,6 +77,7 @@ public class BitmapUtil {
                         : widthRatio;
             }
         }
+        Log.e(TAG, "calculateInSampleSize: "+inSampleSize );
         // 设置压缩比例
         options.inSampleSize = inSampleSize;
         options.inJustDecodeBounds = false;
@@ -121,7 +123,8 @@ public class BitmapUtil {
         BitmapFactory.decodeFile(pathName, options);
         options = calculateInSampleSize(options, reqWidth, reqHeight);
         Bitmap bitmap = BitmapFactory.decodeFile(pathName, options);
-        return BitmapFactory.decodeFile(pathName, options);
+        Log.e(TAG, "getBitmapFromFile: w:"+bitmap.getWidth()+"\nh:"+bitmap.getHeight() );
+        return bitmap;
     }
 
     /**
@@ -439,11 +442,14 @@ public class BitmapUtil {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG, 100, baos);// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
         int options = 100;
+//        options= (int) Math.ceil(100.0/(baos.toByteArray().length / 1024 / 200));
         Log.e(TAG, "质量压缩之前: "+options +"\t"+baos.toByteArray().length/1024+"kb");
         while (baos.toByteArray().length / 1024 > 200) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            Log.e(TAG, "compressImage: imagesize"+baos.toByteArray().length/1024+"kb" );
             baos.reset();// 重置baos即清空baos
-            image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 这里压缩options%，把压缩后的数据存放到baos中
             options -= 10;// 每次都减少10
+        image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 这里压缩options%，把压缩后的数据存放到baos中
+            Log.e(TAG, "compressImage: optionss"+options );
         }
         Log.e(TAG, "质量压缩之后: "+options +"\t"+baos.toByteArray().length/1024+"kb");
         ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中

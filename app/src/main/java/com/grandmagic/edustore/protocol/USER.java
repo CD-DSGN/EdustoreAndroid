@@ -37,7 +37,7 @@ public class USER extends Model {
     public String is_teacher; //added by zhangmengqi
 
     public String nickname;
-
+    public String teacher_course;
 //    @Column(name="teacher_integral")
 //    public String teacher_integral;
 
@@ -68,7 +68,7 @@ public class USER extends Model {
         this.nickname = jsonObject.optString("show_name");
         this.rank_name = jsonObject.optString("rank_name");
         this.email = jsonObject.optString("email");
-
+        this.teacher_course = jsonObject.optString("teacher_course");
         this.is_teacher = jsonObject.optString("is_teacher");
 //        this.pay_points = jsonObject.optString("pay_points");
 //        this.rank_points = jsonObject.optString("rank_points");

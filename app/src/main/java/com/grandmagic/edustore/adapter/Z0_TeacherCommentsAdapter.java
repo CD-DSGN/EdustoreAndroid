@@ -10,6 +10,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.activity.BigImageViewAct;
 import com.grandmagic.edustore.protocol.TEACHERCOMMENTS;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 
 import java.io.Serializable;
@@ -36,7 +38,7 @@ import java.util.Date;
  * Created by chenggaoyuan on 2016/11/29.
  */
 public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
-
+    private static final String TAG = "Z0_TeacherCommentsAdapt";
     private ArrayList<TEACHERCOMMENTS> teacherCommentsArrayList;
 
     private ImageLoader mImageLoader = ImageLoader.getInstance();
@@ -113,6 +115,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
                 }
             }
         });
+        holder.comment.setVisibility(teacherComments.isLocal?View.GONE:View.VISIBLE);
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View mView) {
@@ -179,13 +182,24 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         for (int i = 0; i < size; i++) {
             float y = size > 1 ? 3 : 2;//根据图片数量平分屏幕
             ImageView imageView = creatImageview(holder, size, y);
-            mImageLoader.displayImage(teacherComments.photoArray.get(i).img, imageView, EcmobileApp.options, new SimpleImageLoadingListener() {
+            String url = teacherComments.photoArray.get(i).img;
+            if (!url.startsWith("http://")){//判断是否是本地图片或者远程图片，本地图片UIL需要file://
+                url="file://"+url;
+            }
+            mImageLoader.displayImage(url, imageView, EcmobileApp.options, new SimpleImageLoadingListener() {
                 @Override
                 public void onLoadingComplete(String mS, View mView, Bitmap mBitmap) {
+                    Log.e(TAG, "onLoadingComplete() called with: mS = [" + mS + "], mView = [" + mView + "], mBitmap = [" + mBitmap + "]");
                     if (mView.getLayoutParams().height == LinearLayout.LayoutParams.WRAP_CONTENT) {//发现一张图的时候小图放大，高度WRAP_CONTENT的时候太矮
-                        float scale = mBitmap.getHeight() / mBitmap.getWidth();
+                        float scale = mBitmap.getHeight() *1.0f/ mBitmap.getWidth();
                         mView.setLayoutParams(new LinearLayout.LayoutParams(mView.getLayoutParams().width, (int) (scale * mView.getLayoutParams().width)));
                     }
+                }
+
+                @Override
+                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                    Log.e(TAG, "onLoadingFailed() called with: imageUri = [" + imageUri + "], view = [" + view + "], failReason = [" + failReason + "]");
+                    super.onLoadingFailed(imageUri, view, failReason);
                 }
             });
             imageView.setTag(i);
@@ -240,7 +254,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
         String res;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         long lt = new Long(s);
-        Date date = new Date(lt * 1000);
+        Date date = new Date(s.length()==10?lt * 1000:lt);
         res = simpleDateFormat.format(date);
         return res;
     }

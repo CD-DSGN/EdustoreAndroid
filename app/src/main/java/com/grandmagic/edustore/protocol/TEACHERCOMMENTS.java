@@ -26,9 +26,9 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
     public String news_id;
     public String course_name;
 
-    public List<Img> photoArray   =new ArrayList<>();
+    public ArrayList<Img> photoArray   =new ArrayList<>();
     public List<CommentArray> mCommentArray   =new ArrayList<>();
-
+public boolean isLocal=false;//表示是否是本地资源。新发布汇师圈的时候在本地加载，未刷新之前是不允许评论和删除等操作
     public void fromJson(JSONObject jsonObject) throws JSONException {
         if (null == jsonObject) {
             return;
@@ -93,7 +93,7 @@ public class TEACHERCOMMENTS extends Model implements Serializable{
         return localItemObject;
     }
 
-   public class Img implements Serializable {
+   public static class Img implements Serializable {
         public String img;
         public String img_thumb;
     }

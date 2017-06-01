@@ -56,17 +56,17 @@ import java.util.List;
 /**
  * Created by chenggaoyuan on 2016/10/25.
  */
-public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickListener, BusinessResponse, AddImgAdapter.ImgListener {
+public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickListener, AddImgAdapter.ImgListener {
     public static final int IMG_SELECT = 2;//选择相册
     public static final int IMG_DELETE = 1;//删除已选择的图片
     private static final int TAKE_PICTURE = 3;//调用相机拍照
     private ImageView publish_back;
     private EditText publish_content;
     private Button teacher_publish;
-    private TeacherPublishModel teacherPublishModel;
     private GridView gridView;
     private int position;
-
+//lps
+    String take_pic_url;//拍照的路径
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +85,7 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
         initgridview();
     }
 
-    List<String> gridList;
+    ArrayList<String> gridList;
     AddImgAdapter adapter;
 
     private void initgridview() {
@@ -97,6 +97,7 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
         gridView.setAdapter(adapter);
     }
 
+    private static final String TAG = "Z1_TeacherPublishActivi";
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -106,6 +107,7 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
                 overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
                 break;
             case R.id.teacher_publish_button:
+                Log.e(TAG, "onClick: "+System.currentTimeMillis() );
                 String content = publish_content.getText().toString();
                 Resources resource = (Resources) getBaseContext().getResources();
                 if ("".equals(content)) {
@@ -116,16 +118,16 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
                     publish_content.requestFocus();
                     return;
                 }
-                teacherPublishModel = new TeacherPublishModel(this);
-                teacherPublishModel.addResponseListener(this);
-                List<String> upFilelist = new ArrayList<>();
-                for (String string : gridList) {
-                    Bitmap bitmap = BitmapUtil.compressImage(BitmapUtil.getBitmapFromFile(string,1080,1080));//限制200k
-                    String s = Base64Coder.encodeLines(BitmapUtil.getBytesFromBitmap(bitmap));
-                    upFilelist.add(s);
-                }
-                teacherPublishModel.publish_teacher_message(content, upFilelist);
                 teacher_publish.setEnabled(false);//发布时候防止再次点击
+                Intent mIntent=new Intent();
+                mIntent.putExtra("content",content);
+                mIntent.putStringArrayListExtra("image",gridList);
+                /*返回{#com.grandmagic.edustore.fragment.Z0_InteractionFragment}
+                * 发布操作在fragment完成
+                * */
+                setResult(RESULT_OK,mIntent);
+                Log.e(TAG, "onClick: "+System.currentTimeMillis() );
+                finish();
         }
 
     }
@@ -136,18 +138,7 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
         imm.hideSoftInputFromWindow(publish_content.getWindowToken(), 0);
     }
 
-    @Override
-    public void OnMessageResponse(String url, JSONObject jo, AjaxStatus status) throws JSONException {
-        teacher_publish.setEnabled(true);
-        if (url.endsWith(ApiInterface.TEACHER_PUBLISH)) {
-            teacherpublishResponse mTeacherpublishResponse = new teacherpublishResponse();
-           mTeacherpublishResponse. fromJson(jo);
-            if (mTeacherpublishResponse.status.succeed==1) {
-                setResult(RESULT_OK);
-                finish();
-            }
-        }
-    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -175,9 +166,9 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
                         //tempUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "image.jpg"));
                         // 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
                         //openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
-                        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment
-                                .getExternalStorageDirectory(),
-                                SpUtils.getUid(Z1_TeacherPublishActivity.this) + ".jpg")));
+                        take_pic_url=System.currentTimeMillis()+"";
+                        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(getExternalFilesDir(null),
+                                take_pic_url + ".jpg")));
                         startActivityForResult(openCameraIntent, TAKE_PICTURE);
                         break;
                 }
@@ -260,8 +251,8 @@ public class Z1_TeacherPublishActivity extends BaseActivity implements OnClickLi
         } else if (RESULT_OK == resultCode && requestCode == IMG_DELETE) {
             gridList.remove(position);
         }else if (RESULT_OK==resultCode&&TAKE_PICTURE==requestCode){
-            String filpath = Environment.getExternalStorageDirectory()
-                    + "/" + SpUtils.getUid(this) + ".jpg";
+            String filpath = getExternalFilesDir(null)
+                    + "/" +take_pic_url + ".jpg";
             gridList.add(filpath);
         }
         adapter.setGridList(gridList);

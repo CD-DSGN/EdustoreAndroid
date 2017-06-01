@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 
 import com.external.androidquery.callback.AjaxStatus;
 import com.external.maxwin.view.XListView;
+import com.grandmagic.BeeFramework.Utils.BitmapUtil;
 import com.grandmagic.BeeFramework.Utils.ScreenUtils;
 import com.grandmagic.BeeFramework.fragment.BaseFragment;
 import com.grandmagic.edustore.R;
@@ -31,13 +33,18 @@ import com.grandmagic.edustore.activity.A0_SigninActivity;
 import com.grandmagic.edustore.activity.Z1_TeacherPublishActivity;
 import com.grandmagic.edustore.adapter.Z0_TeacherCommentsAdapter;
 import com.grandmagic.edustore.model.TeacherCommentsModel;
+import com.grandmagic.edustore.model.TeacherPublishModel;
 import com.grandmagic.edustore.model.UserInfoModel;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.PAGINATED;
+import com.grandmagic.edustore.protocol.TEACHERCOMMENTS;
 import com.grandmagic.edustore.protocol.USER;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by chenggaoyuan on 2016/10/21. 汇师圈对应的fragment
@@ -69,6 +76,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
     private USER _user;
     boolean keywordisShow = false;//键盘是否弹出
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +90,6 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
             userInfoModel = new UserInfoModel(getActivity());
         }
         userInfoModel.addResponseListener(this);
-
     }
 
     @Override
@@ -124,13 +131,14 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
             public void onGlobalLayout() {
                 Rect rect = new Rect();
                 view.getWindowVisibleDisplayFrame(rect);
-                if (getActivity()==null)return;//fragment切换的时候OnGlobalLayoutListener会被调用但此时geactivity为null
+                if (getActivity() == null)
+                    return;//fragment切换的时候OnGlobalLayoutListener会被调用但此时geactivity为null
                 int mScreenheight = ScreenUtils.getScreenSize(getActivity()).y;
-                int keyheight = mScreenheight-(rect.bottom - rect.top);
-                if (keyheight >mScreenheight * 0.3) {//检测键盘是否弹起
+                int keyheight = mScreenheight - (rect.bottom - rect.top);
+                if (keyheight > mScreenheight * 0.3) {//检测键盘是否弹起
                     keywordisShow = true;
-                }else {
-                    keywordisShow=false;
+                } else {
+                    keywordisShow = false;
                 }
             }
         });
@@ -138,43 +146,101 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
 
     private void setContent() {
 
-        if (teacherCommentsAdapter == null) {
-
-            if (teacherCommentsModel.singleTeacherCommentList.size() == 0) {
-                not_publish.setVisibility(View.VISIBLE);
-                not_login.setVisibility(View.GONE);
-                commentsListView.setVisibility(View.GONE);
-            } else {
-                not_publish.setVisibility(View.GONE);
-                not_login.setVisibility(View.GONE);
-                commentsListView.setVisibility(View.VISIBLE);
+        if (teacherCommentsModel.singleTeacherCommentList.size() == 0) {
+            not_publish.setVisibility(View.VISIBLE);
+            not_login.setVisibility(View.GONE);
+            commentsListView.setVisibility(View.GONE);
+        } else {
+            not_publish.setVisibility(View.GONE);
+            not_login.setVisibility(View.GONE);
+            commentsListView.setVisibility(View.VISIBLE);
+            if (teacherCommentsAdapter == null) {
                 teacherCommentsAdapter = new Z0_TeacherCommentsAdapter(this.getActivity(), teacherCommentsModel.singleTeacherCommentList);
                 commentsListView.setAdapter(teacherCommentsAdapter);
                 teacherCommentsAdapter.setDeleteListener(this);
+            } else {
+                teacherCommentsAdapter.dataList = teacherCommentsModel.singleTeacherCommentList;
+                teacherCommentsAdapter.notifyDataSetChanged();
             }
+        }
+    }
+
+    private TeacherPublishModel teacherPublishModel;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        needrefresh = true;
+        if (requestCode == REQUESTCODE_PUBLISH && resultCode == Activity.RESULT_OK) {
+            needrefresh = false;
+//            onRefresh(-1);
+             String content = data.getStringExtra("content");
+             ArrayList<String> gridList = data.getStringArrayListExtra("image");
+            addLocalItem(gridList, content);
+            asyncpublish(content, gridList);//异步发送
+
+        }
+    }
+
+    private void asyncpublish(final String mContent, final ArrayList<String> mGridList) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<String> upFilelist = new ArrayList<>();
+                for (String string : mGridList) {
+                    Bitmap bitmap = BitmapUtil.compressImage(BitmapUtil.getBitmapFromFile(string, 720, 1280));//限制200k
+                    String s = Base64Coder.encodeLines(BitmapUtil.getBytesFromBitmap(bitmap));
+                    upFilelist.add(s);
+                }
+                teacherPublishModel = new TeacherPublishModel(getActivity());
+                teacherPublishModel.addResponseListener(Z0_InteractionFragment.this);
+                teacherPublishModel.publish_teacher_message(mContent, upFilelist);
+            }
+        }).start();
+    }
+
+    /**
+     * 根据本地数据添加item
+     *
+     * @param mGridList
+     * @param mContent
+     */
+    private void addLocalItem(ArrayList<String> mGridList, String mContent) {
+        TEACHERCOMMENTS mTEACHERCOMMENTS = new TEACHERCOMMENTS();
+        ArrayList<TEACHERCOMMENTS.Img> mImgList = new ArrayList<>();
+        for (String localurl : mGridList) {
+            TEACHERCOMMENTS.Img mImg = new TEACHERCOMMENTS.Img();
+            mImg.img = localurl;
+            mImgList.add(mImg);
+        }
+        mTEACHERCOMMENTS.photoArray = mImgList;
+        mTEACHERCOMMENTS.publish_time = System.currentTimeMillis() + "";
+        mTEACHERCOMMENTS.teacher_comments = mContent;
+        mTEACHERCOMMENTS.isLocal = true;
+        mTEACHERCOMMENTS.teacher_name = shared.getString("show_name", "");
+        mTEACHERCOMMENTS.course_name = shared.getString("teacher_course", "");
+        teacherCommentsModel.singleTeacherCommentList.add(0, mTEACHERCOMMENTS);
+        if (teacherCommentsAdapter == null) {
+            teacherCommentsAdapter = new Z0_TeacherCommentsAdapter(getActivity(), teacherCommentsModel.singleTeacherCommentList);
         } else {
             teacherCommentsAdapter.dataList = teacherCommentsModel.singleTeacherCommentList;
             teacherCommentsAdapter.notifyDataSetChanged();
         }
+        not_publish.setVisibility(View.GONE);
+        commentsListView.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUESTCODE_PUBLISH && resultCode == Activity.RESULT_OK) {
-            onRefresh(-1);
-        }
-    }
+    boolean needrefresh = true;//主要用于onresume的时候判断是否需要刷新，默认是需要的，如果从发布汇师圈回来则先不刷新
 
     @Override
     public void onResume() {
         super.onResume();
         uid = shared.getString("uid", "");
-        if (!uid.equals("")) {
+        if (!uid.equals("") && needrefresh) {
             userInfoModel.getUserInfo();
             not_login.setVisibility(View.GONE);
             teacherCommentsModel.fetchComments();
-        } else {
+        } else if (TextUtils.isEmpty(uid)) {
             not_login.setVisibility(View.VISIBLE);
         }
     }
@@ -268,6 +334,8 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
             commentsListView.stopRefresh();
             commentsListView.setRefreshTime();
             setContent();
+        } else if (url.endsWith(ApiInterface.TEACHER_PUBLISH)) {
+            onRefresh(-1);//发送完成刷新
         }
     }
 
@@ -303,6 +371,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
     }
 
     PopupWindow mCommentPopupWindow;
+
     /**
      * 对动态评论
      *

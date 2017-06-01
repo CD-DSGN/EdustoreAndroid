@@ -84,8 +84,8 @@ public class TeacherPublishModel extends BaseModel{
 
         }
         cb.url(ApiInterface.TEACHER_PUBLISH).type(JSONObject.class).params(params);
-        MyProgressDialog pd = new MyProgressDialog(mContext,mContext.getResources().getString(R.string.hold_on));
-        aq.progress(pd.mDialog).ajax(cb);
+//        MyProgressDialog pd = new MyProgressDialog(mContext,mContext.getResources().getString(R.string.hold_on));
+        aq.ajax(cb);
 
     }
 }
