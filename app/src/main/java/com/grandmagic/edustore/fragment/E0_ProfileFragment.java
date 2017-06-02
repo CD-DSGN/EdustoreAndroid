@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -130,6 +131,11 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
     protected Context mContext;
 
     protected ImageLoader imageLoader = ImageLoader.getInstance();
+
+
+
+    Handler mHandler = new Handler();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -293,6 +299,7 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
 //        }
 //        imageLoader.clearDiscCache();
 //        imageLoader.clearMemoryCache();
+//        String random = user.avatar + "?" + "time=" + SystemClock.currentThreadTimeMillis();
         imageLoader.displayImage(user.avatar, photo
                 , EcmobileApp.options_avartar);
 //        photo.setImageWithURL(mContext, user.avatar, R.drawable.profile_no_avarta_icon);
@@ -585,9 +592,15 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
             setUserInfo();
         } else if (url.endsWith(ApiInterface.USER_IMG_UPLOAD)) {
             userInfoModel.getUserInfo();
-
-            imageLoader.clearDiscCache();
-            imageLoader.clearMemoryCache();
+            //延迟2s再去请求网络
+//            mHandler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    userInfoModel.getUserInfo();
+//                }
+//            }, 6000);
+//            imageLoader.clearDiscCache();
+//            imageLoader.clearMemoryCache();
         }
     }
 
