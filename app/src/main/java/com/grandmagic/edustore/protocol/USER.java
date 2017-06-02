@@ -38,6 +38,9 @@ public class USER extends Model {
 
     public String nickname;
     public String teacher_course;
+
+    public String avatar;
+
 //    @Column(name="teacher_integral")
 //    public String teacher_integral;
 
@@ -70,6 +73,7 @@ public class USER extends Model {
         this.email = jsonObject.optString("email");
         this.teacher_course = jsonObject.optString("teacher_course");
         this.is_teacher = jsonObject.optString("is_teacher");
+        this.avatar = jsonObject.optString("avatar");
 //        this.pay_points = jsonObject.optString("pay_points");
 //        this.rank_points = jsonObject.optString("rank_points");
 //        this.teacher_integral = jsonObject.optString("teacher_integral");
