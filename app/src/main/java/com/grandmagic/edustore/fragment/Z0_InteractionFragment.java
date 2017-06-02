@@ -350,7 +350,7 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
                 mE.printStackTrace();
                 showRetryDialog();
             }
-            if (response.status.succeed == 1) {
+            if (response!=null&&response.status!=null&&response.status.succeed == 1) {
                 onRefresh(-1);//发送完成刷新
                 resettemData();
                 ToastView mToastView = new ToastView(getActivity(), "发送成功");
