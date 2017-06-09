@@ -90,8 +90,7 @@ public class EcmobileMainActivity extends FragmentActivity {
         if (getIntent().getStringExtra(CUSTOM_CONTENT) != null) {
             pushIntent(getIntent().getStringExtra(CUSTOM_CONTENT));
         }
-        SharedPreferences mPreferences = this.getSharedPreferences("userInfo", 0);
-        CrashReport.setUserId(mPreferences.getString("uid", ""));
+
         checkversion();
     }
 
@@ -186,8 +185,8 @@ public class EcmobileMainActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-
+        SharedPreferences mPreferences = this.getSharedPreferences("userInfo", 0);
+        CrashReport.setUserId(mPreferences.getString("uid", ""));
     }
 
     private boolean isExit = false;

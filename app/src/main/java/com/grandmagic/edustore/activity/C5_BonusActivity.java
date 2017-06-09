@@ -68,6 +68,8 @@ public class C5_BonusActivity extends BaseActivity implements BusinessResponse {
 		
 		} catch (JSONException e) {			
 			e.printStackTrace();
+		}catch (NullPointerException e){
+			e.printStackTrace();;
 		}
 		
 		min_score = Math.min(Integer.valueOf(score), Integer.valueOf(max_score));
