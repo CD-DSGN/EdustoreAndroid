@@ -13,6 +13,7 @@ package com.grandmagic.edustore;
 //  Powered by BeeFramework
 //
 
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 
 import com.grandmagic.BeeFramework.BeeFrameworkApp;
@@ -77,6 +78,14 @@ public class EcmobileApp extends BeeFrameworkApp
     }
 
     private void initbugly() {
-        CrashReport.initCrashReport(this);
+        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(this);
+        String version = "unkown";
+        try {
+            version = getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
+            strategy.setAppVersion(version);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        CrashReport.initCrashReport(this,strategy);
     }
 }
