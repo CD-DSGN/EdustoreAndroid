@@ -3,12 +3,14 @@ package com.grandmagic.edustore.model;
 import android.content.Context;
 
 import com.external.androidquery.callback.AjaxStatus;
+import com.google.gson.Gson;
 import com.grandmagic.BeeFramework.model.BaseModel;
 import com.grandmagic.BeeFramework.model.BeeCallback;
 import com.grandmagic.BeeFramework.view.MyProgressDialog;
 import com.grandmagic.edustore.ErrorCodeConst;
 import com.grandmagic.edustore.R;
 import com.grandmagic.edustore.protocol.ApiInterface;
+import com.grandmagic.edustore.protocol.CommentResponse;
 import com.grandmagic.edustore.protocol.DeleteCommentsRequest;
 import com.grandmagic.edustore.protocol.NewCommentRequest;
 import com.grandmagic.edustore.protocol.PAGINATED;
@@ -199,7 +201,7 @@ public class TeacherCommentsModel extends BaseModel {
         commentPublish(content, mNewsid,null,position);
     }
 
-    private void commentPublish(String content, String mNewsid,String mTargetcommentid,int position) {
+    private void commentPublish(String content, String mNewsid, String mTargetcommentid, final int position) {
         NewCommentRequest mRequest = new NewCommentRequest();
         SESSION mInstance = SESSION.getInstance();
         mRequest.mSESSION = mInstance;
@@ -216,9 +218,17 @@ public class TeacherCommentsModel extends BaseModel {
                     JSONObject mStatus = jo.optJSONObject("status");
                     int mSucceed = mStatus.optInt("succeed");
                     if (mSucceed== ErrorCodeConst.ResponseSucceed){
-                        //// fixme: 有更好的解决方案，2017/3/8 刷新评论
-                        fetchComments();
-//singleTeacherCommentList.get(0).mCommentArray.add(new TEACHERCOMMENTS.CommentArray())
+                        CommentResponse mCommentResponse = new Gson().fromJson(jo.toString(), CommentResponse.class);
+                      if (mCommentResponse.getStatus().getSucceed()==1){
+                          TEACHERCOMMENTS.CommentArray mCommentArray =new TEACHERCOMMENTS.CommentArray();
+                          mCommentArray.comment_content=mCommentResponse.getData().getCommentInfo().getComment_content();
+                          mCommentArray.target_username=mCommentResponse.getData().getCommentInfo().getTarget_username();
+                          mCommentArray.username=mCommentResponse.getData().getCommentInfo().getUsername();
+                          mCommentArray.comment_id=mCommentResponse.getData().getCommentInfo().getComment_id();
+                          mCommentArray.show_target_name=mCommentResponse.getData().getCommentInfo().getShow_target_name();
+                          mCommentArray.show_name=mCommentResponse.getData().getCommentInfo().getShow_name();
+                          singleTeacherCommentList.get(position).mCommentArray.add(mCommentArray);
+                      }
                     }
                     TeacherCommentsModel.this.OnMessageResponse(url, jo, status);
                 } catch (JSONException mE) {

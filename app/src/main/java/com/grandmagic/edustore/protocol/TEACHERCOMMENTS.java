@@ -97,7 +97,7 @@ public boolean isLocal=false;//表示是否是本地资源。新发布汇师圈�
         public String img;
         public String img_thumb;
     }
-    public class CommentArray implements Serializable{
+    public static class CommentArray implements Serializable{
         public String comment_id;
         public String username;
         public String target_username;

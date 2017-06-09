@@ -359,6 +359,8 @@ public class Z0_InteractionFragment extends BaseFragment implements View.OnClick
             } else {//失败
                 showRetryDialog();
             }
+        }else if (url.endsWith(ApiInterface.COMMENT_PUBLISH)){
+           teacherCommentsAdapter.notifyDataSetChanged();
         }
     }
 

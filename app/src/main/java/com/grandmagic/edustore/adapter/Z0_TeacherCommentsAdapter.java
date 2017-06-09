@@ -140,7 +140,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
                 final TEACHERCOMMENTS.CommentArray mCommentArray = mTeacherComments.mCommentArray.get(i);
                 String mTargetUsername = mCommentArray.target_username;
                 String mUsername = mCommentArray.username;
-                String mshowName = mCommentArray.show_name;
+                String mshowName = mCommentArray.show_name==null?"":mCommentArray.show_name;
                 String mshowTargetName = mCommentArray.show_target_name;
 
                 if (!TextUtils.isEmpty(mshowTargetName) && !"null".equals(mshowTargetName)) {//如果target为空则不需要添加被回复人和“回复”
@@ -153,7 +153,7 @@ public class Z0_TeacherCommentsAdapter extends BeeBaseAdapter {
                     mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#516792")), 0, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
                 mSpannableStringBuilder.append(": ");
-                mSpannableStringBuilder.append(mCommentArray.comment_content);
+                mSpannableStringBuilder.append(mCommentArray.comment_content==null?"":mCommentArray.comment_content);
                 mcommentView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View mView) {
