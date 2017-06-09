@@ -60,6 +60,7 @@ public static final int *;
 -keepattributes Signature
 
 #百度云推送不要混淆
+
 -dontwarn com.baidu.**
 -keep class com.baidu.** { *;}
 
@@ -118,4 +119,7 @@ public static final int *;
     java.lang.Object readResolve();
 }
 -keep public class * implements java.io.Serializable {*;}
+
+
+-keepattributes SourceFile,LineNumberTable
 
