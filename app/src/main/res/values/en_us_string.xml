@@ -71,7 +71,7 @@
 <string name="score_submit">Submit</string>
 <string name="login_account">Account</string>
 <string name="login_login">Sign In</string>
-<string name="login_username">Telephone Number or Username </string>
+<string name="login_username">Telephone Number  </string>
 <string name="login_password">Password</string>
 <string name="login_register">Sign up for free</string>
 <string name="login_register_teacher">Sign up for teacher</string>
