@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.external.activeandroid.query.Select;
 import com.external.androidquery.callback.AjaxStatus;
@@ -60,6 +62,7 @@ import com.grandmagic.edustore.model.UserImgModel;
 import com.grandmagic.edustore.model.UserInfoModel;
 import com.grandmagic.edustore.protocol.ApiInterface;
 import com.grandmagic.edustore.protocol.USER;
+import com.grandmagic.grandMagicManager.util.FileUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
@@ -109,6 +112,8 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
     protected static final int CHOOSE_PICTURE = 0;
     protected static final int TAKE_PICTURE = 1;
     private static final int CROP_SMALL_PICTURE = 2;
+    public static final int COVER_TAKEPICTUER = 3;
+    public static final int COVER_CHOOSE_PICTURE = 4;
     private UserImgModel userImgModel;
     //chenggaoyuan end
 
@@ -133,9 +138,9 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
     protected ImageLoader imageLoader = ImageLoader.getInstance();
 
 
-
     Handler mHandler = new Handler();
-
+    //lps add 2017.6.14
+    FrameLayout headFramlayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -236,6 +241,7 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
         ll_query_points.setOnClickListener(this);
         //		ll_subscription.setOnClickListener(this);
         //zhangmengqi end
+        headFramlayout.setOnClickListener(this);
     }
 
     private void initView() {
@@ -270,6 +276,7 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
         //		ll_subscription = (LinearLayout) headView.findViewById(R.id.ll_profile_subscription);
         ll_query_points = (LinearLayout) headView.findViewById(R.id.ll_profile_query_points);
         //zhangmengqi end
+        headFramlayout = (FrameLayout) headView.findViewById(R.id.bg_head);
     }
 
     @Override
@@ -390,7 +397,7 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
                     //	            startActivityForResult(intent, 1);
                     //                getActivity().overridePendingTransition(R.anim.push_right_in,
                     //                        R.anim.push_right_out);
-                    showChoosePicDialog();
+                    showChoosePicDialog(CHOOSE_PICTURE, TAKE_PICTURE);
                 }
                 break;
             case R.id.profile_head_payment:
@@ -514,7 +521,7 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
                     //                 startActivityForResult(intent, 1);
                     //                 getActivity().overridePendingTransition(R.anim.push_right_in,
                     //                         R.anim.push_right_out);
-                    showChoosePicDialog();
+                    showChoosePicDialog(CHOOSE_PICTURE, TAKE_PICTURE);
                 }
                 break;
             //zhangmengqi begin
@@ -532,6 +539,10 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
                 break;
 
             //zhangmengqi end
+            case R.id.bg_head:
+                Toast.makeText(mContext, "head CLick", Toast.LENGTH_SHORT).show();
+                showChoosePicDialog(COVER_CHOOSE_PICTURE, COVER_TAKEPICTUER);
+                break;
         }
     }
 
@@ -572,6 +583,14 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
                 case CROP_SMALL_PICTURE:
                     if (data != null) {
                         setImageToView(data); // 让刚才选择裁剪得到的图片显示在界面上
+                    }
+                    break;
+                case COVER_TAKEPICTUER:
+                    break;
+                case COVER_CHOOSE_PICTURE:
+                    String path = FileUtils.getpath(mContext, data.getData());
+                    if (!TextUtils.isEmpty(path)) {
+                        Toast.makeText(mContext, path, Toast.LENGTH_SHORT).show();
                     }
                     break;
             }
@@ -622,7 +641,7 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
     }
 
     /*begin,added by chenggaoyuan*/
-    protected void showChoosePicDialog() {
+    protected void showChoosePicDialog(final int tag_choosepic, final int tag_takepic) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.select_img);
         String[] items = {getResources().getString(R.string.from_album), getResources().getString(R.string.from_camera)};
@@ -633,9 +652,17 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case CHOOSE_PICTURE: // 选择本地照片
-                        Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                        openAlbumIntent.setType("image/*");
-                        startActivityForResult(openAlbumIntent, CHOOSE_PICTURE);
+                        Intent openAlbumIntent;
+//4.4以上和以下返回相同的路径形式，如：
+// content://com.android.providers.media.documents/document/image%3A69
+//参考 http://www.jianshu.com/p/081011ea72bd
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            openAlbumIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        } else {
+                            openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                            openAlbumIntent.setType("image/*");
+                        }
+                        startActivityForResult(openAlbumIntent, tag_choosepic);
                         break;
                     case TAKE_PICTURE: // 拍照
                         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -645,7 +672,7 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
                         openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment
                                 .getExternalStorageDirectory(),
                                 uid + ".jpg")));
-                        startActivityForResult(openCameraIntent, TAKE_PICTURE);
+                        startActivityForResult(openCameraIntent, tag_takepic);
                         break;
                 }
             }
@@ -705,12 +732,12 @@ public class E0_ProfileFragment extends BaseFragment implements IXListViewListen
             String fileDir;
             //			String fileName = getActivity().getCacheDir()+"/ECMobile/cache"+"/"+uid+"-temp.jpg";
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                fileDir = getActivity().getCodeCacheDir().getAbsolutePath() + "/ECMobile/cache" ;
+                fileDir = getActivity().getCodeCacheDir().getAbsolutePath() + "/ECMobile/cache";
             } else {
                 fileDir = getActivity().getCacheDir() + "/ECMobile/cache";
             }
 
-           fileName = fileDir + "/" + uid + "-temp.jpg";
+            fileName = fileDir + "/" + uid + "-temp.jpg";
 
             File file_dir = new File(fileDir);
             if (!file_dir.exists()) {

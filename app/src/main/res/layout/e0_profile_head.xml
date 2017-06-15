@@ -8,6 +8,7 @@
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="160dp"
+        android:id="@+id/bg_head"
         android:background="@drawable/profile_img_bg" >
 
         <ImageView
